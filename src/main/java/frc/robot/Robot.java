@@ -119,6 +119,8 @@ public class Robot extends TimedRobot {
       X2_AButtonEntry.setBoolean(X2_AButton);
       X2_BButtonEntry.setBoolean(X2_BButton);
     }
+    DT_PowerConstant = DT_PowerConstantEntry.getNumber(100).doubleValue() * 0.1;
+    DT_PowerConstantEntry.setNumber(DT_PowerConstant * 100.0);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
