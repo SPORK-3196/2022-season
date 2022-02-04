@@ -23,6 +23,8 @@ public final class Constants {
     public static ShuffleboardTab SENSOR_TAB =  Shuffleboard.getTab("Sensor Diagnostics");
     public static ShuffleboardTab MOTOR_TAB =  Shuffleboard.getTab("Motor Diagnostics");
     public static ShuffleboardTab AUTO_TAB =  Shuffleboard.getTab("Autonomous Controls");
+    
+    public static ShuffleboardTab drivetrainTable = Shuffleboard.getTab("Drivetrain Info");
 
     //Create variables and NetworkTableEntries to store input from xbox controller (0)
     
@@ -90,5 +92,4 @@ public final class Constants {
     public static NetworkTableEntry X2_YButtonEntry = X2_TAB.add("Y Button", false).getEntry();
     public static NetworkTableEntry X2_AButtonEntry = X2_TAB.add("A Button", false).getEntry();
     public static NetworkTableEntry X2_BButtonEntry = X2_TAB.add("B Button", false).getEntry();
-
 }

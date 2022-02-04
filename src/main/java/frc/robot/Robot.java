@@ -7,8 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import static frc.robot.Constants.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,7 +24,6 @@ public class Robot extends TimedRobot {
   public XboxController X1_CONTROLLER = new XboxController(0);
   public XboxController X2_CONTROLLER = new XboxController(1);
 
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -34,6 +33,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    
   }
 
   /**
@@ -50,7 +51,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
     if (X1_CONTROLLER.isConnected())
     {
       X1_RTValue = X1_CONTROLLER.getRightTriggerAxis();
@@ -121,7 +121,6 @@ public class Robot extends TimedRobot {
     }
   }
 
-
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
@@ -167,7 +166,5 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {
-
-  }
+  public void testPeriodic() {}
 }
