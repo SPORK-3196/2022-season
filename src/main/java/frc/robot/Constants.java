@@ -24,7 +24,7 @@ public final class Constants {
     public static ShuffleboardTab MOTOR_TAB =  Shuffleboard.getTab("Motor Diagnostics");
     public static ShuffleboardTab AUTO_TAB =  Shuffleboard.getTab("Autonomous Controls");
     
-    public static ShuffleboardTab drivetrainTable = Shuffleboard.getTab("Drivetrain Info");
+    public static ShuffleboardTab DT_TAB = Shuffleboard.getTab("Drivetrain Info");
 
     //Create variables and NetworkTableEntries to store input from xbox controller (0)
     
@@ -60,6 +60,8 @@ public final class Constants {
     public static boolean X2_AButton;
     public static boolean X2_BButton;
 
+    public static double DT_PowerConstant = 1.0;
+
     public static NetworkTableEntry X1_RT_Entry = X1_TAB.add("Right Trigger", 0.0).getEntry();
     public static NetworkTableEntry X1_LT_Entry = X1_TAB.add("Left Trigger", 0.0).getEntry();
 
@@ -92,4 +94,11 @@ public final class Constants {
     public static NetworkTableEntry X2_YButtonEntry = X2_TAB.add("Y Button", false).getEntry();
     public static NetworkTableEntry X2_AButtonEntry = X2_TAB.add("A Button", false).getEntry();
     public static NetworkTableEntry X2_BButtonEntry = X2_TAB.add("B Button", false).getEntry();
+
+    public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
+    public static NetworkTableEntry DT_BackLeftEntry = DT_TAB.add("Back Left Power", 0).getEntry();
+    public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
+    public static NetworkTableEntry DT_BackRightEntry = DT_TAB.add("Back Right Power", 0).getEntry();
+
+    public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();
 }
