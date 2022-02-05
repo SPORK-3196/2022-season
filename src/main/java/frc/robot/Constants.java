@@ -62,6 +62,8 @@ public final class Constants {
 
     public static double DT_PowerConstant = 1.0;
 
+    public static double MT_ShooterPower = 0.0;
+
     public static NetworkTableEntry X1_RT_Entry = X1_TAB.add("Right Trigger", 0.0).getEntry();
     public static NetworkTableEntry X1_LT_Entry = X1_TAB.add("Left Trigger", 0.0).getEntry();
 
@@ -101,4 +103,6 @@ public final class Constants {
     public static NetworkTableEntry DT_BackRightEntry = DT_TAB.add("Back Right Power", 0).getEntry();
 
     public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();
+
+    public static NetworkTableEntry MT_ShooterPowerEntry = MOTOR_TAB.add("Shooter Power Percentage", 0).getEntry();
 }

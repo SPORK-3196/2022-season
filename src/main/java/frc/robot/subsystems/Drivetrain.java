@@ -45,6 +45,7 @@ public class Drivetrain extends SubsystemBase {
     DT_BackLeftEntry.setNumber(backLeft.getMotorOutputPercent());
     DT_FrontRightEntry.setNumber(frontRight.getMotorOutputPercent());
     DT_BackRightEntry.setNumber(backRight.getMotorOutputPercent());
+    DT_PowerConstantEntry.setNumber(DT_PowerConstant * 100.0);
   }
 
   @Override
