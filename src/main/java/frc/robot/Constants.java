@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -25,6 +26,12 @@ public final class Constants {
     public static ShuffleboardTab AUTO_TAB =  Shuffleboard.getTab("Autonomous Controls");
     
     public static ShuffleboardTab DT_TAB = Shuffleboard.getTab("Drivetrain Info");
+
+    public static ShuffleboardTab AI_TAB = Shuffleboard.getTab("Autonomous Info");
+
+    public static NetworkTable limelightTable; 
+  
+  
 
     //Create variables and NetworkTableEntries to store input from xbox controller (0)
     
@@ -60,9 +67,18 @@ public final class Constants {
     public static boolean X2_AButton;
     public static boolean X2_BButton;
 
+    public static double UPPER_HUB_HEIGHT_CM = 264;
+    public static double LIMELIGHT_HEIGHT_CM = 100;
+    public static double LIMELIGHT_ANGLE = 35;
+    
+    public static double DISTANCE_FROM_TARGET;
+
     public static double DT_PowerConstant = 1.0;
 
     public static double MT_ShooterPower = 0.0;
+
+    public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
+    // This is the distance from the Limelight to the target
 
     public static NetworkTableEntry X1_RT_Entry = X1_TAB.add("Right Trigger", 0.0).getEntry();
     public static NetworkTableEntry X1_LT_Entry = X1_TAB.add("Left Trigger", 0.0).getEntry();

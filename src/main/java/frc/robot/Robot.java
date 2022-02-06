@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +26,13 @@ public class Robot extends TimedRobot {
   public XboxController X1_CONTROLLER = new XboxController(0);
   public XboxController X2_CONTROLLER = new XboxController(1);
 
+  private HttpCamera LimelightVideoFeed;
+  
+  double tx;
+  double ty;
+  double ta;
+  double tv;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,6 +42,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800/stream.mjpg");	
+    AI_TAB.add("LimeLight Video", LimelightVideoFeed);	
 
     
   }
@@ -51,6 +63,18 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+
+    tx = limelightTable.getEntry("tx").getDouble(0.0);
+    ty = limelightTable.getEntry("ty").getDouble(0.0);
+    ta = limelightTable.getEntry("ta").getDouble(0.0);
+    tv = limelightTable.getEntry("tv").getDouble(0.0);
+
+    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(LIMELIGHT_ANGLE + ty);
+
+    AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
+
     if (X1_CONTROLLER.isConnected())
     {
       X1_RTValue = X1_CONTROLLER.getRightTriggerAxis();
