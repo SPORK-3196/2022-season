@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.XboxController.*;
+import static frc.robot.Constants.DrivetrainValues.*;
+import static frc.robot.Constants.FieldConstants.*;
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

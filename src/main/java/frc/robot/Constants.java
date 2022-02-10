@@ -31,94 +31,107 @@ public final class Constants {
 
     public static NetworkTable limelightTable; 
   
-  
+    public static double SparkWheelRadiusInches = 3;
+    public static double SparkWheelDiameterInches = 6;
 
     //Create variables and NetworkTableEntries to store input from xbox controller (0)
     
-    public static double X1_RTValue;
-    public static double X1_LTValue;
+    public static final class XboxController {
 
-    public static boolean X1_RB;
-    public static boolean X1_LB;
+        public static double X1_RTValue;
+        public static double X1_LTValue;
 
-    public static double X1_LJX;
-    public static double X1_LJY;
-    public static double X1_RJX;
-    public static double X1_RJY;
+        public static boolean X1_RB;
+        public static boolean X1_LB;
 
-    public static boolean X1_XButton;
-    public static boolean X1_YButton;
-    public static boolean X1_AButton;
-    public static boolean X1_BButton;
+        public static double X1_LJX;
+        public static double X1_LJY;
+        public static double X1_RJX;
+        public static double X1_RJY;
 
-    public static double X2_RTValue;
-    public static double X2_LTValue;
+        public static boolean X1_XButton;
+        public static boolean X1_YButton;
+        public static boolean X1_AButton;
+        public static boolean X1_BButton;
 
-    public static boolean X2_RB;
-    public static boolean X2_LB;
+        public static double X2_RTValue;
+        public static double X2_LTValue;
 
-    public static double X2_LJX;
-    public static double X2_LJY;
-    public static double X2_RJX;
-    public static double X2_RJY;
+        public static boolean X2_RB;
+        public static boolean X2_LB;
 
-    public static boolean X2_XButton;
-    public static boolean X2_YButton;
-    public static boolean X2_AButton;
-    public static boolean X2_BButton;
+        public static double X2_LJX;
+        public static double X2_LJY;
+        public static double X2_RJX;
+        public static double X2_RJY;
 
-    public static double UPPER_HUB_HEIGHT_CM = 264;
-    public static double LIMELIGHT_HEIGHT_CM = 100;
-    public static double LIMELIGHT_ANGLE = 35;
+        public static boolean X2_XButton;
+        public static boolean X2_YButton;
+        public static boolean X2_AButton;
+        public static boolean X2_BButton;
+
+        public static NetworkTableEntry X1_RT_Entry = X1_TAB.add("Right Trigger", 0.0).getEntry();
+        public static NetworkTableEntry X1_LT_Entry = X1_TAB.add("Left Trigger", 0.0).getEntry();
+
+        public static NetworkTableEntry X1_RB_Entry = X1_TAB.add("Right Bumper", false).getEntry();
+        public static NetworkTableEntry X1_LB_Entry = X1_TAB.add("Left Bumper", false).getEntry();
+
+        public static NetworkTableEntry X1_LJX_Entry = X1_TAB.add("Left Joystick X", 0.0).getEntry();
+        public static NetworkTableEntry X1_LJY_Entry = X1_TAB.add("Left Joystick Y", 0.0).getEntry();
+        public static NetworkTableEntry X1_RJX_Entry = X1_TAB.add("Right Joystick X", 0.0).getEntry();
+        public static NetworkTableEntry X1_RJY_Entry = X1_TAB.add("Right Joystick Y", 0.0).getEntry();
+
+        public static NetworkTableEntry X1_XButtonEntry = X1_TAB.add("X Button", false).getEntry();
+        public static NetworkTableEntry X1_YButtonEntry = X1_TAB.add("Y Button", false).getEntry();
+        public static NetworkTableEntry X1_AButtonEntry = X1_TAB.add("A Button", false).getEntry();
+        public static NetworkTableEntry X1_BButtonEntry = X1_TAB.add("B Button", false).getEntry();
+
+        
+        public static NetworkTableEntry X2_RT_Entry = X2_TAB.add("Right Trigger", 0.0).getEntry();
+        public static NetworkTableEntry X2_LT_Entry = X2_TAB.add("Left Trigger", 0.0).getEntry();
+
+        public static NetworkTableEntry X2_RB_Entry = X2_TAB.add("Right Bumper", false).getEntry();
+        public static NetworkTableEntry X2_LB_Entry = X2_TAB.add("Left Bumper", false).getEntry();
+
+        public static NetworkTableEntry X2_LJX_Entry = X2_TAB.add("Left Joystick X", 0.0).getEntry();
+        public static NetworkTableEntry X2_LJY_Entry = X2_TAB.add("Left Joystick Y", 0.0).getEntry();
+        public static NetworkTableEntry X2_RJX_Entry = X2_TAB.add("Right Joystick X", 0.0).getEntry();
+        public static NetworkTableEntry X2_RJY_Entry = X2_TAB.add("Right Joystick Y", 0.0).getEntry();
+
+        public static NetworkTableEntry X2_XButtonEntry = X2_TAB.add("X Button", false).getEntry();
+        public static NetworkTableEntry X2_YButtonEntry = X2_TAB.add("Y Button", false).getEntry();
+        public static NetworkTableEntry X2_AButtonEntry = X2_TAB.add("A Button", false).getEntry();
+        public static NetworkTableEntry X2_BButtonEntry = X2_TAB.add("B Button", false).getEntry();
+    }
+
+    public static final class FieldConstants {
+        public static double UPPER_HUB_HEIGHT_CM = 264;
+        public static double LIMELIGHT_HEIGHT_CM = 100;
+        public static double LIMELIGHT_ANGLE = 35;
+    }
     
-    public static double DISTANCE_FROM_TARGET;
+        public static double DISTANCE_FROM_TARGET;
 
-    public static double DT_PowerConstant = 1.0;
+    
 
     public static double MT_ShooterPower = 0.0;
 
     public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
     // This is the distance from the Limelight to the target
 
-    public static NetworkTableEntry X1_RT_Entry = X1_TAB.add("Right Trigger", 0.0).getEntry();
-    public static NetworkTableEntry X1_LT_Entry = X1_TAB.add("Left Trigger", 0.0).getEntry();
-
-    public static NetworkTableEntry X1_RB_Entry = X1_TAB.add("Right Bumper", false).getEntry();
-    public static NetworkTableEntry X1_LB_Entry = X1_TAB.add("Left Bumper", false).getEntry();
-
-    public static NetworkTableEntry X1_LJX_Entry = X1_TAB.add("Left Joystick X", 0.0).getEntry();
-    public static NetworkTableEntry X1_LJY_Entry = X1_TAB.add("Left Joystick Y", 0.0).getEntry();
-    public static NetworkTableEntry X1_RJX_Entry = X1_TAB.add("Right Joystick X", 0.0).getEntry();
-    public static NetworkTableEntry X1_RJY_Entry = X1_TAB.add("Right Joystick Y", 0.0).getEntry();
-
-    public static NetworkTableEntry X1_XButtonEntry = X1_TAB.add("X Button", false).getEntry();
-    public static NetworkTableEntry X1_YButtonEntry = X1_TAB.add("Y Button", false).getEntry();
-    public static NetworkTableEntry X1_AButtonEntry = X1_TAB.add("A Button", false).getEntry();
-    public static NetworkTableEntry X1_BButtonEntry = X1_TAB.add("B Button", false).getEntry();
-
     
-    public static NetworkTableEntry X2_RT_Entry = X2_TAB.add("Right Trigger", 0.0).getEntry();
-    public static NetworkTableEntry X2_LT_Entry = X2_TAB.add("Left Trigger", 0.0).getEntry();
+    public static final class DrivetrainValues { 
+        public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
+        public static NetworkTableEntry DT_BackLeftEntry = DT_TAB.add("Back Left Power", 0).getEntry();
+        public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
+        public static NetworkTableEntry DT_BackRightEntry = DT_TAB.add("Back Right Power", 0).getEntry();
 
-    public static NetworkTableEntry X2_RB_Entry = X2_TAB.add("Right Bumper", false).getEntry();
-    public static NetworkTableEntry X2_LB_Entry = X2_TAB.add("Left Bumper", false).getEntry();
-
-    public static NetworkTableEntry X2_LJX_Entry = X2_TAB.add("Left Joystick X", 0.0).getEntry();
-    public static NetworkTableEntry X2_LJY_Entry = X2_TAB.add("Left Joystick Y", 0.0).getEntry();
-    public static NetworkTableEntry X2_RJX_Entry = X2_TAB.add("Right Joystick X", 0.0).getEntry();
-    public static NetworkTableEntry X2_RJY_Entry = X2_TAB.add("Right Joystick Y", 0.0).getEntry();
-
-    public static NetworkTableEntry X2_XButtonEntry = X2_TAB.add("X Button", false).getEntry();
-    public static NetworkTableEntry X2_YButtonEntry = X2_TAB.add("Y Button", false).getEntry();
-    public static NetworkTableEntry X2_AButtonEntry = X2_TAB.add("A Button", false).getEntry();
-    public static NetworkTableEntry X2_BButtonEntry = X2_TAB.add("B Button", false).getEntry();
-
-    public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
-    public static NetworkTableEntry DT_BackLeftEntry = DT_TAB.add("Back Left Power", 0).getEntry();
-    public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
-    public static NetworkTableEntry DT_BackRightEntry = DT_TAB.add("Back Right Power", 0).getEntry();
-
-    public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();
+        public static double DT_PowerConstant = 1.0;
+        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();
+    }
 
     public static NetworkTableEntry MT_ShooterPowerEntry = MOTOR_TAB.add("Shooter Power Percentage", 0).getEntry();
+
+    public static NetworkTableEntry SHOOTER_RPM_Entry = MOTOR_TAB.add("SPARK RPM", 0).getEntry();
+    public static NetworkTableEntry SHOOTER_MPH_Entry = MOTOR_TAB.add("SPARK MPH", 0).getEntry();
 }
