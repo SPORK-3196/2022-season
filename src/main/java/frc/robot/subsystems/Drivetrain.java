@@ -20,8 +20,8 @@ public class Drivetrain extends SubsystemBase {
   public WPI_TalonFX frontRight = new WPI_TalonFX(3);
   public WPI_TalonFX backRight = new WPI_TalonFX(4);
 
-  MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, backLeft);
-  MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, backRight);
+  public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, backLeft);
+  public MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, backRight);
 
   public DifferentialDrive drivetrain = new DifferentialDrive(leftSide, rightSide);
 
