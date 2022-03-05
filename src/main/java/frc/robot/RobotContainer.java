@@ -59,6 +59,7 @@ public class RobotContainer {
     Robot.X2J_XButton.whenHeld(new IntakeBalls(Intake));
     Robot.X2J_BButton.whenHeld(new OuttakeBalls(Intake));
     Robot.X2J_AButton.whenHeld(new AutoShoot(Shooter));
+  
   }
 
   /**
