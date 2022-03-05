@@ -24,15 +24,13 @@ public final class Constants {
     public static ShuffleboardTab SENSOR_TAB =  Shuffleboard.getTab("Sensor Diagnostics");
     public static ShuffleboardTab MOTOR_TAB =  Shuffleboard.getTab("Motor Diagnostics");
     public static ShuffleboardTab AUTO_TAB =  Shuffleboard.getTab("Autonomous Controls");
-    
     public static ShuffleboardTab DT_TAB = Shuffleboard.getTab("Drivetrain Info");
-
     public static ShuffleboardTab AI_TAB = Shuffleboard.getTab("Autonomous Info");
+    public static ShuffleboardTab SH_TAB = Shuffleboard.getTab("Shooter Info");
 
-    public static NetworkTable limelightTable; 
-  
-    public static double SparkWheelRadiusInches = 3;
-    public static double SparkWheelDiameterInches = 6;
+    public static NetworkTable LimelightTable; 
+ 
+    
 
     //Create variables and NetworkTableEntries to store input from xbox controller (0)
     
@@ -107,20 +105,32 @@ public final class Constants {
     public static final class FieldConstants {
         public static double UPPER_HUB_HEIGHT_CM = 264;
         public static double LIMELIGHT_HEIGHT_CM = 100;
-        public static double LIMELIGHT_ANGLE = 35;
+
+    }
+
+    public static final class RobotConstants {
+        public static double SparkWheelRadiusInches = 3;
+        public static double SparkWheelDiameterInches = 6;
+
+        public static double LimelightAngle = 35;
     }
     
+    public static final class Limelight {
+        public static double TX;
+        public static double TY;
+        public static double TA;
+        public static double TV;
+
         public static double DISTANCE_FROM_TARGET;
 
-    
-
-    public static double MT_ShooterPower = 0.0;
-
-    public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
-    // This is the distance from the Limelight to the target
+        public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
+        // This is the distance from the Limelight to the target
+    }
 
     
-    public static final class DrivetrainValues { 
+
+    
+    public static final class Drivetrain { 
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
         public static NetworkTableEntry DT_BackLeftEntry = DT_TAB.add("Back Left Power", 0).getEntry();
         public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
@@ -130,8 +140,23 @@ public final class Constants {
         public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();
     }
 
-    public static NetworkTableEntry MT_ShooterPowerEntry = MOTOR_TAB.add("Shooter Power Percentage", 0).getEntry();
+    public static final class Index {
+        public static boolean IndexEmpty;
+    }
 
-    public static NetworkTableEntry SHOOTER_RPM_Entry = MOTOR_TAB.add("SPARK RPM", 0).getEntry();
-    public static NetworkTableEntry SHOOTER_MPH_Entry = MOTOR_TAB.add("SPARK MPH", 0).getEntry();
+    public static final class Shooter{
+
+        public static NetworkTableEntry SH_SHOOTER_RPM_Entry = SH_TAB.add("Shooter RPM", 0).getEntry();
+        public static NetworkTableEntry SH_SHOOTER_MPH_Entry = SH_TAB.add("Shooter MPH", 0).getEntry();
+        public static NetworkTableEntry SH_SHOOTER_POWER_Entry = MOTOR_TAB.add("Shooter Power Percentage", 0).getEntry();
+
+        public static boolean SHOOTER_READY;
+
+        public static double ComputedRPM;
+        
+        public static double SH_ShooterPower = 0.0;
+        
+    }
+
+
 }

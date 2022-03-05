@@ -6,52 +6,76 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.*;
 
-public class Shooter extends SubsystemBase {
+import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.RobotConstants.*;
 
-  public CANSparkMax L_SHOOTER = new CANSparkMax(12, MotorType.kBrushless); 
-  public CANSparkMax R_SHOOTER = new CANSparkMax(14, MotorType.kBrushless);
-  public MotorControllerGroup SHOOTER_MOTORS = new MotorControllerGroup(L_SHOOTER, R_SHOOTER);
+public class Shooter extends SubsystemBase { // Made By Caputo
+  public CANSparkMax leftShooter = new CANSparkMax(17, MotorType.kBrushless);
+  public CANSparkMax rightShooter = new CANSparkMax(14, MotorType.kBrushless);
 
-  public RelativeEncoder LSPARK_Encoder = L_SHOOTER.getEncoder();
-  public RelativeEncoder RSPARK_Encoder = R_SHOOTER.getEncoder();
-  public PIDController shooterController = new PIDController(5e-5, 1e-6, 0);
+  public RelativeEncoder shooterEncoder = leftShooter.getEncoder();
 
-  public double shooterVelocity;
+  public PIDController shooterPIDController = new PIDController(0.000015, 0.0003481, 0);
+  // public PIDController shooterPIDController = new PIDController(0.00005, 0.0002, 5.0);
+
+  public double sparkVelocityRPM;
   
-  
-  /** Creates a new Drivetrain. */
+  /** Creates a new SparkTest. */
   public Shooter() {
-    R_SHOOTER.setInverted(true);
+    rightShooter.setInverted(true);
+    shooterPIDController.setTolerance(150);
+    // shooterPIDController.setFeedForward(0.00000481);
+  }
+  
+ 
+  public void runShooter(double power) {
+    leftShooter.set(power);
+    rightShooter.set(power);
+  }
 
+  public void stopShooter() {    
+    leftShooter.stopMotor();
+    rightShooter.stopMotor();
+  } 
+
+  public void setSetpoint(double RPM) {
+    shooterPIDController.setSetpoint(-1 * RPM);
+  }
+
+  public double calculate(double currentRPM) {
+    return shooterPIDController.calculate(currentRPM);
+  }
+
+  public double getVelocity() {
+    return shooterEncoder.getVelocity();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    shooterVelocity = (LSPARK_Encoder.getVelocity() + RSPARK_Encoder.getVelocity()) / 2;
+    sparkVelocityRPM = shooterEncoder.getVelocity();
 
-    SHOOTER_RPM_Entry.setDouble(shooterVelocity);
-    SHOOTER_MPH_Entry.setDouble(((SparkWheelDiameterInches * Math.PI * shooterVelocity) * 60) / 5280);
+    SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
+
+    SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
+    
+    // System.out.println(sparkVelocityRPM);
+
+    if (shooterPIDController.atSetpoint()) {
+      SHOOTER_READY = true;
+    }
+    else {
+      SHOOTER_READY = false;
+    }
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-
-  public void run (double power) {
-    SHOOTER_MOTORS.set(power * -1);
-  }
-
-  public void stop() {
-    SHOOTER_MOTORS.stopMotor();
-  }
-
 }
