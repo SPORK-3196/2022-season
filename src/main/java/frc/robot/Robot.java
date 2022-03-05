@@ -10,9 +10,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.DrivetrainValues.*;
+import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.RobotConstants.*;
 import static frc.robot.Constants.FieldConstants.*;
 
 
@@ -28,15 +32,14 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public XboxController X1_CONTROLLER = new XboxController(0);
-  public XboxController X2_CONTROLLER = new XboxController(1);
+  public static XboxController X1_CONTROLLER = new XboxController(0);
+  public static XboxController X2_CONTROLLER = new XboxController(1);
+
+  public static JoystickButton X2J_AButton = new JoystickButton(X1_CONTROLLER, 5);
+  public static JoystickButton X2J_XButton = new JoystickButton(X1_CONTROLLER, 5);
+  public static JoystickButton X2J_BButton = new JoystickButton(X1_CONTROLLER, 5);
 
   private HttpCamera LimelightVideoFeed;
-  
-  double tx;
-  double ty;
-  double ta;
-  double tv;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -49,9 +52,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800/stream.mjpg");	
-    AI_TAB.add("LimeLight Video", LimelightVideoFeed);	
-
-    
+    AI_TAB.add("LimeLight Video", LimelightVideoFeed);
   }
 
   /**
@@ -69,15 +70,14 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    LimelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-    tx = limelightTable.getEntry("tx").getDouble(0.0);
-    ty = limelightTable.getEntry("ty").getDouble(0.0);
-    ta = limelightTable.getEntry("ta").getDouble(0.0);
-    tv = limelightTable.getEntry("tv").getDouble(0.0);
+    TX = LimelightTable.getEntry("tx").getDouble(0.0);
+    TY = LimelightTable.getEntry("ty").getDouble(0.0);
+    TA = LimelightTable.getEntry("ta").getDouble(0.0);
+    TV = LimelightTable.getEntry("tv").getDouble(0.0);
 
-    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(LIMELIGHT_ANGLE + ty);
-
+    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(LimelightAngle + TY);
     AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
 
     if (X1_CONTROLLER.isConnected())
@@ -148,10 +148,9 @@ public class Robot extends TimedRobot {
       X2_AButtonEntry.setBoolean(X2_AButton);
       X2_BButtonEntry.setBoolean(X2_BButton);
     }
+    
     DT_PowerConstant = DT_PowerConstantEntry.getNumber(100).doubleValue() * 0.1;
     
-
-    MT_ShooterPower = MT_ShooterPowerEntry.getNumber(100).doubleValue() * 0.1;
     
   }
 
