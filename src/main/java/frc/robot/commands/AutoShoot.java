@@ -4,40 +4,52 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
+import static frc.robot.Constants.Shooter.*;
+
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.Drivetrain.*;
+
 
 /** An example command that uses an example subsystem. */
-public class JoystickDrive extends CommandBase {
+public class AutoShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Drivetrain drivetrain;
+  
+  Shooter shooter;
+   
+
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public JoystickDrive(Drivetrain subsystem) {
+
+  public AutoShoot(Shooter Subsystem) {
+    this.shooter = Subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    drivetrain = subsystem;
-    addRequirements(drivetrain);
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shooter.setSetpoint(3000);
+  }
+    
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drivetrain.arcadeDrive(X1_LJY * DT_PowerConstant, X1_LJX * DT_PowerConstant);
+    shooter.setSetpoint(ComputedRPM);
+    shooter.runShooter(shooter.calculate(shooter.getVelocity()));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.stopShooter();
+  }
 
   // Returns true when the command should end.
   @Override

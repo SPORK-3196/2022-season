@@ -6,9 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AutoShoot;
+import frc.robot.commands.IndexControl;
+import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.OuttakeBalls;
 import frc.robot.commands.autonomous.AutonomousProtocol;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -20,19 +26,27 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain drivetrain = new Drivetrain();
-  private final Shooter shooter = new Shooter();
+  private final Drivetrain Drivetrain = new Drivetrain();
+  private final Shooter Shooter = new Shooter();
+  private final Intake Intake = new Intake();
+  private final Index Index = new Index();
+  
+  private final AutoShoot ComputedShoot = new AutoShoot(Shooter);
+  private final IndexControl OperateIntake = new IndexControl(Index);
+
   
 
-  private final JoystickDrive DrivetrainControl = new JoystickDrive(drivetrain);
-  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(drivetrain);
+  private final JoystickDrive DrivetrainControl = new JoystickDrive(Drivetrain);
+  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain);
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    drivetrain.setDefaultCommand(DrivetrainControl);
+    Drivetrain.setDefaultCommand(DrivetrainControl);
+    Shooter.setDefaultCommand(ComputedShoot);
+    Intake.setDefaultCommand(OperateIntake);
   }
 
   /**
@@ -41,7 +55,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    Robot.X2J_XButton.whenHeld(new IntakeBalls(Intake));
+    Robot.X2J_BButton.whenHeld(new OuttakeBalls(Intake));
+    Robot.X2J_AButton.whenHeld(new AutoShoot(Shooter));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

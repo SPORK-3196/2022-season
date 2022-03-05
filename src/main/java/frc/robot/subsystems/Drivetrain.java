@@ -11,7 +11,7 @@ import com.ctre.phoenix.music.Orchestra;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.DrivetrainValues.*;
+import static frc.robot.Constants.Drivetrain.*;
 
 public class Drivetrain extends SubsystemBase {
 
