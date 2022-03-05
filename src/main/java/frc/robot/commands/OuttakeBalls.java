@@ -4,47 +4,44 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.DigitalInput;
+
 
 /** An example command that uses an example subsystem. */
-public class ShooterRPMSet extends CommandBase {
+public class OuttakeBalls extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Shooter shooter;
-  int targetRPM;
-
+  
+  Intake intake;
+  
   /**
-   * Creates a new ShooterValueRun.
+   * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterRPMSet(Shooter subsystem, int targetRPM) {
-    shooter = subsystem;
+  public OuttakeBalls(Intake intake) {
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    this.targetRPM = targetRPM;
+    addRequirements(intake);
   }
+
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.shooterController.setP(5e-5);
-    shooter.shooterController.setI(1e-6);
-    shooter.shooterController.setD(0.0); 
-    shooter.shooterController.setSetpoint(targetRPM);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.run(shooter.shooterController.calculate(-1 * shooter.shooterVelocity));
+    intake.outtakeBalls();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
+    intake.stopIntake();
   }
 
   // Returns true when the command should end.
