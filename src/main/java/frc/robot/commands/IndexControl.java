@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Shooter.*;
@@ -16,7 +15,6 @@ import static frc.robot.Constants.Index.*;
 public class IndexControl extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Intake intake;
   Index index;
   boolean runIndex = false;
 
@@ -29,7 +27,6 @@ public class IndexControl extends CommandBase {
     this.index = index;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake);
     addRequirements(index);
   }
 

@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.RobotConstants.*;
 
-public class Shooter extends SubsystemBase { // Made By Caputo
-  public CANSparkMax leftShooter = new CANSparkMax(17, MotorType.kBrushless);
-  public CANSparkMax rightShooter = new CANSparkMax(14, MotorType.kBrushless);
+public class Shooter extends SubsystemBase { // Oguntola Trademark
+  public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless);
+  public CANSparkMax rightShooter = new CANSparkMax(6, MotorType.kBrushless);
 
   public RelativeEncoder shooterEncoder = leftShooter.getEncoder();
 

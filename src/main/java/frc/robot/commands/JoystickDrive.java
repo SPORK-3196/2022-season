@@ -32,7 +32,7 @@ public class JoystickDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drivetrain.arcadeDrive(X1_LJY * DT_PowerConstant, X1_LJX * DT_PowerConstant);
+    drivetrain.drivetrain.arcadeDrive(X1_LJY * -DT_PowerConstant, X1_LJX * DT_PowerConstant);
   }
 
   // Called once the command ends or is interrupted.

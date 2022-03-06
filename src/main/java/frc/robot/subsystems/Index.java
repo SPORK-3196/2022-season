@@ -13,9 +13,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Index extends SubsystemBase {
+public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   
-  public CANSparkMax indexMotor = new CANSparkMax(12, MotorType.kBrushless);
+  public CANSparkMax indexMotor = new CANSparkMax(7, MotorType.kBrushless);
 
 
   public boolean BallInTransit = false;

@@ -7,14 +7,16 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Climber extends SubsystemBase {
+public class Climber extends SubsystemBase { //Made By Caputo
 
-  public CANSparkMax L_Arm = new CANSparkMax(19, MotorType.kBrushless);
-  public CANSparkMax R_Arm = new CANSparkMax(15, MotorType.kBrushless);  
+  public CANSparkMax L_Arm = new CANSparkMax(9, MotorType.kBrushless);
+  public CANSparkMax R_Arm = new CANSparkMax(10, MotorType.kBrushless);  
+  public Solenoid ARM_PISTONS = new Solenoid(11, PneumaticsModuleType.REVPH, 16);
   /** Creates a new Drivetrain. */
   
   public Climber() {
