@@ -20,7 +20,7 @@ public class Climber extends SubsystemBase { //Made By Caputo
   /** Creates a new Drivetrain. */
   
   public Climber() {
-    L_Arm.setInverted(true);
+    R_Arm.setInverted(true);
   }
 
   @Override
@@ -34,11 +34,11 @@ public class Climber extends SubsystemBase { //Made By Caputo
   }
 
   public void ExtendLeft (double power) {
-    L_Arm.set(power * -1);
+    L_Arm.set(power * 1);
   }
 
   public void RetractLeft (double power){
-    L_Arm.set(power * 1);
+    L_Arm.set(power * -1);
   }
 
   public void StopLeft() {
@@ -47,10 +47,10 @@ public class Climber extends SubsystemBase { //Made By Caputo
 
   
   public void ExtendRight (double power) {
-    R_Arm.set(power * -1);
+    R_Arm.set(power * 1);
   }
   public void RetractRight (double power){
-    R_Arm.set(power * 1);
+    R_Arm.set(power * -1);
   }
   
   public void StopRight() {
