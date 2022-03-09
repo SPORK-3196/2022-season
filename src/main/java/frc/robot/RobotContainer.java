@@ -46,7 +46,7 @@ public class RobotContainer {
     configureButtonBindings();
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Shooter.setDefaultCommand(ComputedShoot);
-    Intake.setDefaultCommand(OperateIntake);
+    Index.setDefaultCommand(OperateIntake);
   }
 
   /**
