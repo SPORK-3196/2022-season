@@ -16,7 +16,7 @@ public class Climber extends SubsystemBase { //Made By Caputo
 
   public CANSparkMax L_Arm = new CANSparkMax(9, MotorType.kBrushless);
   public CANSparkMax R_Arm = new CANSparkMax(10, MotorType.kBrushless);  
-  public Solenoid ARM_PISTONS = new Solenoid(11, PneumaticsModuleType.REVPH, 16);
+  public Solenoid ARM_PISTONS = new Solenoid(11, PneumaticsModuleType.REVPH, 15);
   /** Creates a new Drivetrain. */
   
   public Climber() {
@@ -47,10 +47,10 @@ public class Climber extends SubsystemBase { //Made By Caputo
 
   
   public void ExtendRight (double power) {
-    R_Arm.set(power * 1);
+    R_Arm.set(power * -1);
   }
   public void RetractRight (double power){
-    R_Arm.set(power * -1);
+    R_Arm.set(power * 1);
   }
   
   public void StopRight() {

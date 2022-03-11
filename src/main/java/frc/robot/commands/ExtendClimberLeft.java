@@ -22,7 +22,6 @@ public class ExtendClimberLeft extends CommandBase {
    */
   public ExtendClimberLeft (Climber subsystem, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
     this.power = power;
     this.climber = subsystem;
   }
