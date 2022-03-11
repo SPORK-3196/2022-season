@@ -77,6 +77,8 @@ public class IndexControl extends CommandBase {
         runIndex = false;
       }
     }
+
+    // runIndex = true;
     
 
     if (runIndex) {

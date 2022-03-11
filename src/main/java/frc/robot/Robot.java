@@ -35,10 +35,17 @@ public class Robot extends TimedRobot {
   public static XboxController X1_CONTROLLER = new XboxController(0);
   public static XboxController X2_CONTROLLER = new XboxController(1);
 
-  public static JoystickButton X2J_AButton = new JoystickButton(X1_CONTROLLER, 5);
-  public static JoystickButton X2J_XButton = new JoystickButton(X1_CONTROLLER, 5);
-  public static JoystickButton X2J_BButton = new JoystickButton(X1_CONTROLLER, 5);
 
+  public static JoystickButton X1J_AButton = new JoystickButton(X1_CONTROLLER, 1);
+  
+  public static JoystickButton X2J_AButton = new JoystickButton(X2_CONTROLLER, 1);
+  public static JoystickButton X2J_XButton = new JoystickButton(X2_CONTROLLER, 3);
+  public static JoystickButton X2J_BButton = new JoystickButton(X2_CONTROLLER, 2);
+  public static JoystickButton X2J_YButton = new JoystickButton(X2_CONTROLLER, 4);
+
+  public static JoystickButton X2J_RBBumper = new JoystickButton(X2_CONTROLLER, 6);
+  public static JoystickButton X2J_LBBumper= new JoystickButton(X2_CONTROLLER, 5);
+  
   private HttpCamera LimelightVideoFeed;
 
   /**

@@ -7,11 +7,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.ExtendClimber;
+import frc.robot.commands.ExtendClimberLeft;
+import frc.robot.commands.ExtendClimberRight;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.OuttakeBalls;
+import frc.robot.commands.PlayMusic;
+import frc.robot.commands.RetractClimberLeft;
+import frc.robot.commands.RetractClimberRight;
+import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutonomousProtocol;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
@@ -29,10 +37,11 @@ public class RobotContainer {
   private final Drivetrain Drivetrain = new Drivetrain();
   private final Shooter Shooter = new Shooter();
   private final Intake Intake = new Intake();
-  private final Index Index = new Index();
+  private final Index index = new Index();
+  private final Climber climber = new Climber();
   
   private final AutoShoot ComputedShoot = new AutoShoot(Shooter);
-  private final IndexControl OperateIntake = new IndexControl(Index);
+  private final IndexControl IndexOperation = new IndexControl(index);
 
   
 
@@ -44,9 +53,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    Drivetrain.setDefaultCommand(DrivetrainControl);
-    Shooter.setDefaultCommand(ComputedShoot);
-    Index.setDefaultCommand(OperateIntake);
+    // Drivetrain.setDefaultCommand(DrivetrainControl);
+    index.setDefaultCommand(IndexOperation);
   }
 
   /**
@@ -56,10 +64,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
+
     Robot.X2J_XButton.whenHeld(new IntakeBalls(Intake));
     Robot.X2J_BButton.whenHeld(new OuttakeBalls(Intake));
     Robot.X2J_AButton.whenHeld(new AutoShoot(Shooter));
-  
+
+    Robot.X2J_RBBumper.whenHeld(new ExtendClimberRight(climber, 0.3));
+    Robot.X2J_LBBumper.whenHeld(new RetractClimberRight(climber, 0.3));
+
   }
 
   /**
