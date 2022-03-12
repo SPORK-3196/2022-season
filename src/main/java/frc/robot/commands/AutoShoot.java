@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.Shooter.*;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -42,7 +43,7 @@ public class AutoShoot extends CommandBase {
     // shooter.setSetpoint(ComputedRPM);
     LimelightTable.getEntry("camMode").setNumber(0);
     LimelightTable.getEntry("ledMode").setNumber(3);
-    shooter.setSetpoint(DISTANCE_FROM_TARGET);
+    shooter.setSetpoint(ComputedRPM);
     shooter.runShooter(shooter.calculate(shooter.getVelocity()));
   }
 
