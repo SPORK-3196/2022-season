@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -28,7 +29,7 @@ public final class Constants {
     public static ShuffleboardTab AI_TAB = Shuffleboard.getTab("Autonomous Info");
     public static ShuffleboardTab SH_TAB = Shuffleboard.getTab("Shooter Info");
 
-    public static NetworkTable LimelightTable; 
+    
  
     
 
@@ -116,6 +117,7 @@ public final class Constants {
     }
     
     public static final class Limelight {
+        public static NetworkTable LimelightTable; 
         public static double TX;
         public static double TY;
         public static double TA;
@@ -132,9 +134,9 @@ public final class Constants {
     
     public static final class Drivetrain { 
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
-        public static NetworkTableEntry DT_BackLeftEntry = DT_TAB.add("Back Left Power", 0).getEntry();
+        public static NetworkTableEntry DT_rearLeftEntry = DT_TAB.add("rear Left Power", 0).getEntry();
         public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
-        public static NetworkTableEntry DT_BackRightEntry = DT_TAB.add("Back Right Power", 0).getEntry();
+        public static NetworkTableEntry DT_rearRightEntry = DT_TAB.add("rear Right Power", 0).getEntry();
 
         public static double DT_PowerConstant = 1.0;
         public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();

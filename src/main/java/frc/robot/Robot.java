@@ -16,6 +16,7 @@ import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.RobotConstants.*;
 import static frc.robot.Constants.FieldConstants.*;
 
@@ -37,14 +38,18 @@ public class Robot extends TimedRobot {
 
 
   public static JoystickButton X1J_AButton = new JoystickButton(X1_CONTROLLER, 1);
+  public static JoystickButton X1J_BButton = new JoystickButton(X1_CONTROLLER, 2);
+  public static JoystickButton X1J_XButton = new JoystickButton(X1_CONTROLLER, 3);
+  public static JoystickButton X1J_YButton = new JoystickButton(X1_CONTROLLER, 4);
+  public static JoystickButton X1J_LBBumper = new JoystickButton(X1_CONTROLLER, 5);
+  public static JoystickButton X1J_RBBumper = new JoystickButton(X1_CONTROLLER, 6);
   
   public static JoystickButton X2J_AButton = new JoystickButton(X2_CONTROLLER, 1);
-  public static JoystickButton X2J_XButton = new JoystickButton(X2_CONTROLLER, 3);
   public static JoystickButton X2J_BButton = new JoystickButton(X2_CONTROLLER, 2);
+  public static JoystickButton X2J_XButton = new JoystickButton(X2_CONTROLLER, 3);
   public static JoystickButton X2J_YButton = new JoystickButton(X2_CONTROLLER, 4);
-
+  public static JoystickButton X2J_LBBumper = new JoystickButton(X2_CONTROLLER, 5);
   public static JoystickButton X2J_RBBumper = new JoystickButton(X2_CONTROLLER, 6);
-  public static JoystickButton X2J_LBBumper= new JoystickButton(X2_CONTROLLER, 5);
   
   private HttpCamera LimelightVideoFeed;
 
@@ -57,6 +62,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    LimelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800/stream.mjpg");	
     AI_TAB.add("LimeLight Video", LimelightVideoFeed);
@@ -79,10 +85,10 @@ public class Robot extends TimedRobot {
 
     LimelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-    TX = LimelightTable.getEntry("tx").getDouble(0.0);
-    TY = LimelightTable.getEntry("ty").getDouble(0.0);
-    TA = LimelightTable.getEntry("ta").getDouble(0.0);
-    TV = LimelightTable.getEntry("tv").getDouble(0.0);
+    TX = LimelightTable.getEntry("tx").getDouble(TX);
+    TY = LimelightTable.getEntry("ty").getDouble(TY);
+    TA = LimelightTable.getEntry("ta").getDouble(TA);
+    TV = LimelightTable.getEntry("tv").getDouble(TV);
 
     DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(LimelightAngle + TY);
     AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
@@ -158,15 +164,20 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getNumber(100).doubleValue() * 0.1;
     
-    
+    ComputedRPM = (1459) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Driver Camera
+    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -177,6 +188,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    LimelightTable.getEntry("camMode").setDouble(0); // Set's Limelight camera mode to Vision Processing
+    LimelightTable.getEntry("ledMode").setDouble(3); // Set's Limelight LED mode to on
   }
 
   /** This function is called periodically during autonomous. */
@@ -192,6 +205,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Vision Processing
+    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
   }
 
   /** This function is called periodically during operator control. */

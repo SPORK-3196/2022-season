@@ -12,26 +12,16 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Climber extends SubsystemBase { //Made By Caputo
+public class Climber extends SubsystemBase { // Made By Caputo
 
   public CANSparkMax L_Arm = new CANSparkMax(9, MotorType.kBrushless);
-  public CANSparkMax R_Arm = new CANSparkMax(10, MotorType.kBrushless);  
-  public Solenoid ARM_PISTONS = new Solenoid(11, PneumaticsModuleType.REVPH, 15);
+  public CANSparkMax R_Arm = new CANSparkMax(10, MotorType.kBrushless);   
+  public Solenoid ARM_PISTONS = new Solenoid(11, PneumaticsModuleType.REVPH, 15); 
   /** Creates a new Drivetrain. */
   
   public Climber() {
     R_Arm.setInverted(true);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
+  } 
 
   public void ExtendLeft (double power) {
     L_Arm.set(power * 1);
@@ -45,16 +35,25 @@ public class Climber extends SubsystemBase { //Made By Caputo
     L_Arm.stopMotor();
   }
 
-  
   public void ExtendRight (double power) {
-    R_Arm.set(power * -1);
-  }
-  public void RetractRight (double power){
     R_Arm.set(power * 1);
+  }
+
+  public void RetractRight (double power){
+    R_Arm.set(power * -1);
   }
   
   public void StopRight() {
     R_Arm.stopMotor();
   }  
 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
+  }
 }
