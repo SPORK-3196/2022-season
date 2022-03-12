@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.Limelight.*;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -16,8 +16,6 @@ public class AutoShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Shooter shooter;
-   
-
 
   /**
    * Creates a new ExampleCommand.
@@ -42,7 +40,9 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute() {
     // shooter.setSetpoint(ComputedRPM);
-    shooter.setSetpoint(3000);
+    LimelightTable.getEntry("camMode").setNumber(0);
+    LimelightTable.getEntry("ledMode").setNumber(3);
+    shooter.setSetpoint(DISTANCE_FROM_TARGET);
     shooter.runShooter(shooter.calculate(shooter.getVelocity()));
   }
 

@@ -4,39 +4,37 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Drivetrain;
-
+import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /** An example command that uses an example subsystem. */
-public class PlayMusic extends CommandBase {
+public class RaiseArms extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Drivetrain drivetrain;
+  Climber climber;
   
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PlayMusic(Drivetrain drivetrain) {
-    this.drivetrain = drivetrain;
+  public RaiseArms(Climber climber) {
+    this.climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
+    addRequirements(climber);
   }
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.playMusic();
+    climber.ARM_PISTONS.set(true);
   }
 
   // Called once the command ends or is interrupted.

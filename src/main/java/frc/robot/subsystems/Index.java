@@ -25,6 +25,8 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   public static DigitalInput sensorSigma = new DigitalInput(2);
 
   public static DigitalInput[] sensors = new DigitalInput[3];
+
+  public double counter;
   
   
   /** Creates a new SparkTest. */
