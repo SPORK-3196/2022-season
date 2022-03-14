@@ -69,7 +69,7 @@ public class IndexControl extends CommandBase {
       IndexEmpty = false;
     }
 
-    if (X1_AButton) {
+    if (X2_AButton) {
       if (SHOOTER_READY) {
         runIndex = true;
       }

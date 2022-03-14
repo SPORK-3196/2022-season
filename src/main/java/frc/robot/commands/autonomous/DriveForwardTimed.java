@@ -49,14 +49,13 @@ public class DriveForwardTimed extends CommandBase {
 
     driveTimer.reset();
     driveTimer.start();
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     turningPower = -0.02 * (startingAngle - drivetrain.getYaw());
-    drivetrain.drivetrain.arcadeDrive(drivePower * -1, turningPower);
+    drivetrain.drivetrain.arcadeDrive(drivePower, turningPower);
   }
 
   // Called once the command ends or is interrupted.

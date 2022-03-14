@@ -37,20 +37,22 @@ public class Robot extends TimedRobot {
   public static XboxController X2_CONTROLLER = new XboxController(1);
 
 
-  public static JoystickButton X1J_AButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
-  public static JoystickButton X1J_BButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
-  public static JoystickButton X1J_XButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
-  public static JoystickButton X1J_YButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kY.value);
-  public static JoystickButton X1J_LBBumper = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftBumper.value);
-  public static JoystickButton X1J_RBBumper = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightBumper.value);
+  public static JoystickButton X1J_A = new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
+  public static JoystickButton X1J_B = new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
+  public static JoystickButton X1J_X = new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
+  public static JoystickButton X1J_Y = new JoystickButton(X1_CONTROLLER, XboxController.Button.kY.value);
+  public static JoystickButton X1J_LB = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftBumper.value);
+  public static JoystickButton X1J_RB = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightBumper.value);
   
-  public static JoystickButton X2J_AButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kA.value);
-  public static JoystickButton X2J_BButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kB.value);
-  public static JoystickButton X2J_XButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kX.value);
-  public static JoystickButton X2J_YButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kY.value);
-  public static JoystickButton X2J_LBBumper = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftBumper.value);
-  public static JoystickButton X2J_RBBumper = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightBumper.value);
+  public static JoystickButton X2J_A = new JoystickButton(X2_CONTROLLER, XboxController.Button.kA.value);
+  public static JoystickButton X2J_B = new JoystickButton(X2_CONTROLLER, XboxController.Button.kB.value);
+  public static JoystickButton X2J_X = new JoystickButton(X2_CONTROLLER, XboxController.Button.kX.value);
+  public static JoystickButton X2J_Y = new JoystickButton(X2_CONTROLLER, XboxController.Button.kY.value);
+  public static JoystickButton X2J_LB = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftBumper.value);
+  public static JoystickButton X2J_RB = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightBumper.value);
   
+  public static JoystickButton X2J_LS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftStick.value);
+  public static JoystickButton X2J_RS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightStick.value);
   private HttpCamera LimelightVideoFeed;
 
   /**

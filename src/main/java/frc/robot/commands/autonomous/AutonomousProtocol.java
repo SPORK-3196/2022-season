@@ -4,40 +4,21 @@
 
 package frc.robot.commands.autonomous;
 
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class AutonomousProtocol extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Drivetrain drivetrain;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public AutonomousProtocol(Drivetrain subsystem) {
-    drivetrain = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+public class AutonomousProtocol extends SequentialCommandGroup {
+    public AutonomousProtocol(Drivetrain drivetrain, Shooter shooter, Index index, Intake intake) {
+      super(
+        new DriveForwardTimed(drivetrain, 2.0, -0.6),
+        new AutonomousShoot(shooter, 5.0),
+        new DriveToPickup(drivetrain, shooter, index, intake, 3.0, -0.6),
+        new AutonomousShoot(shooter, 5.0),
+        new TurnDegrees(drivetrain, 5.0)
+      );
+    }
 }

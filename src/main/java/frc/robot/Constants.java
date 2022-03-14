@@ -116,7 +116,7 @@ public final class Constants {
         public static double DrivetrainWheelDiameter;
         public static double DrivetrainWheelRadius;
 
-        public static double LimelightAngle = 35;
+        public static double LimelightAngle = 28;
         public static double LIMELIGHT_HEIGHT_CM = 20;
     }
     
@@ -150,6 +150,9 @@ public final class Constants {
 
     public static final class Index {
         public static boolean IndexEmpty = false;
+        public static NetworkTableEntry intakeSensor_Entry = SENSOR_TAB.add("Intake Sensor", false).getEntry();
+        public static NetworkTableEntry midSensor_Entry = SENSOR_TAB.add("Middle Sensor", false).getEntry();
+        public static NetworkTableEntry highSensor_Entry = SENSOR_TAB.add("High Sensor", false).getEntry();
     }
 
     public static final class Shooter{
