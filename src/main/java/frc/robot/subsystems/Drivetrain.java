@@ -26,7 +26,7 @@ public class Drivetrain extends SubsystemBase {
   public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, rearLeft);
   public MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, rearRight);
 
-  public DifferentialDrive drivetrain = new DifferentialDrive(leftSide, rightSide);
+  public DifferentialDrive drivetrain;
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
@@ -35,7 +35,6 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     leftSide.setInverted(true);
-    drivetrain.setDeadband(0.1);
     frontLeft.setNeutralMode(NeutralMode.Brake);
     rearLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
@@ -48,7 +47,6 @@ public class Drivetrain extends SubsystemBase {
 
     drivetrainOrchestra.loadMusic("Crab.chrp");
     
-
   }
 
   public void playMusic() {
@@ -57,6 +55,10 @@ public class Drivetrain extends SubsystemBase {
 
   public double getYaw() {
     return gyroscope.getYaw();
+  }
+
+  public double getDistanceRawSensor() {
+    return rearLeft.getSelectedSensorPosition();
   }
 
   @Override

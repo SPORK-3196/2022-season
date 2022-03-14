@@ -49,8 +49,7 @@ public class HorizontalAim extends CommandBase {
   public void initialize() {
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(5.0);
-    LimelightTable.getEntry("camMode").setNumber(0);
-    LimelightTable.getEntry("ledMode").setNumber(3);
+    RUN_LIMELIGHT_VISON = true;
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
@@ -76,7 +75,7 @@ public class HorizontalAim extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    RUN_LIMELIGHT_VISON = false;
   }
 
   // Returns true when the command should end.
