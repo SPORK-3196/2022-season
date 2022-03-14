@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimber;
+import frc.robot.commands.HorizontalAim;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
@@ -42,7 +43,7 @@ public class RobotContainer {
   private final IndexControl IndexOperation = new IndexControl(Index);
   private final JoystickDrive DrivetrainControl = new JoystickDrive(Drivetrain);
 
-  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain);
+  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain, Shooter, Index, Intake);
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,23 +62,23 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
+    X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
-    X2J_XButton.whenHeld(new IntakeBalls(Intake));
-    X2J_BButton.whenHeld(new OuttakeBalls(Intake));
-    X2J_AButton.whenHeld(new AutoShoot(Shooter));
+    X2J_X.whenHeld(new IntakeBalls(Intake));
+    X2J_B.whenHeld(new OuttakeBalls(Intake));
+    X2J_A.whenHeld(new AutoShoot(Shooter));
 
-    X2J_RBBumper.whenHeld(new RaiseArms(Climber));
-    X2J_LBBumper.whenHeld(new LowerArms(Climber));
+    X2J_RB.whenHeld(new ExtendClimber(Climber, 0.3));
+    X2J_LB.whenHeld(new RetractClimber(Climber, 0.3));
 
-
-    X1J_RBBumper.whenHeld(new ExtendClimber(Climber, 0.3));
-    X1J_LBBumper.whenHeld(new RetractClimber(Climber, 0.3));
+    X2J_LS.whenHeld(new RaiseArms(Climber));
+    X2J_LS.whenHeld(new LowerArms(Climber));
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
-   * @return the command to run in autonomous
+   * @return the command to run in autonomousP
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous

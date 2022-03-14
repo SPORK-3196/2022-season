@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public RelativeEncoder shooterEncoder = leftShooter.getEncoder();
 
-  public PIDController shooterPIDController = new PIDController(0.000015, 0.0003481, 0);
+  public PIDController shooterPIDController = new PIDController(0.000015, 0.0004, 0);
   // public PIDController shooterPIDController = new PIDController(0.00005, 0.0002, 5.0);
 
   public double sparkVelocityRPM;
@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   /** Creates a new SparkTest. */
   public Shooter() {
     rightShooter.setInverted(false);
-    shooterPIDController.setTolerance(150);
+    shooterPIDController.setTolerance(200);
     // shooterPIDController.setFeedForward(0.00000481);
   }
   
@@ -59,6 +59,9 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public void periodic() {
     // This method will be called once per scheduler run
     sparkVelocityRPM = shooterEncoder.getVelocity();
+
+    System.out.println(ComputedRPM);
+    System.out.println(shooterPIDController.atSetpoint());
 
     SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
 
