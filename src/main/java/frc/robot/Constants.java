@@ -103,6 +103,7 @@ public final class Constants {
     }
 
     public static final class Field {
+
         public static double UPPER_HUB_HEIGHT_CM = 264;
 
 
@@ -112,8 +113,11 @@ public final class Constants {
         public static double SparkWheelRadiusInches = 3;
         public static double SparkWheelDiameterInches = 6;
 
+        public static double DrivetrainWheelDiameter;
+        public static double DrivetrainWheelRadius;
+
         public static double LimelightAngle = 35;
-        public static double LIMELIGHT_HEIGHT_CM = 100;
+        public static double LIMELIGHT_HEIGHT_CM = 20;
     }
     
     public static final class Limelight {
@@ -145,7 +149,7 @@ public final class Constants {
     }
 
     public static final class Index {
-        public static boolean IndexEmpty;
+        public static boolean IndexEmpty = false;
     }
 
     public static final class Shooter{

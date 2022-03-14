@@ -72,7 +72,6 @@ public class RobotContainer {
 
     X1J_RBBumper.whenHeld(new ExtendClimber(Climber, 0.3));
     X1J_LBBumper.whenHeld(new RetractClimber(Climber, 0.3));
-
   }
 
   /**
