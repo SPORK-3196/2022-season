@@ -17,8 +17,8 @@ import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Limelight.*;
 import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.RobotConstants.*;
-import static frc.robot.Constants.FieldConstants.*;
+import static frc.robot.Constants.Robot.*;
+import static frc.robot.Constants.Field.*;
 
 
 
@@ -37,19 +37,19 @@ public class Robot extends TimedRobot {
   public static XboxController X2_CONTROLLER = new XboxController(1);
 
 
-  public static JoystickButton X1J_AButton = new JoystickButton(X1_CONTROLLER, 1);
-  public static JoystickButton X1J_BButton = new JoystickButton(X1_CONTROLLER, 2);
-  public static JoystickButton X1J_XButton = new JoystickButton(X1_CONTROLLER, 3);
-  public static JoystickButton X1J_YButton = new JoystickButton(X1_CONTROLLER, 4);
-  public static JoystickButton X1J_LBBumper = new JoystickButton(X1_CONTROLLER, 5);
-  public static JoystickButton X1J_RBBumper = new JoystickButton(X1_CONTROLLER, 6);
+  public static JoystickButton X1J_AButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
+  public static JoystickButton X1J_BButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
+  public static JoystickButton X1J_XButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
+  public static JoystickButton X1J_YButton = new JoystickButton(X1_CONTROLLER, XboxController.Button.kY.value);
+  public static JoystickButton X1J_LBBumper = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftBumper.value);
+  public static JoystickButton X1J_RBBumper = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightBumper.value);
   
-  public static JoystickButton X2J_AButton = new JoystickButton(X2_CONTROLLER, 1);
-  public static JoystickButton X2J_BButton = new JoystickButton(X2_CONTROLLER, 2);
-  public static JoystickButton X2J_XButton = new JoystickButton(X2_CONTROLLER, 3);
-  public static JoystickButton X2J_YButton = new JoystickButton(X2_CONTROLLER, 4);
-  public static JoystickButton X2J_LBBumper = new JoystickButton(X2_CONTROLLER, 5);
-  public static JoystickButton X2J_RBBumper = new JoystickButton(X2_CONTROLLER, 6);
+  public static JoystickButton X2J_AButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kA.value);
+  public static JoystickButton X2J_BButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kB.value);
+  public static JoystickButton X2J_XButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kX.value);
+  public static JoystickButton X2J_YButton = new JoystickButton(X2_CONTROLLER, XboxController.Button.kY.value);
+  public static JoystickButton X2J_LBBumper = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftBumper.value);
+  public static JoystickButton X2J_RBBumper = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightBumper.value);
   
   private HttpCamera LimelightVideoFeed;
 
@@ -211,7 +211,16 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (RUN_LIMELIGHT_VISON) {
+      LimelightTable.getEntry("camMode").setDouble(0); // Set's Limelight camera mode to Vision Processing
+      LimelightTable.getEntry("ledMode").setDouble(3); // Set's Limelight LED mode to on
+    }
+    else {
+      LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Vision Processing
+      LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
+    }
+  }
 
   @Override
   public void testInit() {

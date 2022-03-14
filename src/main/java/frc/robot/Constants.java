@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -103,17 +102,18 @@ public final class Constants {
         public static NetworkTableEntry X2_BButtonEntry = X2_TAB.add("B Button", false).getEntry();
     }
 
-    public static final class FieldConstants {
+    public static final class Field {
         public static double UPPER_HUB_HEIGHT_CM = 264;
-        public static double LIMELIGHT_HEIGHT_CM = 100;
+
 
     }
 
-    public static final class RobotConstants {
+    public static final class Robot {
         public static double SparkWheelRadiusInches = 3;
         public static double SparkWheelDiameterInches = 6;
 
         public static double LimelightAngle = 35;
+        public static double LIMELIGHT_HEIGHT_CM = 100;
     }
     
     public static final class Limelight {
@@ -126,6 +126,8 @@ public final class Constants {
         public static double DISTANCE_FROM_TARGET;
 
         public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
+
+        public static boolean RUN_LIMELIGHT_VISON;
         // This is the distance from the Limelight to the target
     }
 

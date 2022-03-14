@@ -12,7 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.RobotConstants.*;
+import static frc.robot.Constants.Robot.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
   public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless);

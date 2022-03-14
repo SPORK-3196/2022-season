@@ -22,6 +22,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import static frc.robot.Robot.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -61,16 +62,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
 
-    Robot.X2J_XButton.whenHeld(new IntakeBalls(Intake));
-    Robot.X2J_BButton.whenHeld(new OuttakeBalls(Intake));
-    Robot.X2J_AButton.whenHeld(new AutoShoot(Shooter));
+    X2J_XButton.whenHeld(new IntakeBalls(Intake));
+    X2J_BButton.whenHeld(new OuttakeBalls(Intake));
+    X2J_AButton.whenHeld(new AutoShoot(Shooter));
 
-    Robot.X2J_RBBumper.whenHeld(new RaiseArms(Climber));
-    Robot.X2J_LBBumper.whenHeld(new LowerArms(Climber));
+    X2J_RBBumper.whenHeld(new RaiseArms(Climber));
+    X2J_LBBumper.whenHeld(new LowerArms(Climber));
 
 
-    Robot.X1J_RBBumper.whenHeld(new ExtendClimber(Climber, 0.3));
-    Robot.X1J_LBBumper.whenHeld(new RetractClimber(Climber, 0.3));
+    X1J_RBBumper.whenHeld(new ExtendClimber(Climber, 0.3));
+    X1J_LBBumper.whenHeld(new RetractClimber(Climber, 0.3));
 
   }
 

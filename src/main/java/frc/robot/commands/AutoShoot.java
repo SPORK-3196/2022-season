@@ -41,8 +41,7 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute() {
     // shooter.setSetpoint(ComputedRPM);
-    LimelightTable.getEntry("camMode").setNumber(0);
-    LimelightTable.getEntry("ledMode").setNumber(3);
+    RUN_LIMELIGHT_VISON = true;
     shooter.setSetpoint(ComputedRPM);
     shooter.runShooter(shooter.calculate(shooter.getVelocity()));
   }
@@ -51,6 +50,7 @@ public class AutoShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
+    RUN_LIMELIGHT_VISON = false;
   }
 
   // Returns true when the command should end.
