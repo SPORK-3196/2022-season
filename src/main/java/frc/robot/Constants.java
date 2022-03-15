@@ -145,7 +145,7 @@ public final class Constants {
         public static NetworkTableEntry DT_rearRightEntry = DT_TAB.add("rear Right Power", 0).getEntry();
 
         public static double DT_PowerConstant = 1.0;
-        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 0).getEntry();
+        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 60).getEntry();
     }
 
     public static final class Index {

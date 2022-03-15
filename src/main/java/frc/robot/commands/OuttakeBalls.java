@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -13,14 +14,16 @@ public class OuttakeBalls extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Intake intake;
+  Index index;
   
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public OuttakeBalls(Intake intake) {
+  public OuttakeBalls(Intake intake, Index index) {
     this.intake = intake;
+    this.index = index;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
   }
@@ -36,12 +39,14 @@ public class OuttakeBalls extends CommandBase {
   @Override
   public void execute() {
     intake.outtakeBalls();
+    index.removeBalls();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.stopIntake();
+    index.stopIndex();
   }
 
   // Returns true when the command should end.

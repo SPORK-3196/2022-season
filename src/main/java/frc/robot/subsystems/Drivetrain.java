@@ -45,12 +45,13 @@ public class Drivetrain extends SubsystemBase {
     drivetrainOrchestra.addInstrument(rearLeft);
     drivetrainOrchestra.addInstrument(rearRight);
 
-    drivetrainOrchestra.loadMusic("Crab.chrp");
+    drivetrainOrchestra.loadMusic("Dos.chrp");
     
   }
 
   public void playMusic() {
     drivetrainOrchestra.play();
+    // System.out.println("Playing Music");
   }
 
   public double getYaw() {
@@ -68,7 +69,6 @@ public class Drivetrain extends SubsystemBase {
     DT_rearLeftEntry.setNumber(rearLeft.getMotorOutputPercent());
     DT_FrontRightEntry.setNumber(frontRight.getMotorOutputPercent());
     DT_rearRightEntry.setNumber(rearRight.getMotorOutputPercent());
-    DT_PowerConstantEntry.setNumber(DT_PowerConstant * 100.0);
   }
 
   @Override

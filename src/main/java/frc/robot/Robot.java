@@ -164,7 +164,7 @@ public class Robot extends TimedRobot {
       X2_BButtonEntry.setBoolean(X2_BButton);
     }
     
-    DT_PowerConstant = DT_PowerConstantEntry.getNumber(100).doubleValue() * 0.1;
+    DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
     
     ComputedRPM = (1459) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }

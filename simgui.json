@@ -5,6 +5,21 @@
         "header": {
           "open": true
         }
+      },
+      "Talon FX[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[4]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
       }
     },
     "RoboRIO": {
