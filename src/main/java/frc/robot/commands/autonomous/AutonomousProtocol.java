@@ -5,20 +5,18 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
+import frc.robot.commands.IndexControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class AutonomousProtocol extends SequentialCommandGroup {
+public class AutonomousProtocol extends ParallelCommandGroup {
     public AutonomousProtocol(Drivetrain drivetrain, Shooter shooter, Index index, Intake intake) {
       super(
-        new DriveForwardTimed(drivetrain, 2.0, -0.6),
-        new AutonomousShoot(shooter, 5.0),
-        new DriveToPickup(drivetrain, shooter, index, intake, 3.0, -0.6),
-        new AutonomousShoot(shooter, 5.0),
-        new TurnDegrees(drivetrain, 5.0)
+        new IndexControl(index),
+        new AutonomousCommands(drivetrain, shooter, index, intake)
       );
     }
 }
