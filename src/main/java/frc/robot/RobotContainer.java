@@ -14,8 +14,10 @@ import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.LowerArms;
 import frc.robot.commands.OuttakeBalls;
+import frc.robot.commands.PlayMusic;
 import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimber;
+import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutonomousProtocol;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -56,16 +58,20 @@ public class RobotContainer {
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link\
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
     X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
+    X1J_LB.and(X1J_RB).whenActive(new PlayMusic(Drivetrain));
+    X1J_RB.and(X1J_LB).whenActive(new PlayMusic(Drivetrain));
+
     X2J_X.whenHeld(new IntakeBalls(Intake));
-    X2J_B.whenHeld(new OuttakeBalls(Intake));
+    X2J_B.whenHeld(new OuttakeBalls(Intake, Index));
     X2J_A.whenHeld(new AutoShoot(Shooter));
+    X2J_Y.whenHeld(new ToggleArms(Climber));
 
     X2J_RB.whenHeld(new ExtendClimber(Climber, 0.3));
     X2J_LB.whenHeld(new RetractClimber(Climber, 0.3));
