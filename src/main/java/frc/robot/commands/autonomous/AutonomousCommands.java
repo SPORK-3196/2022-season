@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class AutonomousCommands extends SequentialCommandGroup {
     public AutonomousCommands(Drivetrain drivetrain, Shooter shooter, Index index, Intake intake) {
       super(
-        new DriveForwardTimed(drivetrain, 2.0, -0.6),
+        // new DriveForwardTimed(drivetrain, 2.0, -0.6),
+        new DriveDistance(drivetrain, 100),
         new AutonomousShoot(shooter, 5.0),
         new DriveToPickup(drivetrain, shooter, index, intake, 3.0, -0.6),
         new AutonomousShoot(shooter, 5.0),

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.Constants.Robot.*;
   
 public class Drivetrain extends SubsystemBase {
 
@@ -62,6 +63,10 @@ public class Drivetrain extends SubsystemBase {
     return rearLeft.getSelectedSensorPosition();
   }
 
+  public double getDistanceTravelled() {
+    return (rearLeft.getSelectedSensorPosition() / 18000) * (2 * Math.PI * DrivetrainWheelRadiusIn);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -69,6 +74,7 @@ public class Drivetrain extends SubsystemBase {
     DT_rearLeftEntry.setNumber(rearLeft.getMotorOutputPercent());
     DT_FrontRightEntry.setNumber(frontRight.getMotorOutputPercent());
     DT_rearRightEntry.setNumber(rearRight.getMotorOutputPercent());
+    // System.out.println(rearLeft.getSelectedSensorPosition());
   }
 
   @Override
