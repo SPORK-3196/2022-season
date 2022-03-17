@@ -117,7 +117,10 @@ public final class Constants {
         public static double DrivetrainWheelRadiusIn = 3;
 
         public static double LimelightAngle = 28;
-        public static double LIMELIGHT_HEIGHT_CM = 20;
+        public static double LIMELIGHT_HEIGHT_CM = 49.53;
+
+        public static double TestLimelight = 96.52;
+        public static double TestHub = 129.54;
     }
     
     public static final class Limelight {
