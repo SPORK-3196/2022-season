@@ -10,6 +10,7 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.Limelight.*;
 
@@ -32,7 +33,6 @@ public class HorizontalAim extends CommandBase {
    */
   public HorizontalAim(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    Auto_PIDController.setSetpoint(1);
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
   }
@@ -44,6 +44,7 @@ public class HorizontalAim extends CommandBase {
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(5.0);
     RUN_LIMELIGHT_VISON = true;
+    drivetrain.drivetrain =  new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
@@ -56,6 +57,7 @@ public class HorizontalAim extends CommandBase {
     // double distance_error = -1 * ty;
 
     steering_adjust = Auto_PIDController.calculate(-1 * TX);
+    // System.out.println(steering_adjust);
     leftInput += steering_adjust;
     rightInput -= steering_adjust;
 

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Index;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Shooter.*;
@@ -17,6 +18,7 @@ public class IndexControl extends CommandBase {
   
   Index index;
   boolean runIndex = false;
+  public Timer indexTimer = new Timer();
 
   /**
    * Creates a new ExampleCommand.
@@ -45,6 +47,11 @@ public class IndexControl extends CommandBase {
       runIndex = false;
       IndexEmpty = true;
     }
+
+    if (index.getIntakeSensor()) {
+      indexTimer.reset();
+      indexTimer.start();
+    }
     
     if (index.getIntakeSensor() || index.BallInTransit) {
       runIndex = true;
@@ -52,10 +59,11 @@ public class IndexControl extends CommandBase {
       IndexEmpty = false;
     }
 
-    if (index.getMidSensor()) {
+    if (index.getMidSensor() && indexTimer.get() > 0.55) {
       runIndex = false;
       index.BallInTransit = false;
       IndexEmpty = false;
+      indexTimer.reset();
     }
 
     if (index.getMidSensor() && index.getIntakeSensor()) {

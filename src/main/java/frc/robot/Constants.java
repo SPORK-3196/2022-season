@@ -117,7 +117,7 @@ public final class Constants {
         public static double DrivetrainWheelRadiusIn = 3;
 
         public static double LimelightAngle = 28;
-        public static double LIMELIGHT_HEIGHT_CM = 49.53;
+        public static double LIMELIGHT_HEIGHT_CM = 54.61;
 
         public static double TestLimelight = 96.52;
         public static double TestHub = 129.54;
@@ -148,7 +148,7 @@ public final class Constants {
         public static NetworkTableEntry DT_rearRightEntry = DT_TAB.add("rear Right Power", 0).getEntry();
 
         public static double DT_PowerConstant = 1.0;
-        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 60).getEntry();
+        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 70).getEntry();
     }
 
     public static final class Index {
