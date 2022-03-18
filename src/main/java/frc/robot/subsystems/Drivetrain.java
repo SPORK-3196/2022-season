@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.Constants.Robot.*;
   
 public class Drivetrain extends SubsystemBase {
 
@@ -60,6 +61,14 @@ public class Drivetrain extends SubsystemBase {
 
   public double getDistanceRawSensor() {
     return rearLeft.getSelectedSensorPosition();
+  }
+
+  public double getDistanceTravelledInches(WPI_TalonFX Motor) {
+    return ((Motor.getSelectedSensorPosition() / 2048) * (2 * Math.PI * DrivetrainWheelDiameterInches));
+  }
+
+  public void resetDistanceTravelled(WPI_TalonFX Motor) {
+    Motor.setSelectedSensorPosition(0);
   }
 
   @Override
