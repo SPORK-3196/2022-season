@@ -113,7 +113,7 @@ public final class Constants {
         public static double SparkWheelRadiusInches = 3;
         public static double SparkWheelDiameterInches = 6;
 
-        public static double DrivetrainWheelDiameter;
+        public static double DrivetrainWheelDiameterInches = 6;
         public static double DrivetrainWheelRadius;
 
         public static double LimelightAngle = 28;
