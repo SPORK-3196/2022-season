@@ -87,6 +87,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new PlayMusic(Drivetrain);
+    return new AutonomousProtocol(Drivetrain, Shooter, Index, Intake);
   }
 }

@@ -166,20 +166,20 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
     
-    ComputedRPM = (1459) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+    ComputedRPM = (1700) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    LimelightTable.getEntry("camMode").setDouble(0); // Set's Limelight camera mode to Driver Camera
-    LimelightTable.getEntry("ledMode").setDouble(3); // Set's Limelight LED mode to off
+    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Driver Camera
+    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
   }
 
   @Override
   public void disabledPeriodic() {
-    LimelightTable.getEntry("camMode").setDouble(0); // Set's Limelight camera mode to Driver Camera
-    LimelightTable.getEntry("ledMode").setDouble(3); // Set's Limelight LED mode to off
+    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Driver Camera
+    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
 
     
   }

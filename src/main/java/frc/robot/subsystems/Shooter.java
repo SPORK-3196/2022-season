@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   /** Creates a new SparkTest. */
   public Shooter() {
     rightShooter.setInverted(false);
-    shooterPIDController.setTolerance(200);
+    shooterPIDController.setTolerance(100);
     // shooterPIDController.setFeedForward(0.00000481);
   }
   
