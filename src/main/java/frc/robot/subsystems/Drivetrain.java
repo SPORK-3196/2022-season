@@ -63,12 +63,8 @@ public class Drivetrain extends SubsystemBase {
     return rearLeft.getSelectedSensorPosition();
   }
 
-  public double getDistanceTravelledInches(WPI_TalonFX Motor) {
-    return ((Motor.getSelectedSensorPosition() / 2048) * (2 * Math.PI * DrivetrainWheelDiameterInches));
-  }
-
-  public void resetDistanceTravelled(WPI_TalonFX Motor) {
-    Motor.setSelectedSensorPosition(0);
+  public double getDistanceTravelled() {
+    return (rearLeft.getSelectedSensorPosition() / 18000) * (2 * Math.PI * DrivetrainWheelRadiusIn);
   }
 
   @Override
@@ -78,6 +74,7 @@ public class Drivetrain extends SubsystemBase {
     DT_rearLeftEntry.setNumber(rearLeft.getMotorOutputPercent());
     DT_FrontRightEntry.setNumber(frontRight.getMotorOutputPercent());
     DT_rearRightEntry.setNumber(rearRight.getMotorOutputPercent());
+    // System.out.println(rearLeft.getSelectedSensorPosition());
   }
 
   @Override

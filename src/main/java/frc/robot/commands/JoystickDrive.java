@@ -8,6 +8,9 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import static frc.robot.Constants.Drivetrain.*;
 
 /** An example command that uses an example subsystem. */
@@ -37,12 +40,17 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
     drivetrain.drivetrain.arcadeDrive(X1_LJY * -DT_PowerConstant , X1_LJX * -DT_PowerConstant);
+    // drivetrain.drivetrain.arcadeDrive(X1_RJY * -DT_PowerConstant, X1_RJY * -DT_PowerConstant);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     drivetrain.drivetrain = null;
+    drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
   }
 
   // Returns true when the command should end.

@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
     TA = LimelightTable.getEntry("ta").getDouble(TA);
     TV = LimelightTable.getEntry("tv").getDouble(TV);
 
-    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(LimelightAngle + TY);
+    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(Math.toRadians(LimelightAngle + TY));
     AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
 
     if (X1_CONTROLLER.isConnected())
@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
     
-    ComputedRPM = (1459) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+    ComputedRPM = (1700) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -178,6 +178,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Driver Camera
+    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
+
     
   }
 
