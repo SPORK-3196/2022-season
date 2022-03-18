@@ -60,9 +60,9 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     // This method will be called once per scheduler run
     sparkVelocityRPM = shooterEncoder.getVelocity();
 
-    SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
+    SH_SHOOTER_RPM_Entry.setDouble(-1 * sparkVelocityRPM);
 
-    SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
+    SH_SHOOTER_MPH_Entry.setDouble(-1 * ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
     
     // System.out.println(sparkVelocityRPM);
 
