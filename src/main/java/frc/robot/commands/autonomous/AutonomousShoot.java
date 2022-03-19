@@ -6,6 +6,7 @@ package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.Index.*;
+import static frc.robot.Constants.Shooter.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -35,14 +36,16 @@ public class AutonomousShoot extends CommandBase {
   @Override
   public void initialize() {
     shooter.setSetpoint(3000);
+    shooterTimer.reset();
+    shooterTimer.start();
   }
     
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooter.setSetpoint(ComputedRPM);
-    shooter.setSetpoint(3000);
+    shooter.setSetpoint(ComputedRPM);
+    // shooter.setSetpoint(Computed);
     shooter.runShooter(shooter.calculate(shooter.getVelocity()));
   }
 
@@ -50,11 +53,12 @@ public class AutonomousShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
+    System.out.println(shooterTimer.get());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return IndexEmpty;
+    return shooterTimer.get() > time;
   }
 }

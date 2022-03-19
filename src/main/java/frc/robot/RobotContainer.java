@@ -18,7 +18,9 @@ import frc.robot.commands.PlayMusic;
 import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ToggleArms;
+import frc.robot.commands.autonomous.AutonomousCommands;
 import frc.robot.commands.autonomous.AutonomousProtocol;
+import frc.robot.commands.autonomous.AutonomousShoot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -53,6 +55,7 @@ public class RobotContainer {
     configureButtonBindings();
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Index.setDefaultCommand(IndexOperation);
+    // Climber.setDefaultCommand(new LowerArms(Climber));
   }
 
   /**
@@ -87,6 +90,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new AutonomousProtocol(Drivetrain, Shooter, Index, Intake);
+    // return new AutonomousProtocol(Drivetrain, Shooter, Index, Intake);
+    return AutoCommand;
   }
 }

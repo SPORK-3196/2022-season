@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     LimelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-    LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800/stream.mjpg");	
+    LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800");	
     AI_TAB.add("LimeLight Video", LimelightVideoFeed);
   }
 
@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
     
-    ComputedRPM = (1700) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+    ComputedRPM = (1400) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

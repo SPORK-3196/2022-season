@@ -15,10 +15,10 @@ public class AutonomousCommands extends SequentialCommandGroup {
     public AutonomousCommands(Drivetrain drivetrain, Shooter shooter, Index index, Intake intake) {
       super(
         // new DriveForwardTimed(drivetrain, 2.0, -0.6),
-        new DriveDistance(drivetrain, 100),
-        new AutonomousShoot(shooter, 5.0),
-        new DriveToPickup(drivetrain, shooter, index, intake, 3.0, -0.6),
-        new AutonomousShoot(shooter, 5.0),
+        new DriveForwardTimed(drivetrain, 3.0, -0.6),
+        new AutonomousShoot(shooter, 6.0),
+        new DriveToPickup(drivetrain, shooter, index, intake, 4.0, -0.6),
+        new AutonomousShoot(shooter, 6.0),
         new TurnDegrees(drivetrain, 5.0)
       );
     }
