@@ -22,7 +22,7 @@ public class HorizontalAim extends CommandBase {
 
   private final Drivetrain drivetrain;
 
-  public static PIDController Auto_PIDController = new PIDController(0.007, 0, 0);
+  public static PIDController Auto_PIDController = new PIDController(0.01, 0, 0);
 
   double leftInput;
   double rightInput;
@@ -44,7 +44,7 @@ public class HorizontalAim extends CommandBase {
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(5.0);
     RUN_LIMELIGHT_VISON = true;
-    drivetrain.drivetrain =  new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    // drivetrain.drivetrain =  new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
@@ -58,9 +58,10 @@ public class HorizontalAim extends CommandBase {
 
     steering_adjust = Auto_PIDController.calculate(-1 * TX);
     // System.out.println(steering_adjust);
-    leftInput += steering_adjust;
-    rightInput -= steering_adjust;
+    // leftInput += steering_adjust;
+    // rightInput -= steering_adjust;
 
+    // System.out.println(steering_adjust);
     drivetrain.drivetrain.arcadeDrive(0, steering_adjust);
     
   }

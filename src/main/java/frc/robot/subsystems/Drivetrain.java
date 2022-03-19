@@ -27,7 +27,7 @@ public class Drivetrain extends SubsystemBase {
   public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, rearLeft);
   public MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, rearRight);
 
-  public DifferentialDrive drivetrain;
+  public DifferentialDrive drivetrain = new DifferentialDrive(leftSide, rightSide);
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   

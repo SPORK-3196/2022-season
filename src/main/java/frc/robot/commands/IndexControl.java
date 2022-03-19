@@ -59,7 +59,7 @@ public class IndexControl extends CommandBase {
       IndexEmpty = false;
     }
 
-    if (index.getMidSensor() && indexTimer.get() > 0.55) {
+    if (index.getMidSensor()) {
       runIndex = false;
       index.BallInTransit = false;
       IndexEmpty = false;
