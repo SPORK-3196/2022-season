@@ -166,7 +166,8 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
     
-    ComputedRPM = (1400) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+    TeleComputedRPM = (1330) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+    AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

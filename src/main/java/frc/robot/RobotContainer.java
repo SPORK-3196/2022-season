@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimber;
-import frc.robot.commands.HorizontalAim;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
@@ -19,8 +18,6 @@ import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutonomousCommands;
-import frc.robot.commands.autonomous.AutonomousProtocol;
-import frc.robot.commands.autonomous.AutonomousShoot;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -46,7 +43,7 @@ public class RobotContainer {
   private final IndexControl IndexOperation = new IndexControl(Index);
   private final JoystickDrive DrivetrainControl = new JoystickDrive(Drivetrain);
 
-  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain, Shooter, Index, Intake);
+  private final AutonomousCommands AutoCommand = new AutonomousCommands(Drivetrain, Shooter, Index, Intake, Climber);
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -66,7 +63,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
-    X1J_A.whenHeld(new HorizontalAim(Drivetrain));
+    // X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
     X1J_LB.and(X1J_RB).whenActive(new PlayMusic(Drivetrain));
     X1J_RB.and(X1J_LB).whenActive(new PlayMusic(Drivetrain));
@@ -76,8 +73,8 @@ public class RobotContainer {
     X2J_A.whenHeld(new AutoShoot(Shooter));
     X2J_Y.whenHeld(new ToggleArms(Climber));
 
-    X2J_RB.whenHeld(new ExtendClimber(Climber, 0.3));
-    X2J_LB.whenHeld(new RetractClimber(Climber, 0.3));
+    X2J_RB.whenHeld(new ExtendClimber(Climber, 0.4));
+    X2J_LB.whenHeld(new RetractClimber(Climber, 0.4));
 
     X2J_LS.whenHeld(new RaiseArms(Climber));
     X2J_LS.whenHeld(new LowerArms(Climber));

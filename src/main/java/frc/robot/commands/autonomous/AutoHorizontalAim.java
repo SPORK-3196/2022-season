@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autonomous;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -22,7 +22,7 @@ import frc.robot.subsystems.Drivetrain;
 
 
 
-public class HorizontalAim extends CommandBase {
+public class AutoHorizontalAim extends CommandBase {
 
   private final Drivetrain drivetrain;
 
@@ -30,20 +30,19 @@ public class HorizontalAim extends CommandBase {
   public Timer autoTimer = new Timer();
   public double time = 5.0;
 
-  public static PIDController Auto_PIDController = new PIDController(0.007, 0, 0);
   
 
   double leftInput;
   double rightInput;
   double steering_adjust;
-  double heading_error;
 
   /**
    * Creates a new DriveWithJoystick.
    */
-  public HorizontalAim(Drivetrain drivetrain) {
+  public AutoHorizontalAim(Drivetrain drivetrain, double duration) {
     // Use addRequirements() here to declare subsystem dependencies.
-    Auto_PIDController.setSetpoint(0);
+    drivetrain.Auto_PIDController.setSetpoint(0);
+    this.time = duration;
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
   }
@@ -52,25 +51,34 @@ public class HorizontalAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Auto_PIDController.setSetpoint(0);
-    Auto_PIDController.setTolerance(1.0);
+    drivetrain.Auto_PIDController.setSetpoint(0);
+    drivetrain.Auto_PIDController.setTolerance(1.0);
     RUN_LIMELIGHT_VISON = true;
     drivetrain.drivetrain.setDeadband(0);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
+    autoTimer.reset();
+    autoTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RUN_LIMELIGHT_VISON = true;
-      heading_error = -1 * TX;
-      steering_adjust = Auto_PIDController.calculate(heading_error);
-      // System.out.println(steering_adjust);
-      drivetrain.leftSide.set(-steering_adjust);
-      drivetrain.rightSide.set(steering_adjust);
+    // boolean isTargetVisible = false;
+    // boolean targetNotVisible = true;
+
+    // double aimControlConstant = -0.07;
+    // double distanceControlConstant = -0.1;
+    // double min_aim_command = 0.03;
+    
+    double heading_error = -1 * TX;
+    // double distance_error = -1 * ty;
+
+    steering_adjust = drivetrain.Auto_PIDController.calculate(heading_error);
+    System.out.println(steering_adjust);
+    drivetrain.drivetrain.arcadeDrive(0, 0.1);
 
 
   }
@@ -85,7 +93,7 @@ public class HorizontalAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return autoTimer.get() >= time;
-    return false;
+    return autoTimer.get() >= time;
+    // return false;
   }
 }

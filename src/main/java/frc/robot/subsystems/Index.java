@@ -53,11 +53,11 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   } 
  
   public void runIndex () {
-    indexMotor.set(-0.4);
+    indexMotor.set(-0.85);
   }
 
   public void removeBalls() {
-    indexMotor.set(0.3);
+    indexMotor.set(0.6);
   }
 
   public void stopIndex() {

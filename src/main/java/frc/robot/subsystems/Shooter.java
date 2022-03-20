@@ -21,6 +21,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public RelativeEncoder shooterEncoder = leftShooter.getEncoder();
 
   public PIDController shooterPIDController = new PIDController(0.000015, 0.0004, 0);
+  
   // public PIDController shooterPIDController = new PIDController(0.00005, 0.0002, 5.0);
 
   public double sparkVelocityRPM;

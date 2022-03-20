@@ -52,7 +52,8 @@ public class TurnDegrees extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
 
-    startingAngle = drivetrain.getYaw() + targetAngle;
+    startingAngle = drivetrain.getYaw();
+    targetAngle = drivetrain.getYaw() + targetAngle;
 
     turnTimer.reset();
     turnTimer.start();
