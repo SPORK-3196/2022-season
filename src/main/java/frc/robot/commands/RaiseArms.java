@@ -29,7 +29,7 @@ public class RaiseArms extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.ARM_PISTONS.set(true);
+    climber.ARM_PISTONS.set(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

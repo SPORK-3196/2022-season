@@ -4,6 +4,7 @@
 
 package frc.robot.commands.autonomous;
 
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.Index.*;
 import static frc.robot.Constants.Shooter.*;
@@ -16,6 +17,7 @@ public class AutonomousShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Shooter shooter;
+  Index index;
   public Timer shooterTimer = new Timer();
   public double time = 5.0;
 
@@ -25,11 +27,14 @@ public class AutonomousShoot extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
 
-  public AutonomousShoot(Shooter Subsystem, double duration) {
-    this.shooter = Subsystem;
+  public AutonomousShoot(Shooter shooter, Index index, double duration) {
+    this.shooter = shooter;
+    this.index = index;
     this.time = duration;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
+    addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -44,9 +49,14 @@ public class AutonomousShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setSetpoint(ComputedRPM);
-    // shooter.setSetpoint(Computed);
+    shooter.setSetpoint(AutoComputedRPM);
+    // shooter.setSetpoint(3000);
     shooter.runShooter(shooter.calculate(shooter.getVelocity()));
+
+    if (shooter.shooterPIDController.atSetpoint()) {
+      index.runIndex();
+    }
+    
   }
 
   // Called once the command ends or is interrupted.

@@ -166,7 +166,8 @@ public final class Constants {
 
         public static boolean SHOOTER_READY;
 
-        public static double ComputedRPM;
+        public static double TeleComputedRPM;
+        public static double AutoComputedRPM;
         
         public static double SH_ShooterPower = 0.0;
         

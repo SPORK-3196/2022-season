@@ -42,7 +42,7 @@ public class AutoShoot extends CommandBase {
   public void execute() {
     // shooter.setSetpoint(ComputedRPM);
     RUN_LIMELIGHT_VISON = true;
-    shooter.setSetpoint(ComputedRPM);
+    shooter.setSetpoint(AutoComputedRPM);
     shooter.runShooter(shooter.calculate(shooter.getVelocity()));
   }
 

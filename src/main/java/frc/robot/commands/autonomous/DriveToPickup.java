@@ -5,6 +5,8 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
+import frc.robot.commands.LowerArms;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
@@ -13,10 +15,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /** An example command that uses an example subsystem. */
 public class DriveToPickup extends ParallelCommandGroup {
-    public DriveToPickup(Drivetrain drivetrain, Shooter shooter, Index index, Intake intake, double duration, double driveSpeed) {
+    public DriveToPickup(Drivetrain drivetrain, Shooter shooter, Index index, Climber climber, Intake intake, double duration, double driveSpeed) {
       super(
         new DriveForwardTimed(drivetrain, duration, driveSpeed),
-        new PickupBalls(intake, duration)
+        new PickupBalls(intake, duration),
+        new LowerArms(climber)
       );
     }
 }
