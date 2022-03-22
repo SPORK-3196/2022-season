@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.Vision.*;
 import static frc.robot.Constants.Shooter.*;
 
 
@@ -19,7 +19,7 @@ public class AutoShoot extends CommandBase {
   Shooter shooter;
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new AutoShoot.
    *
    * @param subsystem The subsystem used by this command.
    */
@@ -41,7 +41,7 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute() {
     // shooter.setSetpoint(ComputedRPM);
-    RUN_LIMELIGHT_VISON = true;
+    RUN_VISION = true;
     shooter.setSetpoint(TeleComputedRPM);
   }
 
@@ -49,7 +49,7 @@ public class AutoShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
-    RUN_LIMELIGHT_VISON = false;
+    RUN_VISION = false;
   }
 
   // Returns true when the command should end.

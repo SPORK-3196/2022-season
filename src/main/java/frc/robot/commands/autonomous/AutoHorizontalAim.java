@@ -8,16 +8,11 @@
 package frc.robot.commands.autonomous;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.*;
-import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.Vision.*;
+import static frc.robot.subsystems.Drivetrain.*;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -41,7 +36,7 @@ public class AutoHorizontalAim extends CommandBase {
    */
   public AutoHorizontalAim(Drivetrain drivetrain, double duration) {
     // Use addRequirements() here to declare subsystem dependencies.
-    drivetrain.Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setSetpoint(0);
     this.time = duration;
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
@@ -51,9 +46,9 @@ public class AutoHorizontalAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.Auto_PIDController.setSetpoint(0);
-    drivetrain.Auto_PIDController.setTolerance(1.0);
-    RUN_LIMELIGHT_VISON = true;
+    Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setTolerance(1.0);
+    RUN_VISION = true;
     drivetrain.drivetrain.setDeadband(0);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
@@ -73,10 +68,10 @@ public class AutoHorizontalAim extends CommandBase {
     // double distanceControlConstant = -0.1;
     // double min_aim_command = 0.03;
     
-    double heading_error = -1 * TX;
+    double heading_error = -1 * primaryYaw;
     // double distance_error = -1 * ty;
 
-    steering_adjust = drivetrain.Auto_PIDController.calculate(heading_error);
+    steering_adjust = Auto_PIDController.calculate(heading_error);
     System.out.println(steering_adjust);
     drivetrain.drivetrain.arcadeDrive(0, 0.1);
 
@@ -87,7 +82,7 @@ public class AutoHorizontalAim extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RUN_LIMELIGHT_VISON = false;
+    RUN_VISION = false;
   }
 
   // Returns true when the command should end.
