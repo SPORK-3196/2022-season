@@ -17,7 +17,8 @@ import frc.robot.commands.PlayMusic;
 import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ToggleArms;
-import frc.robot.commands.autonomous.AutonomousCommands;
+import frc.robot.commands.autonomous.AutonomousProtocol;
+import frc.robot.commands.autonomous.HorizontalAim;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -35,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain Drivetrain = new Drivetrain();
-  private final Shooter Shooter = new Shooter();
+  private final Shooter Shooter = new Shooter(50);
   private final Intake Intake = new Intake();
   private final Index Index = new Index();
   private final Climber Climber = new Climber();
@@ -43,7 +44,7 @@ public class RobotContainer {
   private final IndexControl IndexOperation = new IndexControl(Index);
   private final JoystickDrive DrivetrainControl = new JoystickDrive(Drivetrain);
 
-  private final AutonomousCommands AutoCommand = new AutonomousCommands(Drivetrain, Shooter, Index, Intake, Climber);
+  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain, Shooter, Index, Intake, Climber);
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -86,8 +87,8 @@ public class RobotContainer {
    * @return the command to run in autonomousP
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    // return new AutonomousProtocol(Drivetrain, Shooter, Index, Intake);
-    return AutoCommand;
+    // An ExampleCommand will run in asutonomous
+    return new HorizontalAim(Drivetrain, 250);
+    // return AutoCommand;
   }
 }

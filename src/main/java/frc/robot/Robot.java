@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,8 +16,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
+
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+import org.photonvision.common.hardware.VisionLEDMode;
+
 import static frc.robot.Constants.Drivetrain.*;
-import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.Vision.*;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.Robot.*;
 import static frc.robot.Constants.Field.*;
@@ -64,9 +71,11 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    LimelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+ 
 
     LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800");	
+    primaryCamera = new PhotonCamera("primaryCamera");
+    PortForwarder.add(5800, "http://10.31.96.11", 5800);
     AI_TAB.add("LimeLight Video", LimelightVideoFeed);
   }
 
@@ -85,14 +94,18 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    LimelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    primaryCameraResult = primaryCamera.getLatestResult();
+    if (primaryCameraResult.hasTargets()) {
+      trackedTarget = primaryCameraResult.getBestTarget();
+      primaryYaw = trackedTarget.getYaw();
+      System.out.println(primaryYaw);
+      primaryPitch = trackedTarget.getPitch();
+      primaryPitchRadians = Units.degreesToRadians(primaryPitch);
+    }
 
-    TX = LimelightTable.getEntry("tx").getDouble(TX);
-    TY = LimelightTable.getEntry("ty").getDouble(TY);
-    TA = LimelightTable.getEntry("ta").getDouble(TA);
-    TV = LimelightTable.getEntry("tv").getDouble(TV);
-
-    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(Math.toRadians(LimelightAngle + TY));
+    // DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(Math.toRadians(LimelightAngle + TY));
+    DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, UPPER_HUB_HEIGHT_M, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
+   
     AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
 
     if (X1_CONTROLLER.isConnected())
@@ -165,7 +178,7 @@ public class Robot extends TimedRobot {
     }
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
-    
+     
     TeleComputedRPM = (1330) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
     AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }
@@ -173,34 +186,37 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Driver Camera
-    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
+    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
   }
 
   @Override
   public void disabledPeriodic() {
-    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Driver Camera
-    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
-
-    
+    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to offf
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+     
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    LimelightTable.getEntry("camMode").setDouble(0); // Set's Limelight camera mode to Vision Processing
-    LimelightTable.getEntry("ledMode").setDouble(3); // Set's Limelight LED mode to on
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    if (NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(false)) {
+      // System.out.println(true);
+    }
+  }
 
   @Override
   public void teleopInit() {
@@ -211,20 +227,20 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Vision Processing
-    LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
+    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (RUN_LIMELIGHT_VISON) {
-      LimelightTable.getEntry("camMode").setDouble(0); // Set's Limelight camera mode to Vision Processing
-      LimelightTable.getEntry("ledMode").setDouble(3); // Set's Limelight LED mode to on
+    if (RUN_VISION) {
+      primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
+      primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     }
     else {
-      LimelightTable.getEntry("camMode").setDouble(1); // Set's Limelight camera mode to Vision Processing
-      LimelightTable.getEntry("ledMode").setDouble(1); // Set's Limelight LED mode to off
+      primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+      primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
     }
   }
 

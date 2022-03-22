@@ -6,31 +6,45 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.Robot.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
   public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless);
   public CANSparkMax rightShooter = new CANSparkMax(6, MotorType.kBrushless);
 
-  public RelativeEncoder shooterEncoder = leftShooter.getEncoder();
+  public RelativeEncoder leftShooterEncoder = leftShooter.getEncoder();
+  public RelativeEncoder rightShooterEncoder = rightShooter.getEncoder();
 
-  public PIDController shooterPIDController = new PIDController(0.000015, 0.0004, 0);
+  public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
+  public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
+  // new PIDController(0.000015, 0.0004, 0);
   
-  // public PIDController shooterPIDController = new PIDController(0.00005, 0.0002, 5.0);
+  // public PIDController leftPIDController = new PIDController(0.00005, 0.0002, 5.0);
 
-  public double sparkVelocityRPM;
+  public double targetRPM;
+  public double tolerance = 50;
   
   /** Creates a new SparkTest. */
-  public Shooter() {
-    rightShooter.setInverted(false);
-    shooterPIDController.setTolerance(100);
-    // shooterPIDController.setFeedForward(0.00000481);
+  public Shooter(double tolerance) {
+    // rightShooter.setInverted(false);
+    leftPIDController.setP(6e-5);
+    leftPIDController.setI(0);
+    leftPIDController.setD(0);
+    leftPIDController.setIZone(0);
+    leftPIDController.setFF(0.000015);
+    leftPIDController.setOutputRange(-1, 1);
+
+    rightPIDController.setP(6e-5);
+    rightPIDController.setI(0);
+    rightPIDController.setD(0);
+    rightPIDController.setIZone(0);
+    rightPIDController.setFF(0.000015);
+    rightPIDController.setOutputRange(-1, 1);
+    this.tolerance = tolerance;
   }
   
  
@@ -45,34 +59,55 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   } 
 
   public void setSetpoint(double RPM) {
-    shooterPIDController.setSetpoint(-1 * RPM);
+    leftPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
+    rightPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
   }
 
+  public void setTolerance(double tolerance) {
+    this.tolerance = tolerance;
+  }
+  
+  /*
   public double calculate(double currentRPM) {
-    return shooterPIDController.calculate(currentRPM);
+    return leftPIDController.calculate(currentRPM);
+  }
+  */
+
+
+  public boolean leftAtSetpoint() {
+    return ((targetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (targetRPM < (targetRPM + tolerance));
   }
 
-  public double getVelocity() {
-    return shooterEncoder.getVelocity();
+  public boolean rightAtSetpoint() {
+    return ((targetRPM - tolerance) < rightShooterEncoder.getVelocity()) &&  (targetRPM < (targetRPM + tolerance));
+  }
+
+  public boolean atSetpoint() {
+    return (leftAtSetpoint() && rightAtSetpoint());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    sparkVelocityRPM = shooterEncoder.getVelocity();
 
-    SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
+    // SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
 
-    SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
+    // SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
     
+    
+
     // System.out.println(sparkVelocityRPM);
 
-    if (shooterPIDController.atSetpoint()) {
+
+
+    if (leftAtSetpoint() && rightAtSetpoint()) {
       SHOOTER_READY = true;
     }
     else {
       SHOOTER_READY = false;
     }
+
+  
   }
 
   @Override

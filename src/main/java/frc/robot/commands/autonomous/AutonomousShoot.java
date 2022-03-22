@@ -6,7 +6,6 @@ package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Index.*;
 import static frc.robot.Constants.Shooter.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -40,7 +39,7 @@ public class AutonomousShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint(3000);
+    shooter.setSetpoint(AutoComputedRPM);
     shooterTimer.reset();
     shooterTimer.start();
   }
@@ -51,9 +50,8 @@ public class AutonomousShoot extends CommandBase {
   public void execute() {
     shooter.setSetpoint(AutoComputedRPM);
     // shooter.setSetpoint(3000);
-    shooter.runShooter(shooter.calculate(shooter.getVelocity()));
 
-    if (shooter.shooterPIDController.atSetpoint()) {
+    if (shooter.atSetpoint()) {
       index.runIndex();
     }
     

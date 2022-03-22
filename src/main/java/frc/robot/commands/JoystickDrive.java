@@ -7,15 +7,15 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.subsystems.Drivetrain.*;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.Limelight.*;
+import static frc.robot.Constants.Vision.*;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import static frc.robot.Constants.Drivetrain.*;
+
+
 
 /** An example command that uses an example subsystem. */
 public class JoystickDrive extends CommandBase {
@@ -26,10 +26,14 @@ public class JoystickDrive extends CommandBase {
   double steering_adjust;
   double heading_error;
 
+  
+  double speedControl;
+  double rotationControl;
+
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new JoystickDrive.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param subsystem The drivetrain used by this command.
    */
   public JoystickDrive(Drivetrain subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -43,27 +47,35 @@ public class JoystickDrive extends CommandBase {
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     Auto_PIDController.setSetpoint(0);
-    Auto_PIDController.setTolerance(1.0);
+    Auto_PIDController.setTolerance(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drivetrain.arcadeDrive(X1_LJY * -DT_PowerConstant , X1_LJX * -DT_PowerConstant);
-    // drivetrain.drivetrain.arcadeDrive(X1_RJY * -DT_PowerConstant, X1_RJY * -DT_PowerConstant);
+    
 
+    speedControl = X1_LJY * -DT_PowerConstant; 
+    rotationControl = X1_LJX * -DT_PowerConstant;
+    
     if (Robot.X1_CONTROLLER.getAButton()) {
-      RUN_LIMELIGHT_VISON = true;
-      heading_error = -1 * TX;
-      
-      steering_adjust = drivetrain.Auto_PIDController.calculate(heading_error);
-      // System.out.println(steering_adjust);
-      drivetrain.leftSide.set(-steering_adjust);
-      drivetrain.rightSide.set(steering_adjust);
+
+      RUN_VISION = true;
+
+      if (hasTargets) {
+        steering_adjust = Auto_PIDController.calculate(primaryYaw);
+        rotationControl = steering_adjust;
+      }
+
     }
     else {
-      RUN_LIMELIGHT_VISON = false;
+      RUN_VISION = false;
     }
+
+
+    drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
+    // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
+
   }
 
   // Called once the command ends or is interrupted.

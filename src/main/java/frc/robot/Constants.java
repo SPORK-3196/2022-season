@@ -4,7 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTable;
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -18,6 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     // Retrieve shuffleboard tabs
     public static ShuffleboardTab X1_TAB =  Shuffleboard.getTab("Xbox Controller #1");
     public static ShuffleboardTab X2_TAB =  Shuffleboard.getTab("Xbox Controller #2");
@@ -27,10 +32,6 @@ public final class Constants {
     public static ShuffleboardTab DT_TAB = Shuffleboard.getTab("Drivetrain Info");
     public static ShuffleboardTab AI_TAB = Shuffleboard.getTab("Autonomous Info");
     public static ShuffleboardTab SH_TAB = Shuffleboard.getTab("Shooter Info");
-
-    
- 
-    
 
     //Create variables and NetworkTableEntries to store input from xbox controller (0)
     
@@ -104,9 +105,7 @@ public final class Constants {
 
     public static final class Field {
 
-        public static double UPPER_HUB_HEIGHT_CM = 264;
-
-
+        public static double UPPER_HUB_HEIGHT_M = 264;
     }
 
     public static final class Robot {
@@ -116,25 +115,36 @@ public final class Constants {
         public static double DrivetrainWheelDiameterIn = 6;
         public static double DrivetrainWheelRadiusIn = 3;
 
-        public static double LimelightAngle = 28;
-        public static double LIMELIGHT_HEIGHT_CM = 54.61;
+        public static double DrivetrainTrackWidthMeters;
+
+        public static double countsPerRevolution;
+        public static double gearRatio;
+
+        public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(28);
+        public static double CAMERA_HEIGHT_M = 54.61;
 
         public static double TestLimelight = 96.52;
         public static double TestHub = 129.54;
     }
     
-    public static final class Limelight {
-        public static NetworkTable LimelightTable; 
-        public static double TX;
-        public static double TY;
-        public static double TA;
-        public static double TV;
+    public static final class Vision {
+        // public static NetworkTable LimelightTable; 
+        public static PhotonCamera primaryCamera;
+
+        public static PhotonPipelineResult primaryCameraResult;
+
+        public static double primaryYaw;
+        public static double primaryPitch;
+        public static double primaryPitchRadians;
+
+        public static boolean hasTargets;
+        public static PhotonTrackedTarget trackedTarget;
 
         public static double DISTANCE_FROM_TARGET;
 
         public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
 
-        public static boolean RUN_LIMELIGHT_VISON;
+        public static boolean RUN_VISION;
         // This is the distance from the Limelight to the target
     }
 

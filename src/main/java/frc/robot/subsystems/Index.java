@@ -52,12 +52,16 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
     return !sensorAlpha.get();
   } 
  
-  public void runIndex () {
-    indexMotor.set(-0.85);
+  public void runIndex() {
+    indexMotor.set(-0.7);
   }
 
   public void removeBalls() {
     indexMotor.set(0.6);
+  }
+
+  public void feedBalls() {
+    indexMotor.set(-0.7);
   }
 
   public void stopIndex() {
