@@ -4,12 +4,12 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.subsystems.Drivetrain.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Vision.*;
+import static frc.robot.Robot.*;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -58,13 +58,24 @@ public class JoystickDrive extends CommandBase {
     speedControl = X1_LJY * -DT_PowerConstant; 
     rotationControl = X1_LJX * -DT_PowerConstant;
     
-    if (Robot.X1_CONTROLLER.getAButton()) {
+    if (X1_CONTROLLER.getAButton()) {
+      RUN_VISION = true;
+      if (primaryHasTargets) {
+        steering_adjust = Auto_PIDController.calculate(primaryYaw);
+        rotationControl = steering_adjust;
+      }
+    }
+    else {
+      RUN_VISION = false;
+    }
+
+    if (X1_CONTROLLER.getXButton()) {
 
       RUN_VISION = true;
 
-      if (hasTargets) {
-        steering_adjust = Auto_PIDController.calculate(primaryYaw);
-        rotationControl = steering_adjust;
+      if (backupHasTargets) {
+        steering_adjust = Auto_PIDController.calculate(backupYaw);
+        rotationControl = -steering_adjust;
       }
 
     }

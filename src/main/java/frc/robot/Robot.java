@@ -60,7 +60,8 @@ public class Robot extends TimedRobot {
   
   public static JoystickButton X2J_LS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftStick.value);
   public static JoystickButton X2J_RS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightStick.value);
-  private HttpCamera LimelightVideoFeed;
+  
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -73,10 +74,17 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
  
 
-    LimelightVideoFeed = new HttpCamera("limelight", "http://10.31.96.11:5800");	
-    primaryCamera = new PhotonCamera("primaryCamera");
+    PrimaryVideoFeed = new HttpCamera("Front Camera", "http://10.31.96.11:5800");
+    BackupVideoFeed = new HttpCamera("Backup Camera", "http://10.31.96.12:5800");
+
+    primaryCamera = new PhotonCamera("Primary Camera");
+    backupCamera = new PhotonCamera("Backup Camera");
+
     PortForwarder.add(5800, "http://10.31.96.11", 5800);
-    AI_TAB.add("LimeLight Video", LimelightVideoFeed);
+    PortForwarder.add(5800, "http://10.31.96.12", 5800);
+
+    AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
+    AI_TAB.add("Secondary Video", BackupVideoFeed);
   }
 
   /**
@@ -96,11 +104,20 @@ public class Robot extends TimedRobot {
 
     primaryCameraResult = primaryCamera.getLatestResult();
     if (primaryCameraResult.hasTargets()) {
-      trackedTarget = primaryCameraResult.getBestTarget();
-      primaryYaw = trackedTarget.getYaw();
+      primaryTrackedTarget = primaryCameraResult.getBestTarget();
+      primaryYaw = primaryTrackedTarget.getYaw();
       System.out.println(primaryYaw);
-      primaryPitch = trackedTarget.getPitch();
+      primaryPitch = primaryTrackedTarget.getPitch();
       primaryPitchRadians = Units.degreesToRadians(primaryPitch);
+    }
+
+    backupCameraResult = backupCamera.getLatestResult();
+    if (backupCameraResult.hasTargets()) {
+      backupTrackedTarget = backupCameraResult.getBestTarget();
+      backupYaw = backupTrackedTarget.getYaw();
+      System.out.println(backupYaw);
+      backupPitch = backupTrackedTarget.getPitch();
+      backupPitchRadians = Units.degreesToRadians(backupPitch);
     }
 
     // DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(Math.toRadians(LimelightAngle + TY));
@@ -178,7 +195,7 @@ public class Robot extends TimedRobot {
     }
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
-     
+
     TeleComputedRPM = (1330) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
     AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
   }

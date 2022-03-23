@@ -43,7 +43,7 @@ public class DriveDistance extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
 
-    startingDistance = drivetrain.getDistanceTravelled();
+    startingDistance = drivetrain.sensorUnitsToMeters(drivetrain.rearRight.getSelectedSensorPosition());
 
     finalDistance = startingDistance + distance;
     

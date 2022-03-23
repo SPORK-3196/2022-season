@@ -8,16 +8,16 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A ToggleArms command that uses a climber subsystem. */
 public class ToggleArms extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Climber climber;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new ToggleArms.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param climber The climber subsystem used by this command.
    */
   public ToggleArms(Climber climber) {
     this.climber = climber;
@@ -30,7 +30,6 @@ public class ToggleArms extends CommandBase {
   @Override
   public void initialize() {
     climber.ARM_PISTONS.toggle();
-    System.out.println("Arms Toggled");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

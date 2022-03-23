@@ -10,8 +10,8 @@ import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -27,8 +27,6 @@ public class Drivetrain extends SubsystemBase {
   public WPI_TalonFX rearLeft = new WPI_TalonFX(3);
   public WPI_TalonFX rearRight = new WPI_TalonFX(4);
 
-
-
   public PigeonIMU gyroscope = new PigeonIMU(12);
 
   public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, rearLeft);
@@ -36,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDrive drivetrain = new DifferentialDrive(leftSide, rightSide);
 
-  private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
+  // private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
 
   /* private final DifferentialDrivePoseEstimator drivetrain_poseEstimator = new DifferentialDrivePoseEstimator(
     gyroscope.getYaw(), 
@@ -46,7 +44,9 @@ public class Drivetrain extends SubsystemBase {
     visionMeasurementStdDevs);
   */
   
-  private final DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
+  // private final DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), initialPoseMeters);
+  private DifferentialDriveOdometry drivetrain_odometry;
+  private Pose2d robot_pose; 
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
@@ -70,24 +70,33 @@ public class Drivetrain extends SubsystemBase {
 
     gyroscope.setYaw(0);
 
+    drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
+
     
   }
 
   public void playMusic() {
     drivetrainOrchestra.play();
-    // System.out.println("Playing Music");
   }
 
   public double getYaw() {
     return gyroscope.getYaw();
   }
 
+  public double getGyroHeading(){
+    return -gyroscope.getYaw();
+  }
+
   public double getDistanceRawSensor() {
     return rearLeft.getSelectedSensorPosition();
   }
 
-  public double getDistanceTravelled() {
+  public double getLeftDistanceTravelled() {
     return (rearLeft.getSelectedSensorPosition() / 18000) * (2 * Math.PI * DrivetrainWheelRadiusIn);
+  }
+
+  public double getRightDistanceTravelled() {
+    return (rearRight.getSelectedSensorPosition() / 18000) * (2 * Math.PI * DrivetrainWheelRadiusIn);
   }
 
   public double sensorUnitsToMeters(double sensor_counts) {
@@ -107,6 +116,8 @@ public class Drivetrain extends SubsystemBase {
     // System.out.println(rearLeft.getSelectedSensorPosition());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
+    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
+    gameField.setRobotPose(robot_pose);
   }
 
   @Override

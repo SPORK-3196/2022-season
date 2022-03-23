@@ -4,14 +4,19 @@
 
 package frc.robot;
 
+import java.util.Map;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -105,7 +110,7 @@ public final class Constants {
 
     public static final class Field {
 
-        public static double UPPER_HUB_HEIGHT_M = 264;
+        public static double UPPER_HUB_HEIGHT_M = Units.inchesToMeters(104);
     }
 
     public static final class Robot {
@@ -129,20 +134,43 @@ public final class Constants {
     
     public static final class Vision {
         // public static NetworkTable LimelightTable; 
+        public static HttpCamera PrimaryVideoFeed;
+        public static HttpCamera BackupVideoFeed;
+
         public static PhotonCamera primaryCamera;
 
         public static PhotonPipelineResult primaryCameraResult;
+
+        public static boolean primaryHasTargets;
+        public static PhotonTrackedTarget primaryTrackedTarget;
 
         public static double primaryYaw;
         public static double primaryPitch;
         public static double primaryPitchRadians;
 
-        public static boolean hasTargets;
-        public static PhotonTrackedTarget trackedTarget;
+       
+        public static PhotonCamera backupCamera;
+
+        public static PhotonPipelineResult backupCameraResult;
+
+        public static boolean backupHasTargets;
+        public static PhotonTrackedTarget backupTrackedTarget;
+
+        public static double backupYaw;
+        public static double backupPitch;
+        public static double backupPitchRadians;
+
+        
+
+        
 
         public static double DISTANCE_FROM_TARGET;
 
-        public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB.add("Distance From Target", 0.0).getEntry();
+        public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB
+            .add("Distance From Target", 0.0)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 650))
+            .getEntry();
 
         public static boolean RUN_VISION;
         // This is the distance from the Limelight to the target
@@ -157,9 +185,23 @@ public final class Constants {
         public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
         public static NetworkTableEntry DT_rearRightEntry = DT_TAB.add("rear Right Power", 0).getEntry();
 
+        public static Field2d gameField = new Field2d();
+
         public static double DT_PowerConstant = 1.0;
-        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB.add("Drive Power Percentage", 70).getEntry();
-    }
+        public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB
+            .add("Drive Power Percentage", 70)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 100))
+            .getEntry();
+        }
+            
+        /*
+        public static NetworkTableEntry DT_Field = DT_TAB
+            .add("Field", gameField)
+            .withWidget(BuiltInWidgets.kField)
+            .getEntry();
+        }
+        */
 
     public static final class Index {
         public static boolean IndexEmpty = false;
@@ -170,9 +212,22 @@ public final class Constants {
 
     public static final class Shooter{
 
-        public static NetworkTableEntry SH_SHOOTER_RPM_Entry = SH_TAB.add("Shooter RPM", 0).getEntry();
-        public static NetworkTableEntry SH_SHOOTER_MPH_Entry = SH_TAB.add("Shooter MPH", 0).getEntry();
-        public static NetworkTableEntry SH_SHOOTER_POWER_Entry = MOTOR_TAB.add("Shooter Power Percentage", 0).getEntry();
+        public static NetworkTableEntry SH_SHOOTER_RPM_Entry = SH_TAB
+            .add("Shooter RPM", 0)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 5700))
+            .getEntry();
+        public static NetworkTableEntry SH_SHOOTER_MPH_Entry = SH_TAB
+            .add("Shooter MPH", 0)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 100))
+            .getEntry();
+
+        public static NetworkTableEntry SH_SHOOTER_POWER_Entry = MOTOR_TAB
+            .add("Shooter Power Percentage", 0)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 100))
+            .getEntry();
 
         public static boolean SHOOTER_READY;
 
