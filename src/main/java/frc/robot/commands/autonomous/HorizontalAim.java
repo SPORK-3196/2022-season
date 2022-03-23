@@ -63,7 +63,7 @@ public class HorizontalAim extends CommandBase {
   @Override
   public void execute() {
     // double distance_error = -1 * ty;
-    if (hasTargets) {
+    if (primaryHasTargets) {
       steering_adjust = Auto_PIDController.calculate(primaryYaw);
     }
 

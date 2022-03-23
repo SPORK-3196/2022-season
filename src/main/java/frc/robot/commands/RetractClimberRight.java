@@ -8,7 +8,7 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A command that uses a climber subsystem. */
 public class RetractClimberRight extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -16,7 +16,7 @@ public class RetractClimberRight extends CommandBase {
   private double power;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new RetractClimberRight.
    *
    * @param subsystem The subsystem used by this command.
    */

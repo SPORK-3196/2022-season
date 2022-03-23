@@ -18,7 +18,6 @@ import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutonomousProtocol;
-import frc.robot.commands.autonomous.HorizontalAim;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -88,7 +87,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in asutonomous
-    return new HorizontalAim(Drivetrain, 250);
+    return new AutoShoot(Shooter);
     // return AutoCommand;
   }
 }
