@@ -20,13 +20,13 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
 
   public boolean BallInTransit = false;
   
-  public static DigitalInput sensorAlpha = new DigitalInput(0);
-  public static DigitalInput sensorBeta = new DigitalInput(1);
-  public static DigitalInput sensorSigma = new DigitalInput(2);
+  private static DigitalInput sensorAlpha = new DigitalInput(0);
+  private static DigitalInput sensorBeta = new DigitalInput(1);
+  private static DigitalInput sensorSigma = new DigitalInput(2);
 
-  public static DigitalInput[] sensors = new DigitalInput[3];
+  private static DigitalInput[] sensors = new DigitalInput[3];
 
-  public double counter;
+  private static double counter;
   
   
   /** Creates a new SparkTest. */
@@ -34,6 +34,7 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
     sensors[0] = sensorAlpha;
     sensors[1] = sensorBeta;
     sensors[2] = sensorSigma;
+    indexMotor.setInverted(true);
   }
   
   public boolean getSensor(int sensorNumber) {
@@ -53,15 +54,15 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   } 
  
   public void runIndex() {
-    indexMotor.set(-0.7);
+    indexMotor.set(0.5);
   }
 
   public void removeBalls() {
-    indexMotor.set(0.6);
+    indexMotor.set(-0.6);
   }
 
   public void feedBalls() {
-    indexMotor.set(-0.7);
+    indexMotor.set(0.7);
   }
 
   public void stopIndex() {
@@ -72,6 +73,29 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    counter = 0;
+    if (getMidSensor()) {
+      counter = 1;
+    }
+    if (getTopSensor()) {
+      counter = 1;
+    }
+    if (getIntakeSensor()) {
+      counter = 1;
+    }
+
+    if (getIntakeSensor() && getMidSensor()) {
+      counter = 2;
+    }
+
+    if (getMidSensor() && getTopSensor()) {
+      counter = 2;
+    }
+
+    if (!getIntakeSensor() && !getMidSensor() && !getTopSensor()) {
+      counter = 0;
+    }
+
   }
 
   @Override

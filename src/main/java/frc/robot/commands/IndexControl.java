@@ -90,7 +90,12 @@ public class IndexControl extends CommandBase {
     
 
     if (runIndex) {
-      index.runIndex();
+      if (index.getIntakeSensor()) {
+        index.feedBalls();
+      }
+      else {
+        index.runIndex();
+      }
     }
     else if (!runIndex) {
       index.stopIndex();

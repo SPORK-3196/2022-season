@@ -9,6 +9,7 @@ package frc.robot.commands.autonomous;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.Vision.*;
 import static frc.robot.subsystems.Drivetrain.*;
@@ -49,6 +50,7 @@ public class AutoHorizontalAim extends CommandBase {
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(1.0);
     RUN_VISION = true;
+    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.drivetrain.setDeadband(0);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
@@ -83,6 +85,7 @@ public class AutoHorizontalAim extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RUN_VISION = false;
+    drivetrain.drivetrain = null;
   }
 
   // Returns true when the command should end.

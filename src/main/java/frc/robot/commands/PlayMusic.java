@@ -16,7 +16,7 @@ public class PlayMusic extends CommandBase {
   Drivetrain drivetrain;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new PlayMusic.
    *
    * @param subsystem The subsystem used by this command.
    */
@@ -30,7 +30,7 @@ public class PlayMusic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    drivetrain.playMusic();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +42,7 @@ public class PlayMusic extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    drivetrain.stopMusic();
   }
 
   // Returns true when the command should end.

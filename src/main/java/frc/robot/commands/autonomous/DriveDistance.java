@@ -13,6 +13,7 @@ import frc.robot.subsystems.Drivetrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
 public class DriveDistance extends CommandBase {
@@ -22,7 +23,7 @@ public class DriveDistance extends CommandBase {
   double startingDistance;
   double finalDistance;
 
-  public static PIDController Auto_PIDController = new PIDController(0.007, 0, 0);
+  public static PIDController Auto_PIDController = new PIDController(0.003, 0, 0);
 
   /**
    * Creates a new DriveForwardTimed.
@@ -43,6 +44,8 @@ public class DriveDistance extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
 
+    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+
     startingDistance = drivetrain.sensorUnitsToMeters(drivetrain.rearRight.getSelectedSensorPosition());
 
     finalDistance = startingDistance + distance;
@@ -52,13 +55,14 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drivetrain.arcadeDrive(Auto_PIDController.calculate(finalDistance - startingDistance), 0);
+    drivetrain.drivetrain.arcadeDrive(Auto_PIDController.calculate(finalDistance - drivetrain.sensorUnitsToMeters(drivetrain.rearRight.getSelectedSensorPosition())), 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // Auto_PIDController.atSetpoint();
+    drivetrain.drivetrain = null;
   }
 
   // Returns true when the command should end.

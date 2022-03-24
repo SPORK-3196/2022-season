@@ -32,7 +32,7 @@ public class Drivetrain extends SubsystemBase {
   public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, rearLeft);
   public MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, rearRight);
 
-  public DifferentialDrive drivetrain = new DifferentialDrive(leftSide, rightSide);
+  public DifferentialDrive drivetrain;
 
   // private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
 
@@ -50,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
-  public static PIDController Auto_PIDController = new PIDController(0.006, 0, 0);
+  public static PIDController Auto_PIDController = new PIDController(0.001, 0, 0);
   
 
   /** Creates a new Drivetrain. */
@@ -71,12 +71,14 @@ public class Drivetrain extends SubsystemBase {
     gyroscope.setYaw(0);
 
     drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
-
-    
   }
 
   public void playMusic() {
     drivetrainOrchestra.play();
+  }
+
+  public void stopMusic() {
+    drivetrainOrchestra.stop();
   }
 
   public double getYaw() {
