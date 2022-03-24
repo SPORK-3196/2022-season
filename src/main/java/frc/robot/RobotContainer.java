@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.IndexControl;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Robot.*;
+import static frc.robot.Constants.Autonomous.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -45,6 +47,7 @@ public class RobotContainer {
 
   private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain, Shooter, Index, Intake, Climber);
 
+ 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -53,6 +56,7 @@ public class RobotContainer {
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Index.setDefaultCommand(IndexOperation);
     // Climber.setDefaultCommand(new LowerArms(Climber));
+    autonomousOptions.setDefaultOption("Taxi Ball", AutoCommand);
   }
 
   /**
@@ -65,8 +69,8 @@ public class RobotContainer {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
     // X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
-    X1J_LB.and(X1J_RB).whenActive(new PlayMusic(Drivetrain));
-    X1J_RB.and(X1J_LB).whenActive(new PlayMusic(Drivetrain));
+    X1J_RS.whenActive(new PlayMusic(Drivetrain));
+    
 
     X2J_X.whenHeld(new IntakeBalls(Intake));
     X2J_B.whenHeld(new OuttakeBalls(Intake, Index));
@@ -87,7 +91,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in asutonomous
-    return new AutoShoot(Shooter);
-    // return AutoCommand;
+    // return new AutoShoot(Shooter);
+    return (Command) autonomousOptions.getSelected();
   }
 }

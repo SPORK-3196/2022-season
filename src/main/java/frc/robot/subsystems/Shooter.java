@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Shooter.*;
@@ -27,20 +29,21 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public double targetRPM;
   public double tolerance = 50;
+  public Timer PIDTimer = new Timer();
   
   /** Creates a new SparkTest. */
   public Shooter(double tolerance) {
     // rightShooter.setInverted(false);
-    leftPIDController.setP(6e-5);
-    leftPIDController.setI(0);
-    leftPIDController.setD(0);
+    leftPIDController.setP(0.00006);
+    leftPIDController.setI(0.000001);
+    leftPIDController.setD(0.001);
     leftPIDController.setIZone(0);
     leftPIDController.setFF(0.000015);
     leftPIDController.setOutputRange(-1, 1);
 
-    rightPIDController.setP(6e-5);
-    rightPIDController.setI(0);
-    rightPIDController.setD(0);
+    rightPIDController.setP(0.00006);
+    rightPIDController.setI(0.000001);
+    rightPIDController.setD(0.001);
     rightPIDController.setIZone(0);
     rightPIDController.setFF(0.000015);
     rightPIDController.setOutputRange(-1, 1);
@@ -61,6 +64,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public void setSetpoint(double RPM) {
     leftPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
     rightPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
+    targetRPM = -1 * RPM;
   }
 
   public void setTolerance(double tolerance) {
@@ -98,16 +102,22 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
     // System.out.println(sparkVelocityRPM);
 
+    System.out.println("Left: " + leftShooterEncoder.getVelocity());
+    System.out.println("Right: " + rightShooterEncoder.getVelocity());
 
+    if (atSetpoint()) {
+      PIDTimer.start();
+      if (PIDTimer.get() > 0.6) {
+        SHOOTER_READY = true;
+      }
 
-    if (leftAtSetpoint() && rightAtSetpoint()) {
-      SHOOTER_READY = true;
     }
     else {
+      PIDTimer.reset();
       SHOOTER_READY = false;
     }
 
-  
+    SH_ShooterPower = (((leftShooterEncoder.getVelocity() + rightShooterEncoder.getVelocity()) / 2) / 5700) * 100;
   }
 
   @Override

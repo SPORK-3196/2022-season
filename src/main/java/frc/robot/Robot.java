@@ -10,12 +10,15 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.autonomous.AutonomousProtocol;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
+import static frc.robot.Constants.Autonomous.*;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -43,13 +46,15 @@ public class Robot extends TimedRobot {
   public static XboxController X1_CONTROLLER = new XboxController(0);
   public static XboxController X2_CONTROLLER = new XboxController(1);
 
-
   public static JoystickButton X1J_A = new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
   public static JoystickButton X1J_B = new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
   public static JoystickButton X1J_X = new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
   public static JoystickButton X1J_Y = new JoystickButton(X1_CONTROLLER, XboxController.Button.kY.value);
   public static JoystickButton X1J_LB = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftBumper.value);
   public static JoystickButton X1J_RB = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightBumper.value);
+
+  public static JoystickButton X1J_LS = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftStick.value);
+  public static JoystickButton X1J_RS = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightStick.value);
   
   public static JoystickButton X2J_A = new JoystickButton(X2_CONTROLLER, XboxController.Button.kA.value);
   public static JoystickButton X2J_B = new JoystickButton(X2_CONTROLLER, XboxController.Button.kB.value);
@@ -72,19 +77,19 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
- 
 
     PrimaryVideoFeed = new HttpCamera("Front Camera", "http://10.31.96.11:5800");
-    BackupVideoFeed = new HttpCamera("Backup Camera", "http://10.31.96.12:5800");
+    // BackupVideoFeed = new HttpCamera("Backup Camera", "http://10.31.96.12:5800");
 
     primaryCamera = new PhotonCamera("Primary Camera");
-    backupCamera = new PhotonCamera("Backup Camera");
+    // backupCamera = new PhotonCamera("Backup Camera");
 
     PortForwarder.add(5800, "http://10.31.96.11", 5800);
     PortForwarder.add(5800, "http://10.31.96.12", 5800);
 
     AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
-    AI_TAB.add("Secondary Video", BackupVideoFeed);
+    // AI_TAB.add("Secondary Video", BackupVideoFeed);
+    
   }
 
   /**
@@ -110,8 +115,8 @@ public class Robot extends TimedRobot {
       primaryPitch = primaryTrackedTarget.getPitch();
       primaryPitchRadians = Units.degreesToRadians(primaryPitch);
     }
-
-    backupCameraResult = backupCamera.getLatestResult();
+    
+    /*backupCameraResult = backupCamera.getLatestResult();
     if (backupCameraResult.hasTargets()) {
       backupTrackedTarget = backupCameraResult.getBestTarget();
       backupYaw = backupTrackedTarget.getYaw();
@@ -119,9 +124,9 @@ public class Robot extends TimedRobot {
       backupPitch = backupTrackedTarget.getPitch();
       backupPitchRadians = Units.degreesToRadians(backupPitch);
     }
-
+    */
     // DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(Math.toRadians(LimelightAngle + TY));
-    DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, UPPER_HUB_HEIGHT_M, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
+    DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
    
     AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
 
@@ -196,8 +201,11 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
 
-    TeleComputedRPM = (1330) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+    TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
+    SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
+    SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
     AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -251,6 +259,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    
     if (RUN_VISION) {
       primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
       primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
@@ -259,6 +268,7 @@ public class Robot extends TimedRobot {
       primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
       primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
     }
+    
   }
 
   @Override

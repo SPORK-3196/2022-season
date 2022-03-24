@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.subsystems.Drivetrain.*;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Vision.*;
@@ -38,7 +40,7 @@ public class JoystickDrive extends CommandBase {
   public JoystickDrive(Drivetrain subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrain = subsystem;
-    drivetrain.drivetrain.setDeadband(0.05);
+    
     addRequirements(drivetrain);
   }
 
@@ -48,6 +50,8 @@ public class JoystickDrive extends CommandBase {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(0);
+    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    drivetrain.drivetrain.setDeadband(0.05);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,6 +68,9 @@ public class JoystickDrive extends CommandBase {
         steering_adjust = Auto_PIDController.calculate(primaryYaw);
         rotationControl = steering_adjust;
       }
+      else {
+        rotationControl = 0.2;
+      }
     }
     else {
       RUN_VISION = false;
@@ -71,18 +78,14 @@ public class JoystickDrive extends CommandBase {
 
     if (X1_CONTROLLER.getXButton()) {
 
-      RUN_VISION = true;
-
       if (backupHasTargets) {
         steering_adjust = Auto_PIDController.calculate(backupYaw);
         rotationControl = -steering_adjust;
       }
-
+      else {
+        rotationControl = -0.2;
+      }
     }
-    else {
-      RUN_VISION = false;
-    }
-
 
     drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
     // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
@@ -92,7 +95,7 @@ public class JoystickDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // drivetrain.drivetrain = null;
+    drivetrain.drivetrain = null;
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);

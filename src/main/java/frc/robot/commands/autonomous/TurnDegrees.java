@@ -13,6 +13,7 @@ import frc.robot.subsystems.Drivetrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class TurnDegrees extends CommandBase {
 
@@ -27,7 +28,7 @@ public class TurnDegrees extends CommandBase {
 
 
   /**
-   * Creates a new DriveForwardTimed.
+   * Creates a new TurnDegrees for 90 Degrees.
    */
   public TurnDegrees(Drivetrain drivetrain, double duration) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,6 +37,9 @@ public class TurnDegrees extends CommandBase {
     addRequirements(drivetrain);
   }
 
+  /**
+   * Creates a new TurnDegrees.
+   */
   public TurnDegrees(Drivetrain drivetrain, double duration, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
@@ -52,6 +56,8 @@ public class TurnDegrees extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
 
+    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+
     startingAngle = drivetrain.getYaw();
     targetAngle = drivetrain.getYaw() + targetAngle;
 
@@ -63,7 +69,7 @@ public class TurnDegrees extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turningPower = -0.02 * (startingAngle - drivetrain.getYaw());
+    turningPower = 0.002 * (targetAngle - drivetrain.getYaw());
     drivetrain.drivetrain.arcadeDrive(0, turningPower);
   }
 
@@ -71,6 +77,7 @@ public class TurnDegrees extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     drivetrain.drivetrain.arcadeDrive(0.0, 0.0);
+    drivetrain.drivetrain = null;
   }
 
   // Returns true when the command should end.

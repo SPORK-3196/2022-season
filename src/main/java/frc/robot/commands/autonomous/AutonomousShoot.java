@@ -54,14 +54,13 @@ public class AutonomousShoot extends CommandBase {
     if (shooter.atSetpoint()) {
       index.runIndex();
     }
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
-    System.out.println(shooterTimer.get());
+    // System.out.println(shooterTimer.get());
   }
 
   // Returns true when the command should end.

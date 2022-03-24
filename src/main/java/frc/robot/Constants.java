@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -126,10 +128,10 @@ public final class Constants {
         public static double gearRatio;
 
         public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(28);
-        public static double CAMERA_HEIGHT_M = 54.61;
+        public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
 
         public static double TestLimelight = 96.52;
-        public static double TestHub = 129.54;
+        public static double TestHub = Units.inchesToMeters(105);
     }
     
     public static final class Vision {
@@ -176,9 +178,6 @@ public final class Constants {
         // This is the distance from the Limelight to the target
     }
 
-    
-
-    
     public static final class Drivetrain { 
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
         public static NetworkTableEntry DT_rearLeftEntry = DT_TAB.add("rear Left Power", 0).getEntry();
@@ -208,26 +207,35 @@ public final class Constants {
         public static NetworkTableEntry intakeSensor_Entry = SENSOR_TAB.add("Intake Sensor", false).getEntry();
         public static NetworkTableEntry midSensor_Entry = SENSOR_TAB.add("Middle Sensor", false).getEntry();
         public static NetworkTableEntry highSensor_Entry = SENSOR_TAB.add("High Sensor", false).getEntry();
+        
+        public static NetworkTableEntry SN_BALL_COUNTER = SENSOR_TAB
+            .add("Ball Counter", 0)
+            .withWidget(BuiltInWidgets.kNumberBar)
+            .withProperties(Map.of("min", 0, "max", 2))
+            .getEntry();
+
     }
 
     public static final class Shooter{
 
         public static NetworkTableEntry SH_SHOOTER_RPM_Entry = SH_TAB
             .add("Shooter RPM", 0)
-            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withWidget(BuiltInWidgets.kDial)
             .withProperties(Map.of("min", 0, "max", 5700))
             .getEntry();
         public static NetworkTableEntry SH_SHOOTER_MPH_Entry = SH_TAB
             .add("Shooter MPH", 0)
-            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withWidget(BuiltInWidgets.kDial)
             .withProperties(Map.of("min", 0, "max", 100))
             .getEntry();
 
         public static NetworkTableEntry SH_SHOOTER_POWER_Entry = MOTOR_TAB
             .add("Shooter Power Percentage", 0)
-            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withWidget(BuiltInWidgets.kDial)
             .withProperties(Map.of("min", 0, "max", 100))
             .getEntry();
+
+
 
         public static boolean SHOOTER_READY;
 
@@ -238,5 +246,7 @@ public final class Constants {
         
     }
 
-
+    public static final class Autonomous {   
+        public static SendableChooser autonomousOptions = new SendableChooser<Command>();
+    }
 }
