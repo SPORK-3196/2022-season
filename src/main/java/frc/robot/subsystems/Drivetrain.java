@@ -50,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
-  public static PIDController Auto_PIDController = new PIDController(0.001, 0, 0);
+  public static PIDController Auto_PIDController = new PIDController(0.006, 0, 0);
   
 
   /** Creates a new Drivetrain. */
