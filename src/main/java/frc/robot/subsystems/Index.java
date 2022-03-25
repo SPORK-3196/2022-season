@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.Index.*;
 
 public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   
@@ -26,7 +27,7 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
 
   private static DigitalInput[] sensors = new DigitalInput[3];
 
-  private static double counter;
+  
   
   
   /** Creates a new SparkTest. */
@@ -54,7 +55,7 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   } 
  
   public void runIndex() {
-    indexMotor.set(0.5);
+    indexMotor.set(0.45);
   }
 
   public void removeBalls() {
@@ -73,29 +74,33 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    counter = 0;
+    IndexCounter = 0;
     if (getMidSensor()) {
-      counter = 1;
+      IndexCounter = 1;
+      midSensor_Entry.setBoolean(true);
     }
     if (getTopSensor()) {
-      counter = 1;
+      IndexCounter = 1;
+      topSensor_Entry.setBoolean(true);
     }
     if (getIntakeSensor()) {
-      counter = 1;
+      IndexCounter = 1;
+      intakeSensor_Entry.setBoolean(true);
     }
 
     if (getIntakeSensor() && getMidSensor()) {
-      counter = 2;
+      IndexCounter = 2;
     }
 
     if (getMidSensor() && getTopSensor()) {
-      counter = 2;
+      IndexCounter = 2;
     }
 
     if (!getIntakeSensor() && !getMidSensor() && !getTopSensor()) {
-      counter = 0;
+      IndexCounter = 0;
     }
 
+    BallCounter_Entry.setDouble(IndexCounter);
   }
 
   @Override

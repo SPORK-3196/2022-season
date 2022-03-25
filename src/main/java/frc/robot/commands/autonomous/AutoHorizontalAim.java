@@ -48,7 +48,7 @@ public class AutoHorizontalAim extends CommandBase {
   @Override
   public void initialize() {
     Auto_PIDController.setSetpoint(0);
-    Auto_PIDController.setTolerance(1.0);
+    Auto_PIDController.setTolerance(0.5);
     RUN_VISION = true;
     drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.drivetrain.setDeadband(0);
@@ -70,12 +70,19 @@ public class AutoHorizontalAim extends CommandBase {
     // double distanceControlConstant = -0.1;
     // double min_aim_command = 0.03;
     
-    double heading_error = -1 * primaryYaw;
+    // double heading_error = -1 * primaryYaw;
     // double distance_error = -1 * ty;
 
-    steering_adjust = Auto_PIDController.calculate(heading_error);
-    System.out.println(steering_adjust);
-    drivetrain.drivetrain.arcadeDrive(0, 0.1);
+    if (primaryHasTargets) {
+      steering_adjust = Auto_PIDController.calculate(primaryYaw);
+      System.out.println(steering_adjust);
+      // drivetrain.drivetrain.arcadeDrive(0, 0.1);
+    }
+    else {
+      // drivetrain.drivetrain.arcadeDrive(0, 0.1);
+    }
+
+    
 
 
   }

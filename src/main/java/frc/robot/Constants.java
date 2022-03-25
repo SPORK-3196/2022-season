@@ -130,7 +130,6 @@ public final class Constants {
         public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(28);
         public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
 
-        public static double TestLimelight = 96.52;
         public static double TestHub = Units.inchesToMeters(105);
     }
     
@@ -169,7 +168,7 @@ public final class Constants {
         public static double DISTANCE_FROM_TARGET;
 
         public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB
-            .add("Distance From Target", 0.0)
+            .add("Distance From Target Meters", 0.0)
             .withWidget(BuiltInWidgets.kNumberSlider)
             .withProperties(Map.of("min", 0, "max", 650))
             .getEntry();
@@ -204,9 +203,14 @@ public final class Constants {
 
     public static final class Index {
         public static boolean IndexEmpty = false;
+
+        public static double IndexCounter;
+
+        public static NetworkTableEntry BallCounter_Entry = SENSOR_TAB.add("# Balls", 0).getEntry();
+
         public static NetworkTableEntry intakeSensor_Entry = SENSOR_TAB.add("Intake Sensor", false).getEntry();
         public static NetworkTableEntry midSensor_Entry = SENSOR_TAB.add("Middle Sensor", false).getEntry();
-        public static NetworkTableEntry highSensor_Entry = SENSOR_TAB.add("High Sensor", false).getEntry();
+        public static NetworkTableEntry topSensor_Entry = SENSOR_TAB.add("Top Sensor", false).getEntry();
         
         public static NetworkTableEntry SN_BALL_COUNTER = SENSOR_TAB
             .add("Ball Counter", 0)

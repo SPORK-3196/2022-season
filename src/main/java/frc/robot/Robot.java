@@ -10,15 +10,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.autonomous.AutonomousProtocol;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.Autonomous.*;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -84,8 +81,9 @@ public class Robot extends TimedRobot {
     primaryCamera = new PhotonCamera("Primary Camera");
     // backupCamera = new PhotonCamera("Backup Camera");
 
-    PortForwarder.add(5800, "http://10.31.96.11", 5800);
-    PortForwarder.add(5800, "http://10.31.96.12", 5800);
+    PortForwarder.add(1181, "http://10.31.96.11", 1181);
+    PortForwarder.add(1181, "photonvision.local", 1181);
+    PortForwarder.add(1181, "http://10.31.96.12", 1181);
 
     AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
@@ -106,12 +104,13 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
+    
     primaryCameraResult = primaryCamera.getLatestResult();
+    primaryHasTargets = primaryCameraResult.hasTargets();
     if (primaryCameraResult.hasTargets()) {
       primaryTrackedTarget = primaryCameraResult.getBestTarget();
       primaryYaw = primaryTrackedTarget.getYaw();
-      System.out.println(primaryYaw);
+      // System.out.println(primaryYaw);
       primaryPitch = primaryTrackedTarget.getPitch();
       primaryPitchRadians = Units.degreesToRadians(primaryPitch);
     }
@@ -204,8 +203,7 @@ public class Robot extends TimedRobot {
     TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
     SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
-    AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * DISTANCE_FROM_TARGET)));
-
+    AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * (DISTANCE_FROM_TARGET * 100))));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -259,25 +257,28 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
     if (RUN_VISION) {
-      primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
-      primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
+      primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
+      primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
     }
     else {
       primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
       primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
     }
-    
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
+    primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
+    primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
+  }
 }

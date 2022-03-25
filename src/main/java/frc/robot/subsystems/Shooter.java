@@ -35,15 +35,15 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public Shooter(double tolerance) {
     // rightShooter.setInverted(false);
     leftPIDController.setP(0.00006);
-    leftPIDController.setI(0.000001);
-    leftPIDController.setD(0.001);
+    leftPIDController.setI(0.0000004);
+    leftPIDController.setD(0.003);
     leftPIDController.setIZone(0);
     leftPIDController.setFF(0.000015);
     leftPIDController.setOutputRange(-1, 1);
 
     rightPIDController.setP(0.00006);
-    rightPIDController.setI(0.000001);
-    rightPIDController.setD(0.001);
+    rightPIDController.setI(0.0000004);
+    rightPIDController.setD(0.003);
     rightPIDController.setIZone(0);
     rightPIDController.setFF(0.000015);
     rightPIDController.setOutputRange(-1, 1);
@@ -79,11 +79,11 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
 
   public boolean leftAtSetpoint() {
-    return ((targetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (targetRPM < (targetRPM + tolerance));
+    return ((targetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (leftShooterEncoder.getVelocity() < (targetRPM + tolerance));
   }
 
   public boolean rightAtSetpoint() {
-    return ((targetRPM - tolerance) < rightShooterEncoder.getVelocity()) &&  (targetRPM < (targetRPM + tolerance));
+    return ((targetRPM - tolerance) < rightShooterEncoder.getVelocity()) &&  (rightShooterEncoder.getVelocity() < (targetRPM + tolerance));
   }
 
   public boolean atSetpoint() {
@@ -100,17 +100,12 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     
     
 
-    // System.out.println(sparkVelocityRPM);
-
-    System.out.println("Left: " + leftShooterEncoder.getVelocity());
-    System.out.println("Right: " + rightShooterEncoder.getVelocity());
-
+    
     if (atSetpoint()) {
       PIDTimer.start();
       if (PIDTimer.get() > 0.6) {
         SHOOTER_READY = true;
       }
-
     }
     else {
       PIDTimer.reset();
