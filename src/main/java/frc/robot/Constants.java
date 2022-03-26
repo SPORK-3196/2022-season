@@ -130,7 +130,7 @@ public final class Constants {
         public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(28);
         public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
 
-        public static double TestHub = Units.inchesToMeters(105);
+        public static double TestHub = Units.inchesToMeters(104);
     }
     
     public static final class Vision {

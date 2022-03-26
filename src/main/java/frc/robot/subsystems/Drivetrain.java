@@ -50,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
-  public static PIDController Auto_PIDController = new PIDController(0.006, 0, 0);
+  public static PIDController Auto_PIDController = new PIDController(0.005, 0.004, 0);
   
 
   /** Creates a new Drivetrain. */
@@ -66,9 +66,9 @@ public class Drivetrain extends SubsystemBase {
     drivetrainOrchestra.addInstrument(rearLeft);
     drivetrainOrchestra.addInstrument(rearRight);
 
-    drivetrainOrchestra.loadMusic("Dos.chrp");
+    drivetrainOrchestra.loadMusic("All Star.chrp");
 
-    gyroscope.setYaw(0);
+    // gyroscope.setYaw(0);
 
     drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
   }

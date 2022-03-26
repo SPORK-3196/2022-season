@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     // rightShooter.setInverted(false);
     leftPIDController.setP(0.00006);
     leftPIDController.setI(0.0000004);
-    leftPIDController.setD(0.003);
+    leftPIDController.setD(0.0035);
     leftPIDController.setIZone(0);
     leftPIDController.setFF(0.000015);
     leftPIDController.setOutputRange(-1, 1);
@@ -102,10 +102,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
     
     if (atSetpoint()) {
-      PIDTimer.start();
-      if (PIDTimer.get() > 0.6) {
-        SHOOTER_READY = true;
-      }
+      SHOOTER_READY = true;
     }
     else {
       PIDTimer.reset();

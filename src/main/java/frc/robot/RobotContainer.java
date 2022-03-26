@@ -20,6 +20,7 @@ import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutoHorizontalAim;
 import frc.robot.commands.autonomous.AutonomousProtocol;
+import frc.robot.commands.autonomous.TurnDegrees;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -38,7 +39,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain Drivetrain = new Drivetrain();
-  private final Shooter Shooter = new Shooter(50);
+  private final Shooter Shooter = new Shooter(12);
   private final Intake Intake = new Intake();
   private final Index Index = new Index();
   private final Climber Climber = new Climber();
@@ -93,7 +94,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in asutonomous
     // return new AutoHorizontalAim(Drivetrain, 30);
-    return new PlayMusic(Drivetrain);
+    return new TurnDegrees(Drivetrain, 3.0);
     // return (Command) autonomousOptions.getSelected();
   }
 }
