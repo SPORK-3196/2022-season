@@ -30,6 +30,7 @@ public class PlayMusic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    drivetrain.drivetrain = null;
     drivetrain.playMusic();
   }
 
@@ -43,6 +44,7 @@ public class PlayMusic extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     drivetrain.stopMusic();
+    drivetrain.drivetrain = null;
   }
 
   // Returns true when the command should end.

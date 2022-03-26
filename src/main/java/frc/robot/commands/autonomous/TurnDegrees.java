@@ -23,8 +23,8 @@ public class TurnDegrees extends CommandBase {
   public double time = 3.0;
   public double startingAngle;
   public double turningPower;
-
-  public double targetAngle = 90;
+  public double angle;
+  public double targetAngle;
 
 
   /**
@@ -44,7 +44,7 @@ public class TurnDegrees extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
     this.time = duration;
-    this.targetAngle = angle;
+    this.angle = angle;
     addRequirements(drivetrain);
   }
 
@@ -59,7 +59,7 @@ public class TurnDegrees extends CommandBase {
     drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
 
     startingAngle = drivetrain.getYaw();
-    targetAngle = drivetrain.getYaw() + targetAngle;
+    targetAngle = startingAngle + angle;
 
     turnTimer.reset();
     turnTimer.start();
@@ -69,8 +69,11 @@ public class TurnDegrees extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turningPower = 0.002 * (targetAngle - drivetrain.getYaw());
-    drivetrain.drivetrain.arcadeDrive(0, turningPower);
+    System.out.println("Angle Difference: " + (targetAngle - drivetrain.getYaw()));
+    turningPower = 0.003 * (targetAngle + drivetrain.getYaw());
+    System.out.println("Turning Power: " + turningPower);
+    drivetrain.leftSide.set(-turningPower);
+    drivetrain.rightSide.set(turningPower);
   }
 
   // Called once the command ends or is interrupted.
@@ -78,6 +81,7 @@ public class TurnDegrees extends CommandBase {
   public void end(boolean interrupted) {
     drivetrain.drivetrain.arcadeDrive(0.0, 0.0);
     drivetrain.drivetrain = null;
+    targetAngle = 0;
   }
 
   // Returns true when the command should end.

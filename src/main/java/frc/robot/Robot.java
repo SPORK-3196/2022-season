@@ -43,23 +43,22 @@ public class Robot extends TimedRobot {
   public static XboxController X1_CONTROLLER = new XboxController(0);
   public static XboxController X2_CONTROLLER = new XboxController(1);
 
-  public static JoystickButton X1J_A = new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
-  public static JoystickButton X1J_B = new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
-  public static JoystickButton X1J_X = new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
-  public static JoystickButton X1J_Y = new JoystickButton(X1_CONTROLLER, XboxController.Button.kY.value);
+  public static JoystickButton X1J_A =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
+  public static JoystickButton X1J_B =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
+  public static JoystickButton X1J_X =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
+  public static JoystickButton X1J_Y =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kY.value);
   public static JoystickButton X1J_LB = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftBumper.value);
   public static JoystickButton X1J_RB = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightBumper.value);
-
+ 
   public static JoystickButton X1J_LS = new JoystickButton(X1_CONTROLLER, XboxController.Button.kLeftStick.value);
   public static JoystickButton X1J_RS = new JoystickButton(X1_CONTROLLER, XboxController.Button.kRightStick.value);
   
-  public static JoystickButton X2J_A = new JoystickButton(X2_CONTROLLER, XboxController.Button.kA.value);
-  public static JoystickButton X2J_B = new JoystickButton(X2_CONTROLLER, XboxController.Button.kB.value);
-  public static JoystickButton X2J_X = new JoystickButton(X2_CONTROLLER, XboxController.Button.kX.value);
-  public static JoystickButton X2J_Y = new JoystickButton(X2_CONTROLLER, XboxController.Button.kY.value);
+  public static JoystickButton X2J_A =  new JoystickButton(X2_CONTROLLER, XboxController.Button.kA.value);
+  public static JoystickButton X2J_B =  new JoystickButton(X2_CONTROLLER, XboxController.Button.kB.value);
+  public static JoystickButton X2J_X =  new JoystickButton(X2_CONTROLLER, XboxController.Button.kX.value);
+  public static JoystickButton X2J_Y =  new JoystickButton(X2_CONTROLLER, XboxController.Button.kY.value);
   public static JoystickButton X2J_LB = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftBumper.value);
   public static JoystickButton X2J_RB = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightBumper.value);
-  
   public static JoystickButton X2J_LS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftStick.value);
   public static JoystickButton X2J_RS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightStick.value);
   
@@ -124,10 +123,10 @@ public class Robot extends TimedRobot {
       backupPitchRadians = Units.degreesToRadians(backupPitch);
     }
     */
-    // DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_CM - LIMELIGHT_HEIGHT_CM) / Math.tan(Math.toRadians(LimelightAngle + TY));
-    DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
-   
-    AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
+    DISTANCE_FROM_TARGET = (TestHub - CAMERA_HEIGHT_M) / Math.tan(CAMERA_ANGLE_RADIANS + primaryPitchRadians);
+    // DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
+    // System.out.println(DISTANCE_FROM_TARGET);
+
 
     if (X1_CONTROLLER.isConnected())
     {
@@ -203,7 +202,7 @@ public class Robot extends TimedRobot {
     TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
     SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
-    AutoComputedRPM = (1230) * (Math.pow(Math.E, (0.00116 * (DISTANCE_FROM_TARGET * 100))));
+    AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -257,14 +256,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (RUN_VISION) {
-      primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
-      primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
-    }
-    else {
-      primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
-      primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
-    }
+
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
+    primaryCamera.setPipelineIndex(0);
+    primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
+
   }
 
   @Override
