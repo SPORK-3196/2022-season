@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
     // BackupVideoFeed = new HttpCamera("Backup Camera", "http://10.31.96.12:5800");
 
     primaryCamera = new PhotonCamera("Primary Camera");
-    // backupCamera = new PhotonCamera("Backup Camera");
+    backupCamera = new PhotonCamera("Backup Camera");
 
     PortForwarder.add(1181, "http://10.31.96.11", 1181);
     PortForwarder.add(1181, "photonvision.local", 1181);
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
       primaryPitchRadians = Units.degreesToRadians(primaryPitch);
     }
     
-    /*backupCameraResult = backupCamera.getLatestResult();
+    backupCameraResult = backupCamera.getLatestResult();
     if (backupCameraResult.hasTargets()) {
       backupTrackedTarget = backupCameraResult.getBestTarget();
       backupYaw = backupTrackedTarget.getYaw();
@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
       backupPitch = backupTrackedTarget.getPitch();
       backupPitchRadians = Units.degreesToRadians(backupPitch);
     }
-    */
+    
     DISTANCE_FROM_TARGET = (TestHub - CAMERA_HEIGHT_M) / Math.tan(CAMERA_ANGLE_RADIANS + primaryPitchRadians);
     // DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
     // System.out.println(DISTANCE_FROM_TARGET);
@@ -260,7 +260,12 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
     primaryCamera.setPipelineIndex(0);
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
-
+    if (RUN_VISION) {
+      backupCamera.setDriverMode(false);
+    }
+    else {
+      backupCamera.setDriverMode(true);
+    }
   }
 
   @Override

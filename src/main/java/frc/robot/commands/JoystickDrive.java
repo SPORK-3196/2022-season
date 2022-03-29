@@ -77,7 +77,7 @@ public class JoystickDrive extends CommandBase {
     }
 
     if (X1_CONTROLLER.getXButton()) {
-
+      RUN_VISION = true;
       if (backupHasTargets) {
         steering_adjust = Auto_PIDController.calculate(backupYaw);
         rotationControl = -steering_adjust;
@@ -86,6 +86,10 @@ public class JoystickDrive extends CommandBase {
         rotationControl = -0.2;
       }
     }
+    else {
+      RUN_VISION = false;
+    }
+  
 
     drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
     // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
