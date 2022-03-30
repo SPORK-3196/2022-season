@@ -59,6 +59,12 @@ public class IndexControl extends CommandBase {
       IndexEmpty = false;
     }
 
+    if (index.getIntakeSensor() && X2_BButton) {
+      runIndex = false;
+      index.BallInTransit = false;
+      IndexEmpty = false;
+    }
+
     if (index.getMidSensor()) {
       runIndex = false;
       index.BallInTransit = false;
@@ -90,12 +96,7 @@ public class IndexControl extends CommandBase {
     
 
     if (runIndex) {
-      if (index.getIntakeSensor()) {
-        index.feedBalls();
-      }
-      else {
-        index.runIndex();
-      }
+      index.runIndex();
     }
     else if (!runIndex) {
       index.stopIndex();

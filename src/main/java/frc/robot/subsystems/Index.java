@@ -55,7 +55,7 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   } 
  
   public void runIndex() {
-    indexMotor.set(0.45);
+    indexMotor.set(0.5);
   }
 
   public void removeBalls() {
@@ -63,7 +63,7 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   }
 
   public void feedBalls() {
-    indexMotor.set(0.7);
+    indexMotor.set(0.55);
   }
 
   public void stopIndex() {

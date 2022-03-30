@@ -39,7 +39,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain Drivetrain = new Drivetrain();
-  private final Shooter Shooter = new Shooter(12);
+  private final Shooter Shooter = new Shooter(10);
   private final Intake Intake = new Intake();
   private final Index Index = new Index();
   private final Climber Climber = new Climber();
@@ -79,8 +79,8 @@ public class RobotContainer {
     X2J_A.whenHeld(new AutoShoot(Shooter));
     X2J_Y.whenHeld(new ToggleArms(Climber));
 
-    X2J_RB.whenHeld(new ExtendClimber(Climber, 0.4));
-    X2J_LB.whenHeld(new RetractClimber(Climber, 0.4));
+    X2J_RB.whenHeld(new ExtendClimber(Climber, 0.45));
+    X2J_LB.whenHeld(new RetractClimber(Climber, 0.45));
 
     X2J_LS.whenHeld(new RaiseArms(Climber));
     X2J_LS.whenHeld(new LowerArms(Climber));

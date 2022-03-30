@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
     rightPIDController.setP(0.00006);
     rightPIDController.setI(0.0000004);
-    rightPIDController.setD(0.003);
+    rightPIDController.setD(0.0035);
     rightPIDController.setIZone(0);
     rightPIDController.setFF(0.000015);
     rightPIDController.setOutputRange(-1, 1);
