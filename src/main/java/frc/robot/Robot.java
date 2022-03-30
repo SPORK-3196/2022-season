@@ -80,9 +80,10 @@ public class Robot extends TimedRobot {
     primaryCamera = new PhotonCamera("Primary Camera");
     backupCamera = new PhotonCamera("Backup Camera");
 
-    PortForwarder.add(1181, "http://10.31.96.11", 1181);
-    PortForwarder.add(1181, "photonvision.local", 1181);
-    PortForwarder.add(1181, "http://10.31.96.12", 1181);
+    PortForwarder.add(5800, "primaryvision.local", 5800);
+
+    PhotonCamera.setVersionCheckEnabled(false);
+
 
     AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
@@ -218,7 +219,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to offf
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);   
+    // NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);   
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -242,7 +243,7 @@ public class Robot extends TimedRobot {
     if (NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(false)) {
       // System.out.println(true);
     }
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    // NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
   @Override

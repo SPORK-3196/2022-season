@@ -50,16 +50,16 @@ public class Drivetrain extends SubsystemBase {
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
-  public static PIDController Auto_PIDController = new PIDController(0.005, 0.004, 0);
+  public static PIDController Auto_PIDController = new PIDController(0.0065, 0, 0);
   
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     leftSide.setInverted(true);
-    frontLeft.setNeutralMode(NeutralMode.Brake);
-    rearLeft.setNeutralMode(NeutralMode.Brake);
-    frontRight.setNeutralMode(NeutralMode.Brake);
-    rearRight.setNeutralMode(NeutralMode.Brake);
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    rearLeft.setNeutralMode(NeutralMode.Coast);
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    rearRight.setNeutralMode(NeutralMode.Coast);
 
     drivetrainOrchestra.addInstrument(frontLeft);
     drivetrainOrchestra.addInstrument(frontRight);

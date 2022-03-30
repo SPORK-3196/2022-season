@@ -67,10 +67,18 @@ public class JoystickDrive extends CommandBase {
       if (primaryHasTargets) {
         steering_adjust = Auto_PIDController.calculate(primaryYaw);
         rotationControl = steering_adjust;
+        if (primaryYaw < 15) {
+          rotationControl += 0.1;
+        }
+        if (primaryYaw > 15) {
+          rotationControl -= 0.1;
+        }
       }
+      /*
       else {
         rotationControl = 0.2;
       }
+      */
     }
     else {
       RUN_VISION = false;
