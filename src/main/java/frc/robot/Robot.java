@@ -115,10 +115,11 @@ public class Robot extends TimedRobot {
     }
     
     backupCameraResult = backupCamera.getLatestResult();
+    backupHasTargets = backupCameraResult.hasTargets();
     if (backupCameraResult.hasTargets()) {
       backupTrackedTarget = backupCameraResult.getBestTarget();
       backupYaw = backupTrackedTarget.getYaw();
-      System.out.println(backupYaw);
+      // System.out.println(backupYaw);
       backupPitch = backupTrackedTarget.getPitch();
       backupPitchRadians = Units.degreesToRadians(backupPitch);
     }
@@ -202,7 +203,7 @@ public class Robot extends TimedRobot {
     TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
     SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
-    AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -210,12 +211,14 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
   }
 
   @Override
   public void disabledPeriodic() {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to offf
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);   
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -230,6 +233,7 @@ public class Robot extends TimedRobot {
     }
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
   /** This function is called periodically during autonomous. */
@@ -238,6 +242,7 @@ public class Robot extends TimedRobot {
     if (NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(false)) {
       // System.out.println(true);
     }
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
   @Override
@@ -250,8 +255,9 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
-    primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
-  }
+    primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+  } 
 
   /** This function is called periodically during operator control. */
   @Override
@@ -260,12 +266,16 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
     primaryCamera.setPipelineIndex(0);
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
+    /*
     if (RUN_VISION) {
       backupCamera.setDriverMode(false);
     }
     else {
       backupCamera.setDriverMode(true);
     }
+    */
+    backupCamera.setDriverMode(true);
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
   @Override
@@ -274,6 +284,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
   /** This function is called periodically during test mode. */
@@ -281,5 +292,6 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 }
