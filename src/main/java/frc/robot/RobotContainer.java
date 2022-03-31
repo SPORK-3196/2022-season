@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.DelayedIndex;
 import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexShooting;
@@ -18,7 +19,6 @@ import frc.robot.commands.OuttakeBalls;
 import frc.robot.commands.PlayMusic;
 import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimber;
-import frc.robot.commands.TimedIndex;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutoHorizontalAim;
 import frc.robot.commands.autonomous.AutonomousProtocol;
@@ -58,7 +58,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     Drivetrain.setDefaultCommand(DrivetrainControl);
-    Index.setDefaultCommand(new TimedIndex(Index));
+    Index.setDefaultCommand(new DelayedIndex(Index));
     // Climber.setDefaultCommand(new LowerArms(Climber));
     autonomousOptions.setDefaultOption("Taxi Ball", AutoCommand);
   }
@@ -73,7 +73,8 @@ public class RobotContainer {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
     // X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
-    X1J_RS.whenActive(new PlayMusic(Drivetrain));
+    X1J_Y.whenHeld(new PlayMusic(Drivetrain), false);
+    // .whenActive(new PlayMusic(Drivetrain));
     
 
     X2J_X.whenHeld(new IntakeBalls(Intake));

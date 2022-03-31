@@ -52,6 +52,11 @@ public class JoystickDrive extends CommandBase {
     Auto_PIDController.setTolerance(0);
     drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.drivetrain.setDeadband(0.05);
+
+    drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
+    drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
+    drivetrain.frontRight.setNeutralMode(NeutralMode.Brake);
+    drivetrain.rearRight.setNeutralMode(NeutralMode.Brake);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
