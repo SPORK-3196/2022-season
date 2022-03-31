@@ -34,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDrive drivetrain;
 
-  private boolean playingMusic;
+  private boolean playingMusic = false;
 
   // private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
 

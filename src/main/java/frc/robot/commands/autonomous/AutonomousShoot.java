@@ -33,7 +33,7 @@ public class AutonomousShoot extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
-    addRequirements(index);
+    // addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -48,12 +48,13 @@ public class AutonomousShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setSetpoint(AutoComputedRPM);
-    // shooter.setSetpoint(3000);
+    // shooter.setSetpoint(AutoComputedRPM);
+    shooter.setSetpoint(3000);
 
     if (shooter.atSetpoint()) {
       index.runIndex();
     }
+    
   }
 
   // Called once the command ends or is interrupted.

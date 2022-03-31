@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
 public class AutonomousProtocol extends SequentialCommandGroup {
-    public AutonomousProtocol(Drivetrain drivetrain, Shooter shooter, Index index, Intake intake, Climber climber) {
+    public AutonomousProtocol(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
-        new DriveToPickup(drivetrain, shooter, index, climber, intake, 4.0, -0.4),
+        new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4),
         // new AutoHorizontalAim(drivetrain, 2.5),
         new AutonomousShoot(shooter, index, 7.5)
       );
