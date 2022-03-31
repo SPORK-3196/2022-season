@@ -102,7 +102,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in asutonomous
     // return new AutoHorizontalAim(Drivetrain, 30);
-    return new TurnDegrees(Drivetrain, 3.0);
+    return autonomousOptions.getSelected();
     // return (Command) autonomousOptions.getSelected();
   }
 }
