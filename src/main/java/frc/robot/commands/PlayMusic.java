@@ -11,6 +11,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import static frc.robot.Constants.XboxController.*;
+import static frc.robot.Constants.Drivetrain.*;
+
 
 /** An example command that uses an example subsystem. */
 public class PlayMusic extends CommandBase {
@@ -39,6 +42,7 @@ public class PlayMusic extends CommandBase {
     drivetrain.rearLeft.set(TalonFXControlMode.MusicTone, 0);
     drivetrain.rearRight.set(TalonFXControlMode.MusicTone, 0);
     */
+    drivetrain.loadMusic(songChooser.getSelected());
     drivetrain.playMusic();
   }
 
@@ -59,6 +63,6 @@ public class PlayMusic extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return X1_BButton;
   }
 }

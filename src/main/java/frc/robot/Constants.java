@@ -191,8 +191,19 @@ public final class Constants {
             .withWidget(BuiltInWidgets.kNumberSlider)
             .withProperties(Map.of("min", 0, "max", 100))
             .getEntry();
+
+        public static NetworkTableEntry DT_MusicPlaying = DT_TAB.add("Music Playing", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .getEntry();
+
+        public static SendableChooser<String> songChooser = new SendableChooser<String>();
         }
-            
+
+       
+        
+
+        
+        
         /*
         public static NetworkTableEntry DT_Field = DT_TAB
             .add("Field", gameField)
@@ -251,7 +262,6 @@ public final class Constants {
     }
 
     public static final class Autonomous {   
-        public static SendableChooser<Command> autonomousOptions = new SendableChooser<Command>();
-    
+        public static SendableChooser<Command> autoChooser = new SendableChooser<Command>();
     }
 }

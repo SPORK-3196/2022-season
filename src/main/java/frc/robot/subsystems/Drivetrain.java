@@ -68,7 +68,7 @@ public class Drivetrain extends SubsystemBase {
     drivetrainOrchestra.addInstrument(rearLeft);
     drivetrainOrchestra.addInstrument(rearRight);
 
-    drivetrainOrchestra.loadMusic("All Star.chrp");
+    
 
     // gyroscope.setYaw(0);
 
@@ -76,6 +76,18 @@ public class Drivetrain extends SubsystemBase {
     Auto_PIDController.setTolerance(0);
 
     drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
+    songChooser.addOption("Thomas The Tank Engine", "Thomas The Tank Engine.chrp");
+    songChooser.addOption("All Star", "All Star.chrp");
+    songChooser.addOption("Crab Rave", "Crab Rave.chrp");
+    songChooser.addOption("Friends On The Other Side", "Friends On The Other Side.chrp");
+    songChooser.addOption("Party In The USA", "Party In The USA.chrp");
+    songChooser.addOption("A Thousand Miles", "A Thousand Miles.chrp");
+
+    drivetrainOrchestra.loadMusic(songChooser.getSelected());
+  }
+
+  public void loadMusic(String song) {
+    drivetrainOrchestra.loadMusic(song);
   }
 
   public void playMusic() {
@@ -125,7 +137,11 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     if (playingMusic) {
+      DT_MusicPlaying.setBoolean(true);
       return;
+    }
+    else {
+      DT_MusicPlaying.setBoolean(false);
     }
 
     DT_FrontLeftEntry.setNumber(frontLeft.getMotorOutputPercent());

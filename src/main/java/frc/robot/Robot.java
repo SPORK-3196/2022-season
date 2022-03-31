@@ -92,7 +92,13 @@ public class Robot extends TimedRobot {
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
     
     Shuffleboard.getTab("Autonomous Controls")
-      .add(autonomousOptions);
+      .add(autoChooser);
+
+    Shuffleboard.getTab("Drivetrain Info")
+      .add(songChooser);
+
+    Shuffleboard.getTab("DrivetrainInfo")
+      .add(gameField);
     
   }
 

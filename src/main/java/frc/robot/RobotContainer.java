@@ -63,9 +63,10 @@ public class RobotContainer {
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Index.setDefaultCommand(new DelayedIndex(Index));
     // Climber.setDefaultCommand(new LowerArms(Climber));
-    autonomousOptions.setDefaultOption("2 Ball Backup", new AutonomousProtocol(Drivetrain, Shooter, Index, Intake, Climber));
-    autonomousOptions.addOption("1 Ball Taxi", new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutonomousShoot(Shooter, Index, 5.0)));
-    autonomousOptions.addOption("Taxi, No Shoot", new DriveForwardTimed(Drivetrain, 4.0, -0.4));
+    autoChooser.setDefaultOption("2 Ball Backup", new AutonomousProtocol(Drivetrain, Shooter, Index, Intake, Climber));
+    autoChooser.addOption("1 Ball Taxi", new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutonomousShoot(Shooter, Index, 5.0)));
+    autoChooser.addOption("Taxi, No Shoot", new DriveForwardTimed(Drivetrain, 4.0, -0.4));
+    
   }
 
   /**
@@ -78,7 +79,8 @@ public class RobotContainer {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
     // X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
-    X1J_Y.whenHeld(new PlayMusic(Drivetrain), false);
+    X1J_Y.toggleWhenActive(new PlayMusic(Drivetrain));
+    // whenHeld(new PlayMusic(Drivetrain), false);
     // .whenActive(new PlayMusic(Drivetrain));
     
 
@@ -102,7 +104,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in asutonomous
     // return new AutoHorizontalAim(Drivetrain, 30);
-    return autonomousOptions.getSelected();
-    // return (Command) autonomousOptions.getSelected();
+    return autoChooser.getSelected();
+    // return (Command) autoChooser.getSelected();
   }
 }
