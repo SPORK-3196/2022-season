@@ -26,6 +26,7 @@ public class OuttakeBalls extends CommandBase {
     this.index = index;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
+    addRequirements(index);
   }
 
 
