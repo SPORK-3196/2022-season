@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     Shuffleboard.getTab("Drivetrain Info")
       .add(songChooser);
 
-    Shuffleboard.getTab("DrivetrainInfo")
+    Shuffleboard.getTab("Drivetrain Info")
       .add(gameField);
     
   }

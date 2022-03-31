@@ -48,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
   
   // private final DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), initialPoseMeters);
   private DifferentialDriveOdometry drivetrain_odometry;
-  private Pose2d robot_pose; 
+  private Pose2d robot_pose= new Pose2d(); 
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
@@ -82,6 +82,7 @@ public class Drivetrain extends SubsystemBase {
     songChooser.addOption("Friends On The Other Side", "Friends On The Other Side.chrp");
     songChooser.addOption("Party In The USA", "Party In The USA.chrp");
     songChooser.addOption("A Thousand Miles", "A Thousand Miles.chrp");
+    songChooser.setDefaultOption("Ain't No Mountain High Enough", "Ain't No Mountain High Enough.chrp");
 
     drivetrainOrchestra.loadMusic(songChooser.getSelected());
   }
@@ -97,6 +98,11 @@ public class Drivetrain extends SubsystemBase {
 
   public void stopMusic() {
     drivetrainOrchestra.stop();
+    playingMusic = false;
+  }
+
+  public void pauseMusic() {
+    drivetrainOrchestra.pause();
     playingMusic = false;
   }
 
@@ -153,7 +159,7 @@ public class Drivetrain extends SubsystemBase {
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
     robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
     gameField.setRobotPose(robot_pose);
-  }
+  } 
 
   @Override
   public void simulationPeriodic() {
