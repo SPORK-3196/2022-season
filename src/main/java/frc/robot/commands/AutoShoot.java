@@ -62,15 +62,16 @@ public class AutoShoot extends CommandBase {
     */
     // AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
     // AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
-    shooter.setSetpoint(1000);
+    // shooter.setSetpoint(1000);
+    shooter.setSetpoint(AutoComputedRPM);
   }
     
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooter.setSetpoint(AutoComputedRPM);
-    shooter.setSetpoint(1000);
+    shooter.setSetpoint(AutoComputedRPM);
+    // shooter.setSetpoint(1000);
     RUN_VISION = true;
     // shooter.setSetpoint(TeleComputedRPM);
   }

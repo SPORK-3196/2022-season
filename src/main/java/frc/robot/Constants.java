@@ -44,37 +44,37 @@ public final class Constants {
     
     public static final class XboxController {
 
-        public static double X1_RTValue;
-        public static double X1_LTValue;
+        public static double X1_RTValue = 0;
+        public static double X1_LTValue = 0;
 
-        public static boolean X1_RB;
-        public static boolean X1_LB;
+        public static boolean X1_RB = false;
+        public static boolean X1_LB = false;
 
-        public static double X1_LJX;
-        public static double X1_LJY;
-        public static double X1_RJX;
-        public static double X1_RJY;
+        public static double X1_LJX = 0;
+        public static double X1_LJY = 0;
+        public static double X1_RJX = 0;
+        public static double X1_RJY = 0;
 
-        public static boolean X1_XButton;
-        public static boolean X1_YButton;
-        public static boolean X1_AButton;
-        public static boolean X1_BButton;
+        public static boolean X1_XButton = false;
+        public static boolean X1_YButton = false;
+        public static boolean X1_AButton = false;
+        public static boolean X1_BButton = false;
 
-        public static double X2_RTValue;
-        public static double X2_LTValue;
+        public static double X2_RTValue = 0;
+        public static double X2_LTValue = 0;
 
-        public static boolean X2_RB;
-        public static boolean X2_LB;
+        public static boolean X2_RB = false;
+        public static boolean X2_LB = false;
 
-        public static double X2_LJX;
-        public static double X2_LJY;
-        public static double X2_RJX;
-        public static double X2_RJY;
+        public static double X2_LJX = 0;
+        public static double X2_LJY = 0;
+        public static double X2_RJX = 0;
+        public static double X2_RJY = 0;
 
-        public static boolean X2_XButton;
-        public static boolean X2_YButton;
-        public static boolean X2_AButton;
-        public static boolean X2_BButton;
+        public static boolean X2_XButton = false;
+        public static boolean X2_YButton = false;
+        public static boolean X2_AButton = false;
+        public static boolean X2_BButton = false;
 
         public static NetworkTableEntry X1_RT_Entry = X1_TAB.add("Right Trigger", 0.0).getEntry();
         public static NetworkTableEntry X1_LT_Entry = X1_TAB.add("Left Trigger", 0.0).getEntry();
@@ -187,7 +187,7 @@ public final class Constants {
 
         public static double DT_PowerConstant = 1.0;
         public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB
-            .add("Drive Power Percentage", 70)
+            .addPersistent("Drive Power Percentage", 55)
             .withWidget(BuiltInWidgets.kNumberSlider)
             .withProperties(Map.of("min", 0, "max", 100))
             .getEntry();
@@ -251,6 +251,7 @@ public final class Constants {
     }
 
     public static final class Autonomous {   
-        public static SendableChooser autonomousOptions = new SendableChooser<Command>();
+        public static SendableChooser<Command> autonomousOptions = new SendableChooser<Command>();
+    
     }
 }

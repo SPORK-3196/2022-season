@@ -106,7 +106,6 @@ public class JoystickDrive extends CommandBase {
 
     drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
     // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
-
   }
 
   // Called once the command ends or is interrupted.
