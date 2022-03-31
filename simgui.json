@@ -1,22 +1,5 @@
 {
   "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [5]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [6]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[4]/Fwd Limit": {
-        "header": {
-          "open": true
-        }
-      }
-    },
     "RoboRIO": {
       "window": {
         "visible": true
@@ -43,10 +26,10 @@
     }
   },
   "NetworkTables": {
+    "FMSInfo": {
+      "open": true
+    },
     "Shuffleboard": {
-      "Drivetrain Info": {
-        "open": true
-      },
       "open": true
     },
     "limelight": {
@@ -56,6 +39,18 @@
       "open": true,
       "primaryCamera": {
         "open": true
+      }
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": 338
+        }
+      ],
+      "window": {
+        "visible": false
       }
     }
   }
