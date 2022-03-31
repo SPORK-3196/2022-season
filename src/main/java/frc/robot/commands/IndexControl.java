@@ -48,10 +48,8 @@ public class IndexControl extends CommandBase {
       IndexEmpty = true;
     }
 
-    if (index.getIntakeSensor()) {
-      indexTimer.reset();
-      indexTimer.start();
-    }
+    
+
     
     if (index.getIntakeSensor() || index.BallInTransit) {
       runIndex = true;
@@ -65,12 +63,23 @@ public class IndexControl extends CommandBase {
       IndexEmpty = false;
     }
 
+
+    
     if (index.getMidSensor()) {
+      runIndex = true;
+      index.BallInTransit = true;
+      IndexEmpty = false;
+      indexTimer.reset();
+      indexTimer.start();
+    }
+
+    
+    if (!index.getIntakeSensor() && !index.getMidSensor() && index.BallInTransit && indexTimer.get() > 0.1) {
       runIndex = false;
       index.BallInTransit = false;
       IndexEmpty = false;
-      indexTimer.reset();
     }
+    
 
     if (index.getMidSensor() && index.getIntakeSensor()) {
       runIndex = true;
