@@ -6,6 +6,9 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -31,6 +34,11 @@ public class PlayMusic extends CommandBase {
   @Override
   public void initialize() {
     drivetrain.drivetrain = null;
+    /*drivetrain.frontLeft.set(TalonFXControlMode.MusicTone, 0);
+    drivetrain.frontRight.set(TalonFXControlMode.MusicTone, 0);
+    drivetrain.rearLeft.set(TalonFXControlMode.MusicTone, 0);
+    drivetrain.rearRight.set(TalonFXControlMode.MusicTone, 0);
+    */
     drivetrain.playMusic();
   }
 
@@ -38,6 +46,7 @@ public class PlayMusic extends CommandBase {
   @Override
   public void execute() {
     drivetrain.playMusic();
+  
   }
 
   // Called once the command ends or is interrupted.

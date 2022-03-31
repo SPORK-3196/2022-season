@@ -13,11 +13,12 @@ import static frc.robot.Constants.Index.*;
 
 
 /** An example command that uses an example subsystem. */
-public class TimedIndex extends CommandBase {
+public class DelayedIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Index index;
   boolean runIndex = false;
+  boolean ballPassed = false;
   public Timer indexTimer = new Timer();
 
   /**
@@ -25,7 +26,7 @@ public class TimedIndex extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TimedIndex(Index index) {
+  public DelayedIndex(Index index) {
     this.index = index;
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -49,9 +50,21 @@ public class TimedIndex extends CommandBase {
       indexTimer.start();
     }
 
+    if (index.getMidSensor()) {
+      ballPassed = true;
+    }
 
-    if (indexTimer.get() > 0.6 && !index.getMidSensor()) {
+
+    /*
+    if (indexTimer.get() > 0.45 && !index.getMidSensor()) {
       runIndex = false;
+      index.BallInTransit = false;
+    }
+    */
+
+    if (!index.getMidSensor() && ballPassed) {
+      runIndex = false;
+      ballPassed = false;
       index.BallInTransit = false;
     }
 
