@@ -34,6 +34,8 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDrive drivetrain;
 
+  private boolean playingMusic;
+
   // private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
 
   /* private final DifferentialDrivePoseEstimator drivetrain_poseEstimator = new DifferentialDrivePoseEstimator(
@@ -70,16 +72,27 @@ public class Drivetrain extends SubsystemBase {
 
     // gyroscope.setYaw(0);
 
+    Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setTolerance(0);
+
     drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
   }
 
   public void playMusic() {
     drivetrainOrchestra.play();
+    playingMusic = true;
   }
 
   public void stopMusic() {
     drivetrainOrchestra.stop();
+    playingMusic = false;
   }
+
+  public boolean isPlaying() {
+    return playingMusic;
+  }
+
+
 
   public double getYaw() {
     return gyroscope.getYaw();
@@ -111,6 +124,10 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (playingMusic) {
+      return;
+    }
+
     DT_FrontLeftEntry.setNumber(frontLeft.getMotorOutputPercent());
     DT_rearLeftEntry.setNumber(rearLeft.getMotorOutputPercent());
     DT_FrontRightEntry.setNumber(frontRight.getMotorOutputPercent());

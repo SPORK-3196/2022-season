@@ -14,6 +14,7 @@ import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexShooting;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.JoystickDriveInit;
 import frc.robot.commands.LowerArms;
 import frc.robot.commands.OuttakeBalls;
 import frc.robot.commands.PlayMusic;
@@ -22,6 +23,8 @@ import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.autonomous.AutoHorizontalAim;
 import frc.robot.commands.autonomous.AutonomousProtocol;
+import frc.robot.commands.autonomous.AutonomousShoot;
+import frc.robot.commands.autonomous.DriveForwardTimed;
 import frc.robot.commands.autonomous.TurnDegrees;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -60,7 +63,9 @@ public class RobotContainer {
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Index.setDefaultCommand(new DelayedIndex(Index));
     // Climber.setDefaultCommand(new LowerArms(Climber));
-    autonomousOptions.setDefaultOption("Taxi Ball", AutoCommand);
+    autonomousOptions.setDefaultOption("2 Ball Backup", new AutonomousProtocol(Drivetrain, Shooter, Index, Intake, Climber));
+    autonomousOptions.addOption("1 Ball Taxi", new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutonomousShoot(Shooter, Index, 5.0)));
+    autonomousOptions.addOption("Taxi, No Shoot", new DriveForwardTimed(Drivetrain, 4.0, -0.4));
   }
 
   /**

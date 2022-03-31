@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.autonomous.AutonomousProtocol;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
@@ -26,6 +27,7 @@ import static frc.robot.Constants.Vision.*;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.Robot.*;
 import static frc.robot.Constants.Field.*;
+import static frc.robot.Constants.Autonomous.*;
 
 
 
@@ -87,6 +89,7 @@ public class Robot extends TimedRobot {
 
     AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
+    
     
   }
 
