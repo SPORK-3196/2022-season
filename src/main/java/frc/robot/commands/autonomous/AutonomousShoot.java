@@ -48,8 +48,8 @@ public class AutonomousShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooter.setSetpoint(AutoComputedRPM);
-    shooter.setSetpoint(3000);
+    shooter.setSetpoint(AutoComputedRPM);
+    // shooter.setSetpoint(3000);
 
     if (shooter.atSetpoint()) {
       index.runIndex();
