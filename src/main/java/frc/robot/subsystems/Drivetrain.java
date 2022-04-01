@@ -36,6 +36,8 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean playingMusic = false;
 
+  public boolean driveModeSet = false;
+
   // private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
 
   /* private final DifferentialDrivePoseEstimator drivetrain_poseEstimator = new DifferentialDrivePoseEstimator(
@@ -47,8 +49,9 @@ public class Drivetrain extends SubsystemBase {
   */
   
   // private final DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), initialPoseMeters);
+  
   private DifferentialDriveOdometry drivetrain_odometry;
-  private Pose2d robot_pose= new Pose2d(); 
+  private Pose2d robot_pose = new Pose2d(); 
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
