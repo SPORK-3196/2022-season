@@ -12,6 +12,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -51,7 +52,7 @@ public class Drivetrain extends SubsystemBase {
   // private final DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), initialPoseMeters);
   
   private DifferentialDriveOdometry drivetrain_odometry;
-  private Pose2d robot_pose = new Pose2d(); 
+  private Pose2d robot_pose = new Pose2d(30, 20, new Rotation2d(getGyroHeading()));
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   

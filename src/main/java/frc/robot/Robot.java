@@ -8,6 +8,8 @@ import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.net.PortForwarder;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -46,6 +48,9 @@ public class Robot extends TimedRobot {
   public static XboxController X1_CONTROLLER = new XboxController(0);
   public static XboxController X2_CONTROLLER = new XboxController(1);
 
+  public static AddressableLED LIGHTS = new AddressableLED(8);
+  public static AddressableLEDBuffer LIGHT_BUFFER;
+
   public static JoystickButton X1J_A =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
   public static JoystickButton X1J_B =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
   public static JoystickButton X1J_X =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kX.value);
@@ -83,13 +88,23 @@ public class Robot extends TimedRobot {
     primaryCamera = new PhotonCamera("Primary Camera");
     backupCamera = new PhotonCamera("Backup Camera");
 
-    PortForwarder.add(5800, "primaryvision.local", 5800);
+    PortForwarder.add(5800, "10.31.96.11", 5800);
 
     PhotonCamera.setVersionCheckEnabled(false);
+
+    LIGHT_BUFFER = new AddressableLEDBuffer(300);
+    LIGHTS.setLength(LIGHT_BUFFER.getLength());
+    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+      LIGHT_BUFFER.setRGB(i, 255, 0, 0);
+    }
+    LIGHTS.setData(LIGHT_BUFFER);
+    LIGHTS.start();
 
 
     AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
+
+    LIGHTS.setLength(LIGHT_BUFFER.getLength());
     
     Shuffleboard.getTab("Autonomous Controls")
       .add(autoChooser);
@@ -218,7 +233,7 @@ public class Robot extends TimedRobot {
     SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
 
-    AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    AutoComputedRPM = (1380) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -227,6 +242,10 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+      LIGHT_BUFFER.setRGB(i, 255, 0, 0);
+    }
+    LIGHTS.setData(LIGHT_BUFFER);
   }
 
   @Override
@@ -249,6 +268,10 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+      LIGHT_BUFFER.setRGB(i, 255, 255, 255);
+    }
+    LIGHTS.setData(LIGHT_BUFFER);
   }
 
   /** This function is called periodically during autonomous. */
@@ -272,6 +295,10 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+      LIGHT_BUFFER.setRGB(i, 0, 255, 0);
+    }
+    LIGHTS.setData(LIGHT_BUFFER);
   } 
 
   /** This function is called periodically during operator control. */
@@ -291,6 +318,10 @@ public class Robot extends TimedRobot {
     */
     backupCamera.setDriverMode(true);
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+      LIGHT_BUFFER.setRGB(i, 0, 255, 0);
+    }
+    LIGHTS.setData(LIGHT_BUFFER);
   }
 
   @Override

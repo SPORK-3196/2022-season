@@ -1,5 +1,13 @@
 {
   "HALProvider": {
+    "Addressable LEDs": {
+      "0": {
+        "columns": 15
+      },
+      "window": {
+        "visible": true
+      }
+    },
     "RoboRIO": {
       "window": {
         "visible": true
@@ -22,7 +30,10 @@
       "/LiveWindow/Ungrouped/MotorControllerGroup[2]": "Motor Controller",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/Shuffleboard/Autonomous Controls/SendableChooser[1]": "String Chooser",
+      "/Shuffleboard/Drivetrain Info/Field": "Field2d",
+      "/Shuffleboard/Drivetrain Info/SendableChooser[0]": "String Chooser"
     }
   },
   "NetworkTables": {
