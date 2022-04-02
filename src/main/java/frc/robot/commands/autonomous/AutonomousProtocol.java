@@ -17,7 +17,7 @@ public class AutonomousProtocol extends SequentialCommandGroup {
       super(
         new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4),
         // new AutoHorizontalAim(drivetrain, 2.5),
-        new AutonomousShoot(shooter, index, 7.5)
+        new AutonomousShoot(shooter, index, 10)
       );
     }
 }

@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.XboxController.*;
+import static frc.robot.Robot.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
   public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless);
@@ -103,6 +105,12 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     
     if (atSetpoint()) {
       SHOOTER_READY = true;
+      if (X2_AButton) {
+        for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+          LIGHT_BUFFER.setRGB(i, 0, 0, 255);
+        }
+        LIGHTS.setData(LIGHT_BUFFER);
+      }
     }
     else {
       PIDTimer.reset();

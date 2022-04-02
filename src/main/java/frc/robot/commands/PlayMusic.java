@@ -60,6 +60,11 @@ public class PlayMusic extends CommandBase {
     drivetrain.drivetrain = null;
   }
 
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
