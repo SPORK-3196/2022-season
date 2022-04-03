@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.BabyShoot;
+import frc.robot.commands.ExtendClimbLighting;
 import frc.robot.commands.DelayedIndex;
 import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.ExtendClimberLeft;
-import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexShooting;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.JoystickDrive;
@@ -22,6 +22,7 @@ import frc.robot.commands.LowerArms;
 import frc.robot.commands.OuttakeBalls;
 import frc.robot.commands.PlayMusic;
 import frc.robot.commands.RaiseArms;
+import frc.robot.commands.RetractClimbLighting;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.RetractClimberLeft;
 import frc.robot.commands.ToggleArms;
@@ -57,8 +58,7 @@ public class RobotContainer {
 
   private final Climber Climber = new Climber();
   private final Lighting Lighting = new Lighting();
-  
-  private final IndexControl IndexOperation = new IndexControl(Index);
+
   private final JoystickDrive DrivetrainControl = new JoystickDrive(Drivetrain);
 
   private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain, Shooter, Intake, Index, Climber);
@@ -99,8 +99,8 @@ public class RobotContainer {
     X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShooting(Index));
     X2J_Y.whenHeld(new ToggleArms(Climber));
 
-    X2J_RB.whenHeld(new ExtendClimberLeft(Climber, 0.45));
-    X2J_LB.whenHeld(new RetractClimberLeft(Climber, 0.45));
+    X2J_RB.whenHeld(new ExtendClimberLeft(Climber, 0.45)).whenHeld(new ExtendClimbLighting(Lighting));
+    X2J_LB.whenHeld(new RetractClimberLeft(Climber, 0.45)).whenHeld(new RetractClimbLighting(Lighting));
 
     X2J_LS.whenHeld(new BabyShoot(Shooter)).whenHeld(new IndexShooting(Index));
     X2J_RS.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index));
