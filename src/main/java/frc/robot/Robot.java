@@ -8,8 +8,7 @@ import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.net.PortForwarder;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -20,6 +19,7 @@ import frc.robot.commands.autonomous.AutonomousProtocol;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
+import static frc.robot.Constants.Status.*;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -30,6 +30,7 @@ import static frc.robot.Constants.Vision.*;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.Robot.*;
 import static frc.robot.Constants.Field.*;
+import static frc.robot.Constants.Index.*;
 import static frc.robot.Constants.Autonomous.*;
 
 
@@ -47,9 +48,6 @@ public class Robot extends TimedRobot {
 
   public static XboxController X1_CONTROLLER = new XboxController(0);
   public static XboxController X2_CONTROLLER = new XboxController(1);
-
-  public static AddressableLED LIGHTS = new AddressableLED(8);
-  public static AddressableLEDBuffer LIGHT_BUFFER;
 
   public static JoystickButton X1J_A =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kA.value);
   public static JoystickButton X1J_B =  new JoystickButton(X1_CONTROLLER, XboxController.Button.kB.value);
@@ -69,8 +67,6 @@ public class Robot extends TimedRobot {
   public static JoystickButton X2J_RB = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightBumper.value);
   public static JoystickButton X2J_LS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftStick.value);
   public static JoystickButton X2J_RS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightStick.value);
-  
-  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -92,20 +88,9 @@ public class Robot extends TimedRobot {
 
     PhotonCamera.setVersionCheckEnabled(false);
 
-    LIGHT_BUFFER = new AddressableLEDBuffer(300);
-    LIGHTS.setLength(LIGHT_BUFFER.getLength());
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 255, 0, 0);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
-
-
     AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
 
-    LIGHTS.setLength(LIGHT_BUFFER.getLength());
-    
     Shuffleboard.getTab("Autonomous Controls")
       .add(autoChooser);
 
@@ -114,6 +99,9 @@ public class Robot extends TimedRobot {
 
     Shuffleboard.getTab("Drivetrain Info")
       .add(gameField);
+
+
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
     
   }
 
@@ -130,7 +118,7 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
+    
     
     primaryCameraResult = primaryCamera.getLatestResult();
     primaryHasTargets = primaryCameraResult.hasTargets();
@@ -233,7 +221,9 @@ public class Robot extends TimedRobot {
     SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
 
-    AutoComputedRPM = (1380) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+  
+    CommandScheduler.getInstance().run();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -242,10 +232,9 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 255, 0, 0);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
+    autonomous = false;
+    teleop = false;
+    disabled = true;
   }
 
   @Override
@@ -265,13 +254,12 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 255, 255, 255);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    autonomous = true;
+    teleop = false;
+    disabled = false;
   }
 
   /** This function is called periodically during autonomous. */
@@ -294,11 +282,18 @@ public class Robot extends TimedRobot {
     }
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    /*
     for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
       LIGHT_BUFFER.setRGB(i, 0, 255, 0);
     }
     LIGHTS.setData(LIGHT_BUFFER);
+    // LIGHTS.start();
+    */
+    autonomous = false;
+    teleop = true;
+    disabled = false;
+    
   } 
 
   /** This function is called periodically during operator control. */
@@ -318,10 +313,7 @@ public class Robot extends TimedRobot {
     */
     backupCamera.setDriverMode(true);
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 0, 255, 0);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
+
   }
 
   @Override

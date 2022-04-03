@@ -32,10 +32,6 @@ public class ToggleArms extends CommandBase {
   @Override
   public void initialize() {
     climber.ARM_PISTONS.toggle();
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 255, 255, 0);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,10 +42,7 @@ public class ToggleArms extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 0, 255, 0);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
+
   }
 
   // Returns true when the command should end.

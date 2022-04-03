@@ -71,6 +71,10 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
     indexMotor.stopMotor();
   }
 
+  public boolean isRunning() {
+    return (Math.abs(indexMotor.get()) > 0.1);
+  }
+
 
   @Override
   public void periodic() {
@@ -103,10 +107,10 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
 
     BallCounter_Entry.setDouble(IndexCounter);
     if (Math.abs(indexMotor.get()) > 0.1) {
-      for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-        LIGHT_BUFFER.setRGB(i, 255, 255, 255);
-      }
-      LIGHTS.setData(LIGHT_BUFFER);
+      IndexRunning = true;
+    }
+    else {
+      IndexRunning = false;
     }
 
   }

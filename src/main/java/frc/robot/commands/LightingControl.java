@@ -2,71 +2,90 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.autonomous;
+package frc.robot.commands;
 
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Lighting;
+import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.Shooter.*;
-import edu.wpi.first.wpilibj.Timer;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /** An example command that uses an example subsystem. */
-public class AutonomousShoot extends CommandBase {
+public class LightingControl extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Shooter shooter;
-  Index index;
-  public Timer shooterTimer = new Timer();
-  public double time = 5.0;
-
+  Lighting lights;
+   
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-
-  public AutonomousShoot(Shooter shooter, Index index, double duration) {
-    this.shooter = shooter;
-    this.index = index;
-    this.time = duration;
-
+  public LightingControl (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    // addRequirements(index);
+    this.lights = lights;
+    addRequirements(lights);
   }
+
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint(AutoComputedRPM);
-    shooterTimer.reset();
-    shooterTimer.start();
+    lights.FullRed();
   }
-    
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooter.setSetpoint(AutoComputedRPM);
-    shooter.setSetpoint(2000);
-
-    if (shooter.atSetpoint()) {
-      index.runIndex();
+    if (teleop) {
+      lights.FullRainbow();
     }
-    
+
+    if (disabled) {
+      if (NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(false)) {
+        lights.FullRed();
+      }
+      else {
+        lights.FullBlue();
+      }
+      
+    }
+
+    if (autonomous) {
+      lights.FullBlue();
+    }
+
+    if (indexing) {
+      lights.FullWhite();
+    }
+
+    if (rampingUp) {
+      lights.FullYellow();
+    }
+
+    if (SHOOTER_READY) {
+      lights.FullGreen();
+    }
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
-    // System.out.println(shooterTimer.get());
+    // lights.FullRed();s
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterTimer.get() > time;
+    return false;
   }
 }

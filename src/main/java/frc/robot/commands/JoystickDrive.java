@@ -62,10 +62,10 @@ public class JoystickDrive extends CommandBase {
       drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
       drivetrain.drivetrain.setDeadband(0.05);
 
-      drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
-      drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
-      drivetrain.frontRight.setNeutralMode(NeutralMode.Brake);
-      drivetrain.rearRight.setNeutralMode(NeutralMode.Brake);
+      drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
+      drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
+      drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
+      drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
       drivetrain.driveModeSet = true;
     }
 
