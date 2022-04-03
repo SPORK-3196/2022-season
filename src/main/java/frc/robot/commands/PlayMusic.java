@@ -8,11 +8,15 @@ import frc.robot.subsystems.Drivetrain;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.Robot.*;
+
+import java.util.Random;
 
 
 /** An example command that uses an example subsystem. */
@@ -20,6 +24,7 @@ public class PlayMusic extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Drivetrain drivetrain;
+  Timer lightTimer = new Timer();
   
   /**
    * Creates a new PlayMusic.
@@ -44,13 +49,14 @@ public class PlayMusic extends CommandBase {
     */
     drivetrain.loadMusic(songChooser.getSelected());
     drivetrain.playMusic();
+    lightTimer.reset();
+    lightTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     drivetrain.playMusic();
-  
   }
 
   // Called once the command ends or is interrupted.
@@ -65,9 +71,9 @@ public class PlayMusic extends CommandBase {
     return true;
   }
 
-  // Returns true when the command should end.
+  // Returns tru5e when the command should end.
   @Override
   public boolean isFinished() {
-    return X1_BButton;
+    return false;
   }
 }

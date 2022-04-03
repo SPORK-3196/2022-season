@@ -30,18 +30,22 @@ public class ExtendClimberLeft extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    climber.ExtendLeft(power);
+    climber.ExtendRight(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.ExtendLeft(power);
+    // climber.ExtendLeft(power);
+    // climber.ExtendRight(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climber.StopLeft();
+    climber.StopRight();
   }
 
   // Returns true when the command should end.

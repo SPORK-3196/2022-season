@@ -49,7 +49,7 @@ public class AutonomousShootUno extends CommandBase {
   @Override
   public void execute() {
     // shooter.setSetpoint(AutoComputedRPM);
-    shooter.setSetpoint(3000);
+    shooter.setSetpoint(2000);
 
     if (shooter.atSetpoint()) {
       index.runIndex();

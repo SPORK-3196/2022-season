@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /** An example command that uses an example subsystem. */
-public class AutoShoot extends CommandBase {
+public class BabyShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Shooter shooter;
@@ -31,7 +31,7 @@ public class AutoShoot extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
 
-  public AutoShoot(Shooter Subsystem) {
+  public BabyShoot(Shooter Subsystem) {
     this.shooter = Subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
@@ -63,20 +63,14 @@ public class AutoShoot extends CommandBase {
     // AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
     // AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
     // shooter.setSetpoint(1000);
-    shooter.setSetpoint(AutoComputedRPM);
+    shooter.setSetpoint(1000);
   }
     
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (primaryHasTargets) {
-      shooter.setSetpoint(AutoComputedRPM);
-    }
-    else {
-      shooter.setSetpoint(2000);
-    }
-    RUN_VISION = true;
+    shooter.setSetpoint(1000);
     // shooter.setSetpoint(TeleComputedRPM);
   }
 

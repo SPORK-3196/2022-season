@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Shooter.*;
+
+import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Robot.*;
 
@@ -32,20 +34,22 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public double targetRPM;
   public double tolerance = 50;
   public Timer PIDTimer = new Timer();
+  public double sparkVelocityRPM;
   
   /** Creates a new SparkTest. */
   public Shooter(double tolerance) {
     // rightShooter.setInverted(false);
+    
     leftPIDController.setP(0.00006);
     leftPIDController.setI(0.0000004);
-    leftPIDController.setD(0.0035);
+    leftPIDController.setD(0.004);
     leftPIDController.setIZone(0);
     leftPIDController.setFF(0.000015);
     leftPIDController.setOutputRange(-1, 1);
 
     rightPIDController.setP(0.00006);
     rightPIDController.setI(0.0000004);
-    rightPIDController.setD(0.0035);
+    rightPIDController.setD(0.004);
     rightPIDController.setIZone(0);
     rightPIDController.setFF(0.000015);
     rightPIDController.setOutputRange(-1, 1);
@@ -95,26 +99,22 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
-    // SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
+    sparkVelocityRPM = -leftShooterEncoder.getVelocity();
+    SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
 
     // SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
     
+    rampingUp = X1_AButton;
     
 
-    
-    if (atSetpoint()) {
-      SHOOTER_READY = true;
-      if (X2_AButton) {
-        for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-          LIGHT_BUFFER.setRGB(i, 0, 0, 255);
-        }
-        LIGHTS.setData(LIGHT_BUFFER);
+    if (sparkVelocityRPM > 100) {
+      if (atSetpoint()) {
+        SHOOTER_READY = true;
       }
-    }
-    else {
-      PIDTimer.reset();
-      SHOOTER_READY = false;
+      else {
+        PIDTimer.reset();
+        SHOOTER_READY = false;
+      }
     }
 
     SH_ShooterPower = (((leftShooterEncoder.getVelocity() + rightShooterEncoder.getVelocity()) / 2) / 5700) * 100;

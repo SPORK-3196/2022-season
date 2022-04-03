@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import static frc.robot.Robot.*;
 
 public class Climber extends SubsystemBase { // Made By Caputo
 
@@ -50,6 +50,7 @@ public class Climber extends SubsystemBase { // Made By Caputo
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 
   @Override

@@ -212,10 +212,23 @@ public final class Constants {
         }
         */
 
+    public static final class Status {
+        public static boolean teleop;
+        public static boolean autonomous;
+        public static boolean disabled;
+        public static boolean shooting;
+        public static boolean indexing;
+        public static boolean rampingUp;
+        
+
+    }
+
     public static final class Index {
         public static boolean IndexEmpty = false;
 
         public static double IndexCounter;
+
+        public static boolean IndexRunning;
 
         public static NetworkTableEntry BallCounter_Entry = SENSOR_TAB.add("# Balls", 0).getEntry();
 
