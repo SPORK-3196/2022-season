@@ -69,13 +69,15 @@ public class LightingControl extends CommandBase {
     if (SHOOTER_READY) {
       lights.FullGreen();
     }
+
+    lights.start();
   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // lights.FullRed();s
+    // lights.FullRed();
   }
 
   @Override

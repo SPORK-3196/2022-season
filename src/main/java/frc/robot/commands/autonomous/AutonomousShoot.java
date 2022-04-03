@@ -54,6 +54,9 @@ public class AutonomousShoot extends CommandBase {
     if (shooter.atSetpoint()) {
       index.runIndex();
     }
+    else {
+      index.stopIndex();
+    }
     
   }
 
