@@ -22,6 +22,10 @@ public class Lighting extends SubsystemBase {
     LIGHTS.setData(LIGHT_BUFFER);
     // LIGHTS.start();
   }
+
+  public void start() {
+    LIGHTS.start();
+  }
   
   public void FullRed() {
     for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
@@ -29,7 +33,7 @@ public class Lighting extends SubsystemBase {
       LIGHT_BUFFER.setHSV(i, 0, 255, 75);
     }
     LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
+    // LIGHTS.start();
   }
 
   public void FullYellow() {
@@ -38,7 +42,7 @@ public class Lighting extends SubsystemBase {
       LIGHT_BUFFER.setHSV(i, 60, 255, 75);
     }
     LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
+    // LIGHTS.start();
   }
 
   public void FullGreen() {
@@ -47,7 +51,7 @@ public class Lighting extends SubsystemBase {
       LIGHT_BUFFER.setHSV(i, 120, 255, 75);
     }
     LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
+    // LIGHTS.start();
   }
 
   public void FullBlue() {
@@ -56,7 +60,7 @@ public class Lighting extends SubsystemBase {
       LIGHT_BUFFER.setHSV(i, 240, 255, 75);
     }
     LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
+    // LIGHTS.start();
     
   }
 
@@ -65,7 +69,7 @@ public class Lighting extends SubsystemBase {
       LIGHT_BUFFER.setRGB(i, 255, 255, 255);
     }
     LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
+    // LIGHTS.start();
   }
 
   public void FullRainbow() {
@@ -77,7 +81,7 @@ public class Lighting extends SubsystemBase {
 
     firstPixelHue %= 180;
     LIGHTS.setData(LIGHT_BUFFER);
-    LIGHTS.start();
+    // LIGHTS.start();
   }
 
 
