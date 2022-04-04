@@ -6,14 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.Vision.*;
-
-import org.photonvision.PhotonUtils;
-
 import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.Robot.*;
-import static frc.robot.Constants.Field.*;
-
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -24,6 +17,7 @@ public class AutoShoot extends CommandBase {
   
   Shooter shooter;
   double avg;
+  double curveOffsetRPM;
 
   /**
    * Creates a new AutoShoot.
@@ -71,13 +65,22 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute() {
     if (primaryHasTargets) {
-      shooter.setSetpoint(AutoComputedRPM);
+      if (primaryYaw < 0) {
+        curveOffsetRPM = -3 * primaryYaw;
+        shooter.setRightSetpoint(AutoComputedRPM + curveOffsetRPM);
+        shooter.setLeftSetpoint(AutoComputedRPM);
+      }
+      else if (primaryYaw > 0) {
+        curveOffsetRPM = 3 * primaryYaw;
+        shooter.setRightSetpoint(AutoComputedRPM);
+        shooter.setLeftSetpoint(AutoComputedRPM + curveOffsetRPM);
+      }
+      
+      // shooter.setSetpoint(AutoComputedRPM);
     }
     else {
       shooter.setSetpoint(2000);
     }
-    RUN_VISION = true;
-    // shooter.setSetpoint(TeleComputedRPM);
   }
 
   // Called once the command ends or is interrupted.

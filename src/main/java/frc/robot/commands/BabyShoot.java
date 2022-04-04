@@ -40,29 +40,7 @@ public class BabyShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    /*
-    RUN_VISION = true;
-    for (int i = 0; i < 50; i++) {
-      primaryCameraResult = primaryCamera.getLatestResult();
-      primaryHasTargets = primaryCameraResult.hasTargets();
-      if (primaryCameraResult.hasTargets()) {
-        primaryTrackedTarget = primaryCameraResult.getBestTarget();
-        primaryYaw = primaryTrackedTarget.getYaw();
-        // System.out.println(primaryYaw);
-        primaryPitch = primaryTrackedTarget.getPitch();
-        primaryPitchRadians = Units.degreesToRadians(primaryPitch);
-      }
-      DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
-      
-      avg += DISTANCE_FROM_TARGET;
-     ln
-    }
-    avg = avg/50;
-    System.out.println("Average: " + avg);
-    */
-    // AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
-    // AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
-    // shooter.setSetpoint(1000);
+   
     shooter.setSetpoint(600);
   }
     

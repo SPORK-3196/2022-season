@@ -31,15 +31,14 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   
   // public PIDController leftPIDController = new PIDController(0.00005, 0.0002, 5.0);
 
-  public double targetRPM;
+  public double leftTargetRPM;
+  public double rightTargetRPM;
   public double tolerance = 50;
   public Timer PIDTimer = new Timer();
   public double sparkVelocityRPM;
   
   /** Creates a new SparkTest. */
   public Shooter(double tolerance) {
-    // rightShooter.setInverted(false);
-    
     leftPIDController.setP(0.00006);
     leftPIDController.setI(0.0000004);
     leftPIDController.setD(0.004);
@@ -65,12 +64,23 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public void stopShooter() {    
     leftShooter.stopMotor();
     rightShooter.stopMotor();
+    leftTargetRPM = 0;
+    rightTargetRPM = 0;
   } 
 
-  public void setSetpoint(double RPM) {
+  public void setLeftSetpoint(double RPM) { 
     leftPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
+    leftTargetRPM = -1 * RPM;
+  }
+
+  public void setRightSetpoint(double RPM) { 
     rightPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
-    targetRPM = -1 * RPM;
+    rightTargetRPM = -1 * RPM;
+  }
+  
+  public void setSetpoint(double RPM) {
+    setLeftSetpoint(RPM);
+    setRightSetpoint(RPM);
   }
 
   public void setTolerance(double tolerance) {
@@ -85,11 +95,11 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
 
   public boolean leftAtSetpoint() {
-    return ((targetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (leftShooterEncoder.getVelocity() < (targetRPM + tolerance));
+    return ((leftTargetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (leftShooterEncoder.getVelocity() < (leftTargetRPM + tolerance));
   }
 
   public boolean rightAtSetpoint() {
-    return ((targetRPM - tolerance) < rightShooterEncoder.getVelocity()) &&  (rightShooterEncoder.getVelocity() < (targetRPM + tolerance));
+    return ((rightTargetRPM - tolerance) < rightShooterEncoder.getVelocity()) &&  (rightShooterEncoder.getVelocity() < (rightTargetRPM + tolerance));
   }
 
   public boolean atSetpoint() {
