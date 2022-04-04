@@ -27,6 +27,15 @@ public class Lighting extends SubsystemBase {
     LIGHTS.start();
   }
   
+  public void redGreenOffset(double offset) {
+    int val = (int) (offset * 8);
+    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
+      // LIGHT_BUFFER.setRGB(i, 255, 0, 0);
+      LIGHT_BUFFER.setRGB(i, val, 255 - val, 0);
+    }
+    LIGHTS.setData(LIGHT_BUFFER);
+  }
+
   public void FullRed() {
     for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
       // LIGHT_BUFFER.setRGB(i, 255, 0, 0);

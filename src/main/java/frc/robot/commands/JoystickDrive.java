@@ -107,6 +107,10 @@ public class JoystickDrive extends CommandBase {
     else {
       RUN_VISION = false;
     }
+
+    if (X1_CONTROLLER.getYButton()) {
+      speedControl = -speedControl;
+    }
   
 
     drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);

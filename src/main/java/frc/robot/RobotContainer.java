@@ -15,6 +15,7 @@ import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.ExtendClimberLeft;
 import frc.robot.commands.IndexShooting;
 import frc.robot.commands.IntakeBalls;
+import frc.robot.commands.IntakeLighting;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.JoystickDriveInit;
 import frc.robot.commands.LightingControl;
@@ -25,6 +26,7 @@ import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimbLighting;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.RetractClimberLeft;
+import frc.robot.commands.ShootLighting;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.TweenShoot;
 import frc.robot.commands.autonomous.AutoHorizontalAim;
@@ -73,10 +75,9 @@ public class RobotContainer {
     Index.setDefaultCommand(new DelayedIndex(Index));
     // Climber.setDefaultCommand(new LowerArms(Climber));
     Lighting.setDefaultCommand(new LightingControl(Lighting));
-    autoChooser.setDefaultOption("2 Ball Backup", new DelayedIndex(Index).alongWith(new AutonomousProtocol(Drivetrain, Shooter, Intake, Index, Climber)));
+    autoChooser.setDefaultOption("2 Ball Backup", new AutonomousProtocol(Drivetrain, Shooter, Intake, Index, Climber));
     autoChooser.addOption("1 Ball Taxi", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutonomousShootUno(Shooter, Index, 5.0))));
     autoChooser.addOption("Taxi, No Shoot", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4)));
-    
   }
 
   /**
@@ -94,16 +95,16 @@ public class RobotContainer {
     // .whenActive(new PlayMusic(Drivetrain));
     
 
-    X2J_X.whenHeld(new IntakeBalls(Intake));
-    X2J_B.whenHeld(new OuttakeBalls(Intake, Index));
-    X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShooting(Index));
+    X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
+    X2J_B.whenHeld(new OuttakeBalls(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
+    X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
     X2J_Y.whenHeld(new ToggleArms(Climber));
 
     X2J_RB.whenHeld(new ExtendClimberLeft(Climber, 0.45)).whenHeld(new ExtendClimbLighting(Lighting));
     X2J_LB.whenHeld(new RetractClimberLeft(Climber, 0.45)).whenHeld(new RetractClimbLighting(Lighting));
 
-    X2J_LS.whenHeld(new BabyShoot(Shooter)).whenHeld(new IndexShooting(Index));
-    X2J_RS.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index));
+    X2J_LS.whenHeld(new BabyShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
+    X2J_RS.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
   }
  
   /**

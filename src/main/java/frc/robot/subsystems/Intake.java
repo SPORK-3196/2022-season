@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.Constants.Status.*;
+import static frc.robot.Constants.Index.*;
 
 public class Intake extends SubsystemBase {
   
@@ -34,6 +36,13 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    if (Math.abs(intakeMotor.get()) > 0.1) {
+      indexing = true;
+    }
+    else {
+      indexing = false;
+    }
   }
 
   @Override
