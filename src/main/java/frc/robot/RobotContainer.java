@@ -6,35 +6,27 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.BabyShoot;
 import frc.robot.commands.ExtendClimbLighting;
 import frc.robot.commands.DelayedIndex;
-import frc.robot.commands.ExtendClimber;
 import frc.robot.commands.ExtendClimberLeft;
 import frc.robot.commands.IndexShooting;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.IntakeLighting;
 import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.JoystickDriveInit;
 import frc.robot.commands.LightingControl;
 import frc.robot.commands.LowerArms;
 import frc.robot.commands.OuttakeBalls;
 import frc.robot.commands.PlayMusic;
-import frc.robot.commands.RaiseArms;
 import frc.robot.commands.RetractClimbLighting;
-import frc.robot.commands.RetractClimber;
 import frc.robot.commands.RetractClimberLeft;
 import frc.robot.commands.ShootLighting;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.TweenShoot;
-import frc.robot.commands.autonomous.AutoHorizontalAim;
 import frc.robot.commands.autonomous.AutonomousProtocol;
-import frc.robot.commands.autonomous.AutonomousShoot;
 import frc.robot.commands.autonomous.AutonomousShootUno;
 import frc.robot.commands.autonomous.DriveForwardTimed;
-import frc.robot.commands.autonomous.TurnDegrees;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -62,8 +54,6 @@ public class RobotContainer {
   private final Lighting Lighting = new Lighting();
 
   private final JoystickDrive DrivetrainControl = new JoystickDrive(Drivetrain);
-
-  private final AutonomousProtocol AutoCommand = new AutonomousProtocol(Drivetrain, Shooter, Intake, Index, Climber);
 
  
   

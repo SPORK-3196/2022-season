@@ -7,8 +7,6 @@ package frc.robot.commands;
 import frc.robot.subsystems.Index;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.Status.*;
 
 

@@ -5,18 +5,9 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
-
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import static frc.robot.Constants.XboxController.*;
 import static frc.robot.Constants.Drivetrain.*;
-import static frc.robot.Robot.*;
-
-import java.util.Random;
 
 
 /** An example command that uses an example subsystem. */
