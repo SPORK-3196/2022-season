@@ -9,6 +9,9 @@ import frc.robot.subsystems.Lighting;
 import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.Shooter.*;
 
+import static frc.robot.Constants.Vision.*;
+import static frc.robot.Constants.XboxController.*;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -34,14 +37,18 @@ public class LightingControl extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    lights.FullRed();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (teleop) {
-      lights.FullRainbow();
+      if (primaryHasTargets && X2_AButton) {
+        lights.redGreenOffset(Math.abs(primaryYaw));
+      }
+      else {
+        lights.FullRainbow();
+      }
     }
 
     if (disabled) {

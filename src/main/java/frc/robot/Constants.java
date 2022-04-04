@@ -170,7 +170,7 @@ public final class Constants {
         public static NetworkTableEntry AI_DISTANCE_ENTRY = AI_TAB
             .add("Distance From Target Meters", 0.0)
             .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", 0, "max", 650))
+            .withProperties(Map.of("min", 0, "max", 6))
             .getEntry();
 
         public static boolean RUN_VISION;
@@ -258,9 +258,9 @@ public final class Constants {
             .getEntry();
 
         public static NetworkTableEntry SH_SHOOTER_POWER_Entry = MOTOR_TAB
-            .add("Shooter Power Percentage", 0)
+            .add("Target RPM", 0)
             .withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 100))
+            .withProperties(Map.of("min", 0, "max", 6500))
             .getEntry();
 
 

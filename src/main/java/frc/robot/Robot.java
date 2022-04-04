@@ -19,6 +19,9 @@ import frc.robot.commands.autonomous.AutonomousProtocol;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
+
+import javax.print.attribute.standard.DialogTypeSelection;
+
 import static frc.robot.Constants.Status.*;
 
 import org.photonvision.PhotonCamera;
@@ -144,6 +147,7 @@ public class Robot extends TimedRobot {
     // DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
     // System.out.println(DISTANCE_FROM_TARGET);
 
+    AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
 
     if (X1_CONTROLLER.isConnected())
     {
@@ -219,10 +223,10 @@ public class Robot extends TimedRobot {
     TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
     
     SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
-    SH_SHOOTER_POWER_Entry.setDouble(SH_ShooterPower);
+    
 
-    AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
-  
+    AutoComputedRPM = (1410) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
     CommandScheduler.getInstance().run();
   }
 
@@ -254,7 +258,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
     autonomous = true;
@@ -280,9 +284,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
     /*
     for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
       LIGHT_BUFFER.setRGB(i, 0, 255, 0);

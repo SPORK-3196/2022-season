@@ -21,6 +21,7 @@ public class ExtendClimbLighting extends CommandBase {
   Lighting lights;
   Timer lightTimer = new Timer();
   double lightCounter = lights.LIGHT_BUFFER.getLength();
+  boolean lightUp = true;
    
   /**
    * Creates a new ExampleCommand.
@@ -39,6 +40,12 @@ public class ExtendClimbLighting extends CommandBase {
   public void initialize() {
     lightTimer.reset();
     lightTimer.start();
+    for (int i = 0; i < lights.LIGHT_BUFFER.getLength(); i++) {
+      lights.LIGHT_BUFFER.setHSV(i, 0, 0, 255);
+    }
+
+    lights.LIGHTS.setData(lights.LIGHT_BUFFER);
+    lights.LIGHTS.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,26 +53,37 @@ public class ExtendClimbLighting extends CommandBase {
   public void execute() {
     
 
-    
-    for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
-      lights.LIGHT_BUFFER.setHSV(i, 120, 255, 75);
-    }
-
-    lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-
-   
-
-    lightCounter -= 2;
-
-    if (lightCounter == 0) {
-      lightCounter = lights.LIGHT_BUFFER.getLength();
-      for (int i = 0; i < lights.LIGHT_BUFFER.getLength(); i++) {
-        // LIGHT_BUFFER.setRGB(i, 255, 0, 0);
-        lights.LIGHT_BUFFER.setHSV(i, 0, 0, 0);
+    if (lightUp) {
+      for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
+        lights.LIGHT_BUFFER.setRGB(i, 0, 255, 0);
       }
+
       lights.LIGHTS.setData(lights.LIGHT_BUFFER);
+
+
+      if (lightCounter == 0) {
+        lightCounter = lights.LIGHT_BUFFER.getLength();
+        lightUp = false;
+      }
+  
     }
 
+    if (!lightUp) {
+      for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
+        lights.LIGHT_BUFFER.setHSV(i, 0, 0, 255);
+      }
+
+      lights.LIGHTS.setData(lights.LIGHT_BUFFER);
+  
+
+      if (lightCounter == 0) {
+        lightCounter = lights.LIGHT_BUFFER.getLength();
+        lightUp = true;
+      }
+    }
+
+    lightCounter -= 10;
+    
     lights.start();
   
   }

@@ -13,7 +13,7 @@ import static frc.robot.Constants.Status.*;
 
 
 /** An example command that uses an example subsystem. */
-public class DelayedIndex extends CommandBase {
+public class DelayedIndexTimed extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Index index;
@@ -26,7 +26,7 @@ public class DelayedIndex extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DelayedIndex(Index index) {
+  public DelayedIndexTimed(Index index) {
     this.index = index;
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,7 +37,8 @@ public class DelayedIndex extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    indexTimer.reset();
+    indexTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -98,6 +99,6 @@ public class DelayedIndex extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return indexTimer.get() > 5;
   }
 }

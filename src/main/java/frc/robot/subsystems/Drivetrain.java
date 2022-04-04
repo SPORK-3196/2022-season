@@ -161,8 +161,8 @@ public class Drivetrain extends SubsystemBase {
     // System.out.println(rearLeft.getSelectedSensorPosition());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
-    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
-    gameField.setRobotPose(robot_pose);
+    // robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
+    // gameField.setRobotPose(robot_pose);
   } 
 
   @Override
