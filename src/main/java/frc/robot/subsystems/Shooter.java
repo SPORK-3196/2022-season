@@ -16,7 +16,6 @@ import static frc.robot.Constants.Shooter.*;
 
 import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Robot.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
   public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless);
@@ -67,6 +66,10 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     leftTargetRPM = 0;
     rightTargetRPM = 0;
   } 
+  
+  public void setTolerance(double tolerance) {
+    this.tolerance = tolerance;
+  }
 
   public void setLeftSetpoint(double RPM) { 
     leftPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
@@ -82,18 +85,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     setLeftSetpoint(RPM);
     setRightSetpoint(RPM);
   }
-
-  public void setTolerance(double tolerance) {
-    this.tolerance = tolerance;
-  }
   
-  /*
-  public double calculate(double currentRPM) {
-    return leftPIDController.calculate(currentRPM);
-  }
-  */
-
-
   public boolean leftAtSetpoint() {
     return ((leftTargetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (leftShooterEncoder.getVelocity() < (leftTargetRPM + tolerance));
   }

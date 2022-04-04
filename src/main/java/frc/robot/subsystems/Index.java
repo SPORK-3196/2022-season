@@ -13,7 +13,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Index.*;
-import static frc.robot.Robot.*;
 
 public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   

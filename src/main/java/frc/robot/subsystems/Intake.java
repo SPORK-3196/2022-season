@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Status.*;
-import static frc.robot.Constants.Index.*;
 
 public class Intake extends SubsystemBase {
   
