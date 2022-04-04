@@ -15,25 +15,19 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.autonomous.AutonomousProtocol;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
 
-import javax.print.attribute.standard.DialogTypeSelection;
-
 import static frc.robot.Constants.Status.*;
 
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
 import org.photonvision.common.hardware.VisionLEDMode;
 
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Vision.*;
 import static frc.robot.Constants.Shooter.*;
 import static frc.robot.Constants.Robot.*;
-import static frc.robot.Constants.Field.*;
-import static frc.robot.Constants.Index.*;
 import static frc.robot.Constants.Autonomous.*;
 
 

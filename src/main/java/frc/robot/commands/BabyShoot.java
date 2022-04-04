@@ -6,14 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.Vision.*;
-
-import org.photonvision.PhotonUtils;
-
-import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.Robot.*;
-import static frc.robot.Constants.Field.*;
-
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -40,7 +32,6 @@ public class BabyShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   
     shooter.setSetpoint(600);
   }
     

@@ -3,13 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Lighting;
-import static frc.robot.Constants.Status.*;
-import static frc.robot.Constants.Shooter.*;
-
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

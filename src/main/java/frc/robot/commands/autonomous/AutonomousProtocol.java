@@ -5,7 +5,6 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.DelayedIndex;
 import frc.robot.commands.DelayedIndexTimed;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
