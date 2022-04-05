@@ -14,9 +14,7 @@ public class RetractClimbLighting extends CommandBase {
   
   Lighting lights;
   Timer lightTimer = new Timer();
-  double lightCounter = lights.LIGHT_BUFFER.getLength();
-  boolean lightUp = true;
-   
+  
   /**
    * Creates a new ExampleCommand.
    *
@@ -34,50 +32,13 @@ public class RetractClimbLighting extends CommandBase {
   public void initialize() {
     lightTimer.reset();
     lightTimer.start();
-    for (int i = 0; i < lights.LIGHT_BUFFER.getLength(); i++) {
-      lights.LIGHT_BUFFER.setHSV(i, 0, 0, 255);
-    }
-
-    lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-    lights.LIGHTS.start();
+    lights.fullWhite();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      
-
-    if (lightUp) {
-      for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
-        lights.LIGHT_BUFFER.setRGB(i, 255, 0, 0);
-      }
-
-      lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-
-
-      if (lightCounter == 0) {
-        lightCounter = lights.LIGHT_BUFFER.getLength();
-        lightUp = false;
-      }
-  
-    }
-
-    if (!lightUp) {
-      for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
-        lights.LIGHT_BUFFER.setHSV(i, 0, 0, 255);
-      }
-
-      lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-  
-
-      if (lightCounter == 0) {
-        lightCounter = lights.LIGHT_BUFFER.getLength();
-        lightUp = true;
-      }
-    }
-
-    lightCounter -= 10;
-    
+    lights.fullRedRun();
     lights.start();
   
   }
@@ -85,7 +46,7 @@ public class RetractClimbLighting extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // lights.FullRed();
+    lights.fullWhite();
   }
 
   @Override

@@ -14,7 +14,6 @@ public class ShootLighting extends CommandBase {
   
   Lighting lights;
   Timer lightTimer = new Timer();
-  double lightCounter = lights.LIGHT_BUFFER.getLength();
    
   /**
    * Creates a new ExampleCommand.
@@ -32,8 +31,8 @@ public class ShootLighting extends CommandBase {
   @Override
   public void initialize() {
     
-    lights.FullBlue();
-    lights.LIGHTS.start();
+    lights.fullBlue();
+    lights.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

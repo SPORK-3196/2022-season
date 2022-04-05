@@ -8,6 +8,11 @@
         "visible": true
       }
     },
+    "DIO": {
+      "window": {
+        "visible": true
+      }
+    },
     "RoboRIO": {
       "window": {
         "visible": true
@@ -36,6 +41,13 @@
       "/Shuffleboard/Autonomous Controls/SendableChooser[1]": "String Chooser",
       "/Shuffleboard/Drivetrain Info/Field": "Field2d",
       "/Shuffleboard/Drivetrain Info/SendableChooser[0]": "String Chooser"
+    },
+    "windows": {
+      "/FMSInfo": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
@@ -59,7 +71,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 338
+          "height": 310
         }
       ],
       "window": {

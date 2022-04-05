@@ -4,15 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Lighting;
 import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.Shooter.*;
 
 import static frc.robot.Constants.Vision.*;
 import static frc.robot.Constants.XboxController.*;
-
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -44,37 +42,41 @@ public class LightingControl extends CommandBase {
   public void execute() {
     if (teleop) {
       if (primaryHasTargets && X2_AButton) {
-        lights.redGreenOffset(Math.abs(primaryYaw));
+        lights.redGreenOffset(Math.abs(primaryYaw), 8);
       }
       else {
         lights.FullRainbow();
       }
     }
 
-    if (disabled) {
-      if (NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(false)) {
-        lights.FullRed();
+
+    if (DriverStation.isDisabled()) {
+      if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
+        lights.fullBlue();
+      }
+      else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
+        lights.fullRed();
       }
       else {
-        lights.FullBlue();
+        lights.FullRainbow();
       }
       
     }
 
-    if (autonomous) {
-      lights.FullBlue();
+    if (DriverStation.isAutonomousEnabled()) {
+      lights.fullBlue();
     }
 
     if (indexing) {
-      lights.FullWhite();
+      lights.fullWhite();
     }
 
     if (rampingUp) {
-      lights.FullYellow();
+      lights.fullYellow();
     }
 
     if (SHOOTER_READY) {
-      lights.FullGreen();
+      lights.fullGreen();
     }
 
     lights.start();

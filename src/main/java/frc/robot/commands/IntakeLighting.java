@@ -15,7 +15,6 @@ public class IntakeLighting extends CommandBase {
   
   Lighting lights;
   Timer lightTimer = new Timer();
-  double lightCounter = lights.LIGHT_BUFFER.getLength();
    
   /**
    * Creates a new ExampleCommand.
@@ -33,8 +32,8 @@ public class IntakeLighting extends CommandBase {
   @Override
   public void initialize() {
     
-    lights.FullWhite();
-    lights.LIGHTS.start();
+    lights.fullWhite();
+    lights.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

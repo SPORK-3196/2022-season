@@ -4,17 +4,53 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Climber;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class RetractClimber extends ParallelCommandGroup {
-    /**
-     * Creates a new ExtendClimber.
-     */
-    public RetractClimber(Climber climber, double value) {
-        super(
-            new RetractClimberLeft(climber, value),
-            new RetractClimberRight(climber, value)
-        );
-    }
+
+/** An example command that uses an example subsystem. */
+public class RetractClimber extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  
+  Climber climber;
+  private double power;
+  
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  public RetractClimber (Climber subsystem, double power) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.power = power;
+    this.climber = subsystem;
   }
+
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    climber.RetractLeft(power);
+    climber.RetractRight(power);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+  //  climber.RetractLeft(power);
+  //  climber.RetractRight(power);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    climber.StopLeft();
+    climber.StopRight();
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

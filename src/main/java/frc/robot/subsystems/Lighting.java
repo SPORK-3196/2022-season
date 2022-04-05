@@ -9,90 +9,333 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lighting extends SubsystemBase {
   
-  public static AddressableLED LIGHTS = new AddressableLED(8);
-  public static AddressableLEDBuffer LIGHT_BUFFER;
+  public static AddressableLED lightsAlpha = new AddressableLED(8);
+  // public static AddressableLED lightsBeta = new AddressableLED(7);
+
+  public static AddressableLEDBuffer lightBufferAlpha;
+  public static AddressableLEDBuffer lightBufferBeta;
 
   public static int firstPixelHue = 0;
 
+  double alphaLightCounter;
+  boolean alphaLightUp = true;
+
+  double betaLightCounter;
+  boolean betaLightUp = true;
+
   
-  /** Creates a new SparkTest. */
+  /** Creates a new Lighting. */
   public Lighting() {
-    LIGHT_BUFFER = new AddressableLEDBuffer(300);
-    LIGHTS.setLength(LIGHT_BUFFER.getLength());
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
+    lightBufferAlpha = new AddressableLEDBuffer(300);
+    lightBufferBeta = new AddressableLEDBuffer(300);
+
+    alphaLightCounter = lightBufferAlpha.getLength();
+    betaLightCounter = lightBufferBeta.getLength();
+
+    lightsAlpha.setLength(lightBufferAlpha.getLength());
+    // lightsBeta.setLength(lightBufferBeta.getLength());
+
+    lightsAlpha.setData(lightBufferAlpha);
+    // lightsBeta.setData(lightBufferBeta);
+
+  }
+
+  public void alphaStart() {
+    lightsAlpha.start();
+  }
+
+  public void betaStart() {
+    // lightsBeta.start();
   }
 
   public void start() {
-    LIGHTS.start();
+    alphaStart();
+    betaStart();
   }
   
-  public void redGreenOffset(double offset) {
-    int val = (int) (offset * 8);
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      // LIGHT_BUFFER.setRGB(i, 255, 0, 0);
-      LIGHT_BUFFER.setRGB(i, val, 255 - val, 0);
+  public void redGreenOffset(double offset, double offset_factor) {
+    int val = (int) (offset * offset_factor);
+
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setRGB(i, val, 255 - val, 0);
     }
-    LIGHTS.setData(LIGHT_BUFFER);
+
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      lightBufferBeta.setRGB(i, val, 255 - val, 0);
+    }
+
+    lightsAlpha.setData(lightBufferAlpha);
+    // lightsBeta.setData(lightBufferBeta);
   }
 
-  public void FullRed() {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      // LIGHT_BUFFER.setRGB(i, 255, 0, 0);
-      LIGHT_BUFFER.setHSV(i, 0, 255, 75);
+  public void alphaRed() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setHSV(i, 0, 255, 75);
     }
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
+    lightsAlpha.setData(lightBufferAlpha);
+  }
+  
+  public void betaRed() {
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      lightBufferBeta.setHSV(i, 0, 255, 75);
+    }
+    // lightsBeta.setData(lightBufferBeta);
   }
 
-  public void FullYellow() {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      // LIGHT_BUFFER.setRGB(i, 255, 255, 0);
-      LIGHT_BUFFER.setHSV(i, 60, 255, 75);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
+  public void fullRed() {
+    alphaRed();
+    betaRed();
   }
 
-  public void FullGreen() {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      // LIGHT_BUFFER.setRGB(i, 0, 255, 0);
-      LIGHT_BUFFER.setHSV(i, 120, 255, 75);
+  public void alphaYellow() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setHSV(i, 60, 255, 75);
     }
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
+    lightsAlpha.setData(lightBufferAlpha);
+  }
+  
+  public void betaYellow() {
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      lightBufferBeta.setHSV(i, 60, 255, 75);
+    }
+    // lightsBeta.setData(lightBufferBeta);
   }
 
-  public void FullBlue() {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      // LIGHT_BUFFER.setRGB(i, 0, 0, 255);
-      LIGHT_BUFFER.setHSV(i, 240, 255, 75);
-    }
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
-    
+  public void fullYellow() {
+    alphaYellow();
+    betaYellow();
   }
 
-  public void FullWhite() {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 255, 255, 255);
+  public void alphaGreen() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setHSV(i, 120, 255, 75);
     }
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
+    lightsAlpha.setData(lightBufferAlpha);
+  }
+  
+  public void betaGreen() {
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      lightBufferBeta.setHSV(i, 120, 255, 75);
+    }
+    // lightsBeta.setData(lightBufferBeta);
   }
 
-  public void FullRainbow() {
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      final int hue = (firstPixelHue + (i * 180 / LIGHT_BUFFER.getLength())) % 180;
-      LIGHT_BUFFER.setHSV(i, hue, 169, 35);
+  public void fullGreen() {
+    alphaGreen();
+    betaGreen();
+  }
+
+  public void alphaBlue() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setHSV(i, 240, 255, 75);
+    }
+    lightsAlpha.setData(lightBufferAlpha);
+  }
+  
+  public void betaBlue() {
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      lightBufferBeta.setHSV(i, 240, 255, 75);
+    }
+    // lightsBeta.setData(lightBufferBeta);
+  }
+
+  public void fullBlue() {
+    alphaBlue();
+    betaBlue();
+  }
+
+  public void alphaWhite() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setRGB(i, 255, 255, 255);
+    }
+    lightsAlpha.setData(lightBufferAlpha);
+  }
+  
+  public void betaWhite() {
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      lightBufferBeta.setRGB(i, 255, 255, 255);
+    }
+    // lightsBeta.setData(lightBufferBeta);
+  }
+
+  public void fullWhite() {
+    alphaWhite();
+    betaWhite();
+  }
+
+
+
+  public void alphaRainbow() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      final int hue = (firstPixelHue + (i * 180 / lightBufferAlpha.getLength())) % 180;
+      lightBufferAlpha.setHSV(i, hue, 169, 35);
     }
     firstPixelHue += 3;
 
     firstPixelHue %= 180;
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
+    lightsAlpha.setData(lightBufferAlpha);
+
   }
 
+  public void betaRainbow() {
+    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
+      final int hue = (firstPixelHue + (i * 180 / lightBufferBeta.getLength())) % 180;
+      lightBufferBeta.setHSV(i, hue, 169, 35);
+    }
+    firstPixelHue += 3;
+
+    firstPixelHue %= 180;
+    // lightsBeta.setData(lightBufferBeta);
+
+  }
+
+  public void FullRainbow() {
+    alphaRainbow();
+    betaRainbow();
+  }
+
+  public void alphaGreenRun() {
+    if (alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setRGB(i, 0, 255, 0);
+      }
+
+      lightsAlpha.setData(lightBufferAlpha);
+
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferAlpha.getLength();
+        alphaLightUp = false;
+      }
+  
+    }
+
+    if (!alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setHSV(i, 0, 0, 255);
+      }
+
+      lightsAlpha.setData(lightBufferBeta);
+  
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferBeta.getLength();
+        alphaLightUp = true;
+      }
+    }
+
+    alphaLightCounter -= 10;
+  }
+
+  public void betaGreenRun() {
+    if (betaLightUp) {
+      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
+        lightBufferBeta.setRGB(i, 0, 255, 0);
+      }
+
+      // lightsBeta.setData(lightBufferBeta);
+
+
+      if (betaLightCounter == 0) {
+        betaLightCounter = lightBufferBeta.getLength();
+        betaLightUp = false;
+      }
+  
+    }
+
+    if (!betaLightUp) {
+      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
+        lightBufferBeta.setHSV(i, 0, 0, 255);
+      }
+
+      lightsAlpha.setData(lightBufferBeta);
+  
+
+      if (betaLightCounter == 0) {
+        betaLightCounter = lightBufferBeta.getLength();
+        betaLightUp = true;
+      }
+    }
+
+    alphaLightCounter -= 10;
+  }
+
+  public void fullGreenRun() {
+    alphaGreenRun();
+    betaGreenRun();
+  }
+
+
+  public void alphaRedRun() {
+    if (alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setRGB(i, 255, 0, 0);
+      }
+
+      lightsAlpha.setData(lightBufferAlpha);
+
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferAlpha.getLength();
+        alphaLightUp = false;
+      }
+  
+    }
+
+    if (!alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setHSV(i, 0, 0, 255);
+      }
+
+      lightsAlpha.setData(lightBufferBeta);
+  
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferBeta.getLength();
+        alphaLightUp = true;
+      }
+    }
+
+    alphaLightCounter -= 10;
+  }
+
+  public void betaRedRun() {
+    if (betaLightUp) {
+      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
+        lightBufferBeta.setRGB(i, 0, 255, 0);
+      }
+
+      // lightsBeta.setData(lightBufferBeta);
+
+
+      if (betaLightCounter == 0) {
+        betaLightCounter = lightBufferBeta.getLength();
+        betaLightUp = false;
+      }
+  
+    }
+
+    if (!betaLightUp) {
+      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
+        lightBufferBeta.setHSV(i, 0, 0, 255);
+      }
+
+      lightsAlpha.setData(lightBufferBeta);
+  
+
+      if (betaLightCounter == 0) {
+        betaLightCounter = lightBufferBeta.getLength();
+        betaLightUp = true;
+      }
+    }
+
+    alphaLightCounter -= 10;
+  }
+
+  public void fullRedRun() {
+    alphaGreenRun();
+    betaGreenRun();
+  }
 
 
   @Override
