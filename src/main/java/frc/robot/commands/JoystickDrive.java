@@ -27,6 +27,7 @@ public class JoystickDrive extends CommandBase {
 
   double steering_adjust;
   double heading_error;
+  DifferentialDrive.WheelSpeeds wheelSpeeds;
 
   
   double speedControl;
@@ -48,8 +49,6 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-   
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,8 +58,8 @@ public class JoystickDrive extends CommandBase {
     if (!drivetrain.driveModeSet) {
       Auto_PIDController.setSetpoint(0);
       Auto_PIDController.setTolerance(0);
-      drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-      drivetrain.drivetrain.setDeadband(0.05);
+      // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+      // drivetrain.drivetrain.setDeadband(0.05);
 
       drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
       drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
@@ -112,15 +111,17 @@ public class JoystickDrive extends CommandBase {
       speedControl = -speedControl;
     }
   
-
-    drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
+    wheelSpeeds = DifferentialDrive.curvatureDriveIK(speedControl, rotationControl, true);
+    drivetrain.leftSide.set(wheelSpeeds.left);
+    drivetrain.rightSide.set(wheelSpeeds.right);
+    // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
     // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drivetrain = null;
+    // drivetrain.drivetrain = null;
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);

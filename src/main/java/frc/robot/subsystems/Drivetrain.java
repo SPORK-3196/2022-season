@@ -59,7 +59,8 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
-    
+    leftSide.setInverted(true);
+
 
     drivetrainOrchestra.addInstrument(frontLeft);
     drivetrainOrchestra.addInstrument(frontRight);
