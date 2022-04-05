@@ -4,12 +4,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Lighting;
-import static frc.robot.Constants.Status.*;
-import static frc.robot.Constants.Shooter.*;
-
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -20,8 +15,7 @@ public class ExtendClimbLighting extends CommandBase {
   
   Lighting lights;
   Timer lightTimer = new Timer();
-  double lightCounter = lights.LIGHT_BUFFER.getLength();
-  boolean lightUp = true;
+
    
   /**
    * Creates a new ExampleCommand.
@@ -40,50 +34,15 @@ public class ExtendClimbLighting extends CommandBase {
   public void initialize() {
     lightTimer.reset();
     lightTimer.start();
-    for (int i = 0; i < lights.LIGHT_BUFFER.getLength(); i++) {
-      lights.LIGHT_BUFFER.setHSV(i, 0, 0, 255);
-    }
-
-    lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-    lights.LIGHTS.start();
+    lights.fullWhite();
+    lights.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-
-    if (lightUp) {
-      for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
-        lights.LIGHT_BUFFER.setRGB(i, 0, 255, 0);
-      }
-
-      lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-
-
-      if (lightCounter == 0) {
-        lightCounter = lights.LIGHT_BUFFER.getLength();
-        lightUp = false;
-      }
-  
-    }
-
-    if (!lightUp) {
-      for (int i = 0; i < lights.LIGHT_BUFFER.getLength() - lightCounter; i++) {
-        lights.LIGHT_BUFFER.setHSV(i, 0, 0, 255);
-      }
-
-      lights.LIGHTS.setData(lights.LIGHT_BUFFER);
-  
-
-      if (lightCounter == 0) {
-        lightCounter = lights.LIGHT_BUFFER.getLength();
-        lightUp = true;
-      }
-    }
-
-    lightCounter -= 10;
-    
+    lights.fullGreenRun();
     lights.start();
   
   }
@@ -91,7 +50,7 @@ public class ExtendClimbLighting extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // lights.FullRed();
+    lights.fullWhite();
   }
 
   @Override

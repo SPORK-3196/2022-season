@@ -4,17 +4,53 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Climber;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ExtendClimber extends ParallelCommandGroup {
-    /**
-     * Creates a new ExtendClimber.
-     */
-    public ExtendClimber(Climber climber, double value) {
-        super(
-            new ExtendClimberLeft(climber, value),
-            new ExtendClimberRight(climber, value)
-        );
-    }
+
+/** An example command that uses an example subsystem. */
+public class ExtendClimber extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  
+  Climber climber;
+  private double power;
+  
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  public ExtendClimber (Climber subsystem, double power) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.power = power;
+    this.climber = subsystem;
   }
+
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    climber.ExtendLeft(power);
+    climber.ExtendRight(power);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    // climber.ExtendLeft(power);
+    // climber.ExtendRight(power);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    climber.StopLeft();
+    climber.StopRight();
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

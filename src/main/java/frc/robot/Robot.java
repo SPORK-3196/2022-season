@@ -8,7 +8,7 @@ import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.net.PortForwarder;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -99,6 +99,7 @@ public class Robot extends TimedRobot {
 
 
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    DriverStation.silenceJoystickConnectionWarning(true);
     
   }
 

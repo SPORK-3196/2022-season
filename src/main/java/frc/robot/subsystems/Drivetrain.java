@@ -48,10 +48,9 @@ public class Drivetrain extends SubsystemBase {
     visionMeasurementStdDevs);
   */
   
-  // private final DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), initialPoseMeters);
-  
   private DifferentialDriveOdometry drivetrain_odometry;
-  private Pose2d robot_pose = new Pose2d(30, 20, new Rotation2d(getGyroHeading()));
+  // private DifferentialDriveOdometry drivetrain_odometry;
+  private Pose2d robot_pose;
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
@@ -60,18 +59,12 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
-    leftSide.setInverted(true);
-    frontLeft.setNeutralMode(NeutralMode.Coast);
-    rearLeft.setNeutralMode(NeutralMode.Coast);
-    frontRight.setNeutralMode(NeutralMode.Coast);
-    rearRight.setNeutralMode(NeutralMode.Coast);
+    
 
     drivetrainOrchestra.addInstrument(frontLeft);
     drivetrainOrchestra.addInstrument(frontRight);
     drivetrainOrchestra.addInstrument(rearLeft);
     drivetrainOrchestra.addInstrument(rearRight);
-
-    
 
     // gyroscope.setYaw(0);
 
@@ -88,6 +81,9 @@ public class Drivetrain extends SubsystemBase {
     songChooser.setDefaultOption("Ain't No Mountain High Enough", "Ain't No Mountain High Enough.chrp");
 
     drivetrainOrchestra.loadMusic(songChooser.getSelected());
+
+    robot_pose = new Pose2d(30, 20, new Rotation2d(getGyroHeading()));
+    drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), robot_pose);
   }
 
   public void loadMusic(String song) {
@@ -147,7 +143,12 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     if (playingMusic) {
       DT_MusicPlaying.setBoolean(true);
-      return;
+      leftSide.setInverted(true);
+      frontLeft.setNeutralMode(NeutralMode.Coast);
+      rearLeft.setNeutralMode(NeutralMode.Coast);
+      frontRight.setNeutralMode(NeutralMode.Coast);
+      rearRight.setNeutralMode(NeutralMode.Coast);
+      return ;
     }
     else {
       DT_MusicPlaying.setBoolean(false);
@@ -160,8 +161,8 @@ public class Drivetrain extends SubsystemBase {
     // System.out.println(rearLeft.getSelectedSensorPosition());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
-    // robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
-    // gameField.setRobotPose(robot_pose);
+    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
+    gameField.setRobotPose(robot_pose);
   } 
 
   @Override
