@@ -79,7 +79,7 @@ public class RobotContainer {
     // Robot.X1J_AButton.whenHeld(new PlayMusic(Drivetrain));
     // X1J_A.whenHeld(new HorizontalAim(Drivetrain));
 
-    X1J_Y.toggleWhenActive(new PlayMusic(Drivetrain));
+    X1J_B.toggleWhenActive(new PlayMusic(Drivetrain));
     // whenHeld(new PlayMusic(Drivetrain), false);
     // .whenActive(new PlayMusic(Drivetrain));
     
