@@ -89,7 +89,7 @@ public class Lighting extends SubsystemBase {
 
   public void alphaYellow() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setHSV(i, 60, 255, 75);
+      lightBufferAlpha.setRGB(i, 255, 255, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
