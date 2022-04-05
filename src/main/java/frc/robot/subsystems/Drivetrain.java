@@ -79,6 +79,7 @@ public class Drivetrain extends SubsystemBase {
     songChooser.addOption("Friends On The Other Side", "Friends On The Other Side.chrp");
     songChooser.addOption("Party In The USA", "Party In The USA.chrp");
     songChooser.addOption("A Thousand Miles", "A Thousand Miles.chrp");
+    songChooser.addOption("Sir Duke", "Sir Duke.chrp");
     songChooser.setDefaultOption("Ain't No Mountain High Enough", "Ain't No Mountain High Enough.chrp");
 
     drivetrainOrchestra.loadMusic(songChooser.getSelected());
