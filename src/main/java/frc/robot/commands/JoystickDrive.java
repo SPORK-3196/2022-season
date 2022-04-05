@@ -111,7 +111,7 @@ public class JoystickDrive extends CommandBase {
       speedControl = -speedControl;
     }
   
-    wheelSpeeds = DifferentialDrive.curvatureDriveIK(speedControl, rotationControl, true);
+    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, true);
     drivetrain.leftSide.set(wheelSpeeds.left);
     drivetrain.rightSide.set(wheelSpeeds.right);
     // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
