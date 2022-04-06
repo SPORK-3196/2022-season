@@ -28,7 +28,8 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
   public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
-  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.026517, 0.12868);
+  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.026517, 0.12868, 0.0050995);
+  // new SimpleMotorFeedforward(0.026517, 0.12868, );
   public PIDController voltagePIDController = new PIDController(0.000069566, 0, 0);
   // new PIDController(0.000015, 0.0004, 0);
   
@@ -42,6 +43,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   
   /** Creates a new SparkTest. */
   public Shooter(double tolerance) {
+    leftShooter.setInverted(true);
     leftPIDController.setP(0.00006);
     leftPIDController.setI(0.0000004);
     leftPIDController.setD(0.004);
@@ -73,7 +75,9 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   
   public void feedForwardShoot(double RPM) {
     voltagePIDController.setSetpoint(RPM);
-    double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
+    // double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
+    double voltageValue = ffController.calculate(leftShooterEncoder.getVelocity(), RPM, 0.5);
+    // double voltageValue = 6;
     leftShooter.setVoltage(voltageValue);
     rightShooter.setVoltage(voltageValue);
   }

@@ -38,7 +38,10 @@ public class PlayMusic extends CommandBase {
     drivetrain.rearLeft.set(TalonFXControlMode.MusicTone, 0);
     drivetrain.rearRight.set(TalonFXControlMode.MusicTone, 0);
     */
-    drivetrain.loadMusic(songChooser.getSelected());
+    if (drivetrain.currentSong != drivetrain.previousSong) {
+      drivetrain.loadMusic(songChooser.getSelected());
+      drivetrain.currentSong = songChooser.getSelected();
+    }
     drivetrain.playMusic();
     lightTimer.reset();
     lightTimer.start();
@@ -55,6 +58,7 @@ public class PlayMusic extends CommandBase {
   public void end(boolean interrupted) {
     drivetrain.pauseMusic();
     drivetrain.drivetrain = null;
+    drivetrain.previousSong = drivetrain.currentSong;
   }
 
   @Override

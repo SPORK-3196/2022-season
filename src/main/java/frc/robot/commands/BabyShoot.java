@@ -32,14 +32,14 @@ public class BabyShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint(600);
+    shooter.setSetpoint(700);
   }
     
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setSetpoint(500);
+    shooter.setSetpoint(700);
     // shooter.setSetpoint(TeleComputedRPM);
   }
 

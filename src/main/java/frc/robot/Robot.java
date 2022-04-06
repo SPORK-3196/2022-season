@@ -304,16 +304,16 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
     primaryCamera.setPipelineIndex(0);
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
-    /*
+    
     if (RUN_VISION) {
-      backupCamera.setDriverMode(false);
+      NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
     }
     else {
-      backupCamera.setDriverMode(true);
+      NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
     }
-    */
+    
     backupCamera.setDriverMode(true);
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    
 
   }
 
