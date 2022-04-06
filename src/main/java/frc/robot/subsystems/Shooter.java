@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -72,7 +73,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   
   public void feedForwardShoot(double RPM) {
     voltagePIDController.setSetpoint(RPM);
-    double voltageValue = voltagePIDController.calculate(leftEncoder.getVelocity()) + ffController.calculate(RPM);
+    double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
     leftShooter.setVoltage(voltageValue);
     rightShooter.setVoltage(voltageValue);
   }
