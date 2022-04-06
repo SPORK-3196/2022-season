@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -26,6 +27,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
   public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
+  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0, 0);
   // new PIDController(0.000015, 0.0004, 0);
   
   // public PIDController leftPIDController = new PIDController(0.00005, 0.0002, 5.0);
@@ -67,6 +69,12 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rightTargetRPM = 0;
   } 
   
+  public void feedForwardShoot(double RPM) {
+    double voltageValue = ffController.calculate(-1 * RPM);
+    leftShooter.setVoltage(voltageValue);
+    rightShooter.setVoltage(voltageValue);
+  }
+
   public void setTolerance(double tolerance) {
     this.tolerance = tolerance;
   }
