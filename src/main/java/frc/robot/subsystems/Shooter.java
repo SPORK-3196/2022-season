@@ -27,8 +27,8 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
   public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
-  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0, 0);
-  public PIDController voltagePIDController = new PIDController(0.00000026261, 0, 0);
+  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.026517, 0.12868);
+  public PIDController voltagePIDController = new PIDController(0.000069566, 0, 0);
   // new PIDController(0.000015, 0.0004, 0);
   
   // public PIDController leftPIDController = new PIDController(0.00005, 0.0002, 5.0);

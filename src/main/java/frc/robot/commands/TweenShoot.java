@@ -55,15 +55,18 @@ public class TweenShoot extends CommandBase {
     // AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
     // AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
     // shooter.setSetpoint(1000);
-    shooter.setSetpoint(1000);
+
+    // shooter.setSetpoint(1000);
+    shooter.feedForwardShoot(1000);
   }
     
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setSetpoint(1000);
+    // shooter.setSetpoint(1000);
     // shooter.setSetpoint(TeleComputedRPM);
+    shooter.feedForwardShoot(1000);
   }
 
   // Called once the command ends or is interrupted.
