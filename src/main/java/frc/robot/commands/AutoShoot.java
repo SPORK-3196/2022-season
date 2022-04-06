@@ -34,8 +34,9 @@ public class AutoShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    /*
+    
     RUN_VISION = true;
+    /*
     for (int i = 0; i < 50; i++) {
       primaryCameraResult = primaryCamera.getLatestResult();
       primaryHasTargets = primaryCameraResult.hasTargets();

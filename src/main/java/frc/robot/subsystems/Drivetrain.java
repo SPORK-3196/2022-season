@@ -36,6 +36,9 @@ public class Drivetrain extends SubsystemBase {
 
   private boolean playingMusic = false;
 
+  public String currentSong = "placeholder current";
+  public String previousSong = "placeholder previous";
+
   public boolean driveModeSet = false;
 
   // private final DifferentialDriveKinematics drivetrain_kinematics = new DifferentialDriveKinematics(DrivetrainTrackWidthMeters);
@@ -81,6 +84,9 @@ public class Drivetrain extends SubsystemBase {
     songChooser.addOption("A Thousand Miles", "A Thousand Miles.chrp");
     songChooser.addOption("Sir Duke", "Sir Duke.chrp");
     songChooser.setDefaultOption("Ain't No Mountain High Enough", "Ain't No Mountain High Enough.chrp");
+    songChooser.addOption("Despacito", "Despacito.chrp");
+    songChooser.addOption("Gravity Falls", "Gravity Falls.chrp");
+    songChooser.addOption("Never Gonna Give You Up", "Never Gonna Give You Up.chrp");
 
     drivetrainOrchestra.loadMusic(songChooser.getSelected());
 
