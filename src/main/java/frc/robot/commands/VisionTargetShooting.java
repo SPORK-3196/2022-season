@@ -3,64 +3,54 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.Vision.*;
 
 
 /** An example command that uses an example subsystem. */
-public class IndexShooting extends CommandBase {
+public class VisionTargetShooting extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Index index;
-  boolean runIndex = true;
-  public Timer indexTimer = new Timer();
-
+  Lighting lights;
+  Timer lightTimer = new Timer();
+   
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IndexShooting(Index index) {
-    this.index = index;
-    
+  public VisionTargetShooting (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(index);
+    this.lights = lights;
+    addRequirements(lights);
   }
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    runIndex = true;
+    
+    lights.redGreenOffset(primaryYaw, 8);
+    lights.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (index.getTopSensor()) {
-      runIndex = false;
-    }
-   
-    if (SHOOTER_READY) {
-      runIndex = true;
-    }
-
-    if (runIndex) {
-      index.runIndex();
-    }
-    else if (!runIndex) {
-      index.stopIndex();
-    }
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    index.stopIndex();
+    lights.FullRainbow();
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 
   // Returns true when the command should end.

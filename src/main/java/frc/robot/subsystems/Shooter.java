@@ -81,7 +81,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     voltagePIDController.setSetpoint(RPM);
     // double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
     double voltageValue = ffController.calculate(RPM / 60);
-    System.out.println(voltageValue);
+    // System.out.println(voltageValue);
     // double voltageValue = 6;
     leftTargetRPM = RPM;
     leftTargetRPM = RPM;
