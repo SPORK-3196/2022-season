@@ -70,21 +70,14 @@ public class Lighting extends SubsystemBase {
 
   public void alphaRed() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setHSV(i, 0, 255, 75);
+      lightBufferAlpha.setRGB(i, 255, 0, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
   
-  public void betaRed() {
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      lightBufferBeta.setHSV(i, 0, 255, 75);
-    }
-    // lightsBeta.setData(lightBufferBeta);
-  }
 
   public void fullRed() {
     alphaRed();
-    betaRed();
   }
 
   public void alphaYellow() {
@@ -93,55 +86,32 @@ public class Lighting extends SubsystemBase {
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
-  
-  public void betaYellow() {
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      lightBufferBeta.setHSV(i, 60, 255, 75);
-    }
-    // lightsBeta.setData(lightBufferBeta);
-  }
 
   public void fullYellow() {
     alphaYellow();
-    betaYellow();
   }
 
   public void alphaGreen() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setHSV(i, 120, 255, 75);
+      lightBufferAlpha.setRGB(i, 0, 255, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
-  
-  public void betaGreen() {
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      lightBufferBeta.setHSV(i, 120, 255, 75);
-    }
-    // lightsBeta.setData(lightBufferBeta);
-  }
+
 
   public void fullGreen() {
     alphaGreen();
-    betaGreen();
   }
 
   public void alphaBlue() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setHSV(i, 240, 255, 75);
+      lightBufferAlpha.setRGB(i, 0, 0, 255);
     }
     lightsAlpha.setData(lightBufferAlpha);
-  }
-  
-  public void betaBlue() {
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      lightBufferBeta.setHSV(i, 240, 255, 75);
-    }
-    // lightsBeta.setData(lightBufferBeta);
   }
 
   public void fullBlue() {
     alphaBlue();
-    betaBlue();
   }
 
   public void alphaWhite() {
@@ -150,17 +120,10 @@ public class Lighting extends SubsystemBase {
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
-  
-  public void betaWhite() {
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      lightBufferBeta.setRGB(i, 255, 255, 255);
-    }
-    // lightsBeta.setData(lightBufferBeta);
-  }
+
 
   public void fullWhite() {
     alphaWhite();
-    betaWhite();
   }
 
 
@@ -178,10 +141,9 @@ public class Lighting extends SubsystemBase {
   }
 
   public void rainbowRun() {
-  if (alphaLightUp) {
     for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
-      final int hue = (firstPixelHue + (i * 180 / lightBufferAlpha.getLength())) % 180;
-      lightBufferAlpha.setHSV(i, hue, 169, 35);
+        final int hue = (firstPixelHue + (i * 180 / lightBufferAlpha.getLength())) % 180;
+        lightBufferAlpha.setHSV(i, hue, 169, 100);
     }
 
     lightsAlpha.setData(lightBufferAlpha);
@@ -189,30 +151,17 @@ public class Lighting extends SubsystemBase {
 
     if (alphaLightCounter == 0) {
       alphaLightCounter = lightBufferAlpha.getLength();
-      alphaLightUp = false;
     }
+    
 
-  }
-
-
-  alphaLightCounter -= 10;
-  }
-
-  public void betaRainbow() {
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      final int hue = (firstPixelHue + (i * 180 / lightBufferBeta.getLength())) % 180;
-      lightBufferBeta.setHSV(i, hue, 169, 35);
-    }
+    
     firstPixelHue += 3;
-
     firstPixelHue %= 180;
-    // lightsBeta.setData(lightBufferBeta);
-
+    alphaLightCounter -= 10;
   }
 
   public void FullRainbow() {
     alphaRainbow();
-    betaRainbow();
   }
 
   public void alphaGreenRun() {
