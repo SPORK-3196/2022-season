@@ -177,6 +177,27 @@ public class Lighting extends SubsystemBase {
 
   }
 
+  public void rainbowRun() {
+  if (alphaLightUp) {
+    for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+      final int hue = (firstPixelHue + (i * 180 / lightBufferAlpha.getLength())) % 180;
+      lightBufferAlpha.setHSV(i, hue, 169, 35);
+    }
+
+    lightsAlpha.setData(lightBufferAlpha);
+
+
+    if (alphaLightCounter == 0) {
+      alphaLightCounter = lightBufferAlpha.getLength();
+      alphaLightUp = false;
+    }
+
+  }
+
+
+  alphaLightCounter -= 10;
+  }
+
   public void betaRainbow() {
     for (int i = 0; i < lightBufferBeta.getLength(); i++) {
       final int hue = (firstPixelHue + (i * 180 / lightBufferBeta.getLength())) % 180;
@@ -215,11 +236,11 @@ public class Lighting extends SubsystemBase {
         lightBufferAlpha.setHSV(i, 0, 0, 255);
       }
 
-      lightsAlpha.setData(lightBufferBeta);
+      lightsAlpha.setData(lightBufferAlpha);
   
 
       if (alphaLightCounter == 0) {
-        alphaLightCounter = lightBufferBeta.getLength();
+        alphaLightCounter = lightBufferAlpha.getLength();
         alphaLightUp = true;
       }
     }

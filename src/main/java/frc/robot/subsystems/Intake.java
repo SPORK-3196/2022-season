@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Status.*;
 
@@ -16,6 +18,8 @@ public class Intake extends SubsystemBase {
   
   /** Creates a new SparkTest. */
   public Intake() {
+    intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 30);
+    intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 30);
   }
   
   public void intakeBalls() {

@@ -45,7 +45,7 @@ public class LightingControl extends CommandBase {
         lights.redGreenOffset(Math.abs(primaryYaw), 8);
       }
       else {
-        lights.FullRainbow();
+        lights.rainbowRun();
       }
     }
 

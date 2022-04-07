@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -28,7 +29,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
   public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
-  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.026517, 0.12868, 0.0050995);
+  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.026517, 0.12868);
   // new SimpleMotorFeedforward(0.026517, 0.12868, );
   public PIDController voltagePIDController = new PIDController(0.000069566, 0, 0);
   // new PIDController(0.000015, 0.0004, 0);
@@ -58,6 +59,9 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rightPIDController.setFF(0.000015);
     rightPIDController.setOutputRange(-1, 1);
     this.tolerance = tolerance;
+
+    leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
+    leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
   }
   
  
@@ -76,8 +80,11 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public void feedForwardShoot(double RPM) {
     voltagePIDController.setSetpoint(RPM);
     // double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
-    double voltageValue = ffController.calculate(leftShooterEncoder.getVelocity(), RPM, 0.5);
+    double voltageValue = ffController.calculate(RPM / 60);
+    System.out.println(voltageValue);
     // double voltageValue = 6;
+    leftTargetRPM = RPM;
+    leftTargetRPM = RPM;
     leftShooter.setVoltage(voltageValue);
     rightShooter.setVoltage(voltageValue);
   }

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -20,6 +21,10 @@ public class Climber extends SubsystemBase { // Made By Caputo
   
   public Climber() {
     R_Arm.setInverted(true);
+    L_Arm.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 30);
+    L_Arm.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 30);
+    R_Arm.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 30);
+    R_Arm.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 30);
   } 
 
   public void ExtendLeft (double power) {
