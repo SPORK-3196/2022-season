@@ -39,7 +39,7 @@ public class AutonomousShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint(AutoComputedRPM);
+    shooter.feedForwardShoot(AutoComputedRPM);
     shooterTimer.reset();
     shooterTimer.start();
   }
@@ -49,7 +49,7 @@ public class AutonomousShoot extends CommandBase {
   @Override
   public void execute() {
     // shooter.setSetpoint(AutoComputedRPM);
-    shooter.setSetpoint(2000);
+    shooter.feedForwardShoot(2000);
 
     if (shooter.atSetpoint()) {
       index.runIndex();

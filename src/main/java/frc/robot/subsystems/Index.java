@@ -8,7 +8,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -36,6 +36,9 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
     sensors[1] = sensorBeta;
     sensors[2] = sensorSigma;
     indexMotor.setInverted(true);
+    indexMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 30);
+    indexMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 30);
+   
   }
   
   public boolean getSensor(int sensorNumber) {
