@@ -47,6 +47,11 @@
         "window": {
           "visible": true
         }
+      },
+      "/LiveWindow/Ungrouped/Scheduler": {
+        "window": {
+          "visible": true
+        }
       }
     }
   },

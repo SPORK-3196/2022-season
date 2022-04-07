@@ -11,7 +11,8 @@ import frc.robot.commands.BabyShoot;
 import frc.robot.commands.ExtendClimbLighting;
 import frc.robot.commands.DelayedIndex;
 import frc.robot.commands.ExtendClimber;
-import frc.robot.commands.IndexShooting;
+import frc.robot.commands.IndexShootingLower;
+import frc.robot.commands.IndexShootingUpper;
 import frc.robot.commands.IntakeBalls;
 import frc.robot.commands.IntakeLighting;
 import frc.robot.commands.JoystickDrive;
@@ -25,6 +26,7 @@ import frc.robot.commands.ShootLighting;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.ToggleClimberLighting;
 import frc.robot.commands.TweenShoot;
+import frc.robot.commands.VisionTargetShooting;
 import frc.robot.commands.autonomous.AutonomousProtocol;
 import frc.robot.commands.autonomous.AutonomousShootUno;
 import frc.robot.commands.autonomous.DriveForwardTimed;
@@ -87,16 +89,16 @@ public class RobotContainer {
 
     X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
     X2J_B.whenHeld(new OuttakeBalls(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
-    X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
+    X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShootingUpper(Index)).whenHeld(new VisionTargetShooting(Lighting));
     // X2J_A.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
     X2J_Y.whenHeld(new ToggleArms(Climber)).whenPressed(new ToggleClimberLighting(Lighting));
 
     X2J_RB.whenHeld(new ExtendClimber(Climber, 0.45)).whenHeld(new ExtendClimbLighting(Lighting));
     X2J_LB.whenHeld(new RetractClimber(Climber, 0.45)).whenHeld(new RetractClimbLighting(Lighting));
 
-    X2J_LS.whenHeld(new BabyShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
+    X2J_LS.whenHeld(new BabyShoot(Shooter)).whenHeld(new IndexShootingLower(Index)).whenHeld(new ShootLighting(Lighting));
     
-    X2J_RS.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
+    X2J_RS.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShootingLower(Index)).whenHeld(new ShootLighting(Lighting));
 
 
   }
