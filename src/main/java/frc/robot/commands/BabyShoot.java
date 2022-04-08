@@ -47,7 +47,7 @@ public class BabyShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
-    RUN_VISION = false;
+    // RUN_VISION = false;
   }
 
   // Returns true when the command should end.
