@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
   public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
-  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.026517, 0.12868);
+  public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.027218, 0.12757, 0.12757);
   // new SimpleMotorFeedforward(0.026517, 0.12868, );
   public PIDController voltagePIDController = new PIDController(0.000069566, 0, 0);
   // new PIDController(0.000015, 0.0004, 0);
@@ -44,7 +44,6 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   
   /** Creates a new SparkTest. */
   public Shooter(double tolerance) {
-    leftShooter.setInverted(true);
     leftPIDController.setP(0.00006);
     leftPIDController.setI(0.0000004);
     leftPIDController.setD(0.004);
@@ -80,11 +79,11 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public void feedForwardShoot(double RPM) {
     voltagePIDController.setSetpoint(RPM);
     // double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
-    double voltageValue = ffController.calculate(RPM / 60);
+    double voltageValue = ffController.calculate(-1 * RPM / 60);
     // System.out.println(voltageValue);
     // double voltageValue = 6;
-    leftTargetRPM = RPM;
-    leftTargetRPM = RPM;
+    leftTargetRPM = -1 * RPM;
+    rightTargetRPM = -1 * RPM;
     leftShooter.setVoltage(voltageValue);
     rightShooter.setVoltage(voltageValue);
   }
@@ -95,7 +94,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
   public void setLeftSetpoint(double RPM) { 
     leftPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
-    leftTargetRPM = -1 * RPM;
+    leftTargetRPM = 1 * RPM;
   }
 
   public void setRightSetpoint(double RPM) { 
@@ -117,7 +116,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   }
 
   public boolean atSetpoint() {
-    return (leftAtSetpoint() && rightAtSetpoint());
+    return (leftAtSetpoint()&& rightAtSetpoint());
   }
 
   @Override
@@ -128,10 +127,10 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
 
     // SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
     
-    rampingUp = X1_AButton;
+    rampingUp = X2_AButton;
     
 
-    if (sparkVelocityRPM > 100) {
+    if (X2_AButton) {
       if (atSetpoint()) {
         SHOOTER_READY = true;
       }
@@ -142,6 +141,8 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     }
 
     SH_ShooterPower = (((leftShooterEncoder.getVelocity() + rightShooterEncoder.getVelocity()) / 2) / 5700) * 100;
+    // System.out.println("right " + rightShooterEncoder.getVelocity());
+    // System.out.println("left " + leftShooterEncoder.getVelocity());
   }
 
   @Override

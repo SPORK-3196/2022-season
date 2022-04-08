@@ -65,7 +65,9 @@ public class AutoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    RUN_VISION = true;
     if (primaryHasTargets) {
+      /*
       if (primaryYaw < 0) {
         curveOffsetRPM = -3 * primaryYaw;
         shooter.setRightSetpoint(AutoComputedRPM + curveOffsetRPM);
@@ -76,11 +78,12 @@ public class AutoShoot extends CommandBase {
         shooter.setRightSetpoint(AutoComputedRPM);
         shooter.setLeftSetpoint(AutoComputedRPM + curveOffsetRPM);
       }
+      */
       
-      // shooter.setSetpoint(AutoComputedRPM);
+      shooter.feedForwardShoot(AutoComputedRPM);
     }
     else {
-      shooter.setSetpoint(2000);
+      shooter.feedForwardShoot(2000);
     }
   }
 

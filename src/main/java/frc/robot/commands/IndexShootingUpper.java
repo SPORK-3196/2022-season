@@ -45,7 +45,13 @@ public class IndexShootingUpper extends CommandBase {
       runIndex = false;
     }
    
-    if (SHOOTER_READY && Math.abs(primaryYaw) < 3) {
+    /*
+    if (SHOOTER_READY && Math.abs(primaryYaw) < 6) {
+      runIndex = true;
+    }
+    */
+
+    if (SHOOTER_READY) {
       runIndex = true;
     }
 

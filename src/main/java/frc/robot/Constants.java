@@ -127,10 +127,10 @@ public final class Constants {
         public static double countsPerRevolution;
         public static double gearRatio;
 
-        public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(28);
+        public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(35);
         public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
 
-        public static double TestHub = Units.inchesToMeters(104);
+        public static double TestHub = Units.inchesToMeters(103.5);
     }
     
     public static final class Vision {
@@ -173,7 +173,7 @@ public final class Constants {
             .withProperties(Map.of("min", 0, "max", 6))
             .getEntry();
 
-        public static boolean RUN_VISION;
+        public static boolean RUN_VISION = false;
         // This is the distance from the Limelight to the target
     }
 
