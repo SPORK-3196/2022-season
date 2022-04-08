@@ -7,6 +7,7 @@ import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.Vision.*;
+import static frc.robot.Constants.Shooter.*;
 
 
 /** An example command that uses an example subsystem. */
@@ -32,14 +33,15 @@ public class VisionTargetShooting extends CommandBase {
   @Override
   public void initialize() {
     
-    lights.redGreenOffset(primaryYaw, 8);
+    lights.redGreenOffset(Math.abs(primaryYaw), 12);
     lights.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    lights.redGreenOffset(Math.abs(primaryYaw), 12);
+    lights.start();
   }
 
   // Called once the command ends or is interrupted.
