@@ -32,7 +32,7 @@ public class IntakeLighting extends CommandBase {
   @Override
   public void initialize() {
     
-    lights.fullWhite();
+    lights.fullYellow();
     lights.start();
   }
 

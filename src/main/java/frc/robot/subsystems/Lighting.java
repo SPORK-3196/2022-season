@@ -54,14 +54,11 @@ public class Lighting extends SubsystemBase {
   }
   
   public void redGreenOffset(double offset, double offset_factor) {
+    offset = Math.abs(offset);
     int val = (int) (offset * offset_factor);
 
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setRGB(i, val, 255 - val, 0);
-    }
-
-    for (int i = 0; i < lightBufferBeta.getLength(); i++) {
-      lightBufferBeta.setRGB(i, val, 255 - val, 0);
+      lightBufferAlpha.setRGB(i, val, 200 - val, 0);
     }
 
     lightsAlpha.setData(lightBufferAlpha);
@@ -232,7 +229,7 @@ public class Lighting extends SubsystemBase {
 
   public void fullGreenRun() {
     alphaGreenRun();
-    betaGreenRun();
+    // betaGreenRun();
   }
 
 
@@ -304,7 +301,7 @@ public class Lighting extends SubsystemBase {
 
   public void fullRedRun() {
     alphaGreenRun();
-    betaGreenRun();
+    // betaGreenRun();
   }
 
 
