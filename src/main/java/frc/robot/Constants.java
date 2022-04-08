@@ -251,18 +251,6 @@ public final class Constants {
             .withWidget(BuiltInWidgets.kDial)
             .withProperties(Map.of("min", 0, "max", 5700))
             .getEntry();
-        public static NetworkTableEntry SH_SHOOTER_MPH_Entry = SH_TAB
-            .add("Shooter MPH", 0)
-            .withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 100))
-            .getEntry();
-
-        public static NetworkTableEntry SH_SHOOTER_POWER_Entry = MOTOR_TAB
-            .add("Target RPM", 0)
-            .withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 6500))
-            .getEntry();
-
 
 
         public static boolean SHOOTER_READY;
