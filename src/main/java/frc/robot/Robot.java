@@ -216,13 +216,13 @@ public class Robot extends TimedRobot {
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
 
-    TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
+    // TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
     
-    SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
+    // SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     
 
     AutoComputedRPM = (1410) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
-    SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
+    // SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
     CommandScheduler.getInstance().run();
   }
 
@@ -280,7 +280,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
+    // primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
@@ -301,20 +301,20 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
-    primaryCamera.setPipelineIndex(0);
+    // primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
+    // primaryCamera.setPipelineIndex(0);
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
     
     if (RUN_VISION) {
       NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+      primaryCamera.setDriverMode(false);
     }
     else {
       NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+      primaryCamera.setDriverMode(true);
     }
     
     backupCamera.setDriverMode(true);
-    
-
   }
 
   @Override
