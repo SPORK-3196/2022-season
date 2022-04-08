@@ -71,6 +71,7 @@ public class JoystickDrive extends CommandBase {
     speedControl = X1_LJY * -DT_PowerConstant; 
     rotationControl = X1_LJX * -DT_PowerConstant;
     
+    /*
     if (X1_CONTROLLER.getAButton()) {
       RUN_VISION = true;
       if (primaryHasTargets) {
@@ -87,7 +88,7 @@ public class JoystickDrive extends CommandBase {
       else {
         rotationControl = 0.2;
       }
-      */
+      
     }
     else {
       RUN_VISION = false;
@@ -106,6 +107,7 @@ public class JoystickDrive extends CommandBase {
     else {
       RUN_VISION = false;
     }
+    */
 
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
