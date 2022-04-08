@@ -20,6 +20,7 @@ import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
 
 import static frc.robot.Constants.Status.*;
+import static frc.robot.Constants.Field.*;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.common.hardware.VisionLEDMode;
@@ -139,7 +140,7 @@ public class Robot extends TimedRobot {
       backupPitchRadians = Units.degreesToRadians(backupPitch);
     }
     
-    DISTANCE_FROM_TARGET = (TestHub - CAMERA_HEIGHT_M) / Math.tan(CAMERA_ANGLE_RADIANS + primaryPitchRadians);
+    DISTANCE_FROM_TARGET = (UPPER_HUB_HEIGHT_M - CAMERA_HEIGHT_M) / Math.tan(CAMERA_ANGLE_RADIANS + primaryPitchRadians);
     // DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
     // System.out.println(DISTANCE_FROM_TARGET);
 

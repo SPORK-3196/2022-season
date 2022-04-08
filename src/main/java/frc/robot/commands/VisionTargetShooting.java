@@ -7,7 +7,6 @@ import frc.robot.subsystems.Lighting;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.Vision.*;
-import static frc.robot.Constants.Shooter.*;
 
 
 /** An example command that uses an example subsystem. */
