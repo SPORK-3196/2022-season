@@ -50,7 +50,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain Drivetrain = new Drivetrain();
   private final Index Index = new Index();
-  private final Shooter Shooter = new Shooter(50);
+  private final Shooter Shooter = new Shooter(10);
   private final Intake Intake = new Intake();
 
   private final Climber Climber = new Climber();
