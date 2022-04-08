@@ -47,11 +47,6 @@
         "window": {
           "visible": true
         }
-      },
-      "/LiveWindow/Ungrouped/Scheduler": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
@@ -60,6 +55,9 @@
       "open": true
     },
     "Shuffleboard": {
+      "Shooter Info": {
+        "open": true
+      },
       "open": true
     },
     "limelight": {
