@@ -191,7 +191,9 @@ public class Robot extends TimedRobot {
       X2_LJX = X2_CONTROLLER.getLeftX();
       X2_LJY = X2_CONTROLLER.getLeftY();
       X2_RJX = X2_CONTROLLER.getRightX();
-      X2_RJY = X2_CONTROLLER.getRightY();      
+      X2_RJY = X2_CONTROLLER.getRightY(); 
+      
+      X2_LJS = X2_CONTROLLER.getLeftStickButton();
       
       X2_XButton = X2_CONTROLLER.getXButton();
       X2_YButton = X2_CONTROLLER.getYButton();
@@ -222,7 +224,7 @@ public class Robot extends TimedRobot {
     // SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     
 
-    AutoComputedRPM = (1410) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
     // SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
     CommandScheduler.getInstance().run();
   }
@@ -232,7 +234,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
     autonomous = false;
     teleop = false;
     disabled = true;
@@ -240,9 +242,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to offf
-    // NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);   
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);   
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -257,7 +259,7 @@ public class Robot extends TimedRobot {
     }
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
     autonomous = true;
     teleop = false;
     disabled = false;
