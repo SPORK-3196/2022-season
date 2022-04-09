@@ -32,6 +32,7 @@ public class BabyShoot extends CommandBase {
   @Override
   public void initialize() {
     shooter.feedForwardShoot(700);
+    
   }
     
 

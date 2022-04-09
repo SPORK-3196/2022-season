@@ -71,6 +71,8 @@ public final class Constants {
         public static double X2_RJX = 0;
         public static double X2_RJY = 0;
 
+        public static boolean X2_LJS = false;
+
         public static boolean X2_XButton = false;
         public static boolean X2_YButton = false;
         public static boolean X2_AButton = false;

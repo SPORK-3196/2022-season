@@ -21,8 +21,9 @@ import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.XboxController.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
-  public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless);
-  public CANSparkMax rightShooter = new CANSparkMax(6, MotorType.kBrushless);
+  // Left and Right are with the shooter and limelight facing forward
+  public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless); // Clockwise
+  public CANSparkMax rightShooter = new CANSparkMax(6, MotorType.kBrushless); // Counter Clockwise
 
   public RelativeEncoder leftShooterEncoder = leftShooter.getEncoder();
   public RelativeEncoder rightShooterEncoder = rightShooter.getEncoder();
@@ -82,9 +83,9 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     double voltageValue = ffController.calculate(-1 * RPM / 60);
     // System.out.println(voltageValue);
     // double voltageValue = 6;
-    leftTargetRPM = -1 * RPM;
-    rightTargetRPM = -1 * RPM;
-    leftShooter.setVoltage(voltageValue);
+    leftTargetRPM = 1 * RPM;
+    rightTargetRPM = 1 * RPM;
+    leftShooter.setVoltage(-1 * voltageValue);
     rightShooter.setVoltage(voltageValue);
   }
 
@@ -112,11 +113,11 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   }
 
   public boolean rightAtSetpoint() {
-    return ((rightTargetRPM - tolerance) < rightShooterEncoder.getVelocity()) &&  (rightShooterEncoder.getVelocity() < (rightTargetRPM + tolerance));
+    return ((rightTargetRPM - tolerance) < -rightShooterEncoder.getVelocity()) &&  (-rightShooterEncoder.getVelocity() < (rightTargetRPM + tolerance));
   }
 
   public boolean atSetpoint() {
-    return (leftAtSetpoint()&& rightAtSetpoint());
+    return leftAtSetpoint() && rightAtSetpoint();
   }
 
   @Override
@@ -130,7 +131,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rampingUp = X2_AButton;
     
 
-    if (X2_AButton) {
+    if (X2_AButton || X2_LJS) {
       if (atSetpoint()) {
         SHOOTER_READY = true;
       }
