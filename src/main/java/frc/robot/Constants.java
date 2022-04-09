@@ -115,6 +115,11 @@ public final class Constants {
     public static final class Field {
 
         public static double UPPER_HUB_HEIGHT_M = Units.inchesToMeters(104);
+        public static NetworkTableEntry MatchTimeEntry = AI_TAB
+            .add("Match Time", 135.0)
+            .withWidget(BuiltInWidgets.kDial)
+            .withProperties(Map.of("min", 0, "max", 135))
+            .getEntry();
     }
 
     public static final class Robot {
