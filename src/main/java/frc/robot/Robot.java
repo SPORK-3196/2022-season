@@ -224,7 +224,7 @@ public class Robot extends TimedRobot {
     // SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
     
 
-    AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    AutoComputedRPM = (1410) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
     // SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
     CommandScheduler.getInstance().run();
   }
