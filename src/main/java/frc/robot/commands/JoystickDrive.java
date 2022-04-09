@@ -94,9 +94,11 @@ public class JoystickDrive extends CommandBase {
     else {
       RUN_VISION = false;
     }
+    */
 
     if (X1_CONTROLLER.getXButton()) {
-      RUN_VISION = true;
+      backupCamera.setDriverMode(false);
+      backupCamera.setPipelineIndex(0);
       if (backupHasTargets) {
         steering_adjust = Auto_PIDController.calculate(backupYaw);
         rotationControl = -steering_adjust;
@@ -108,8 +110,7 @@ public class JoystickDrive extends CommandBase {
     else {
       RUN_VISION = false;
     }
-    */
-
+    
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
     }
