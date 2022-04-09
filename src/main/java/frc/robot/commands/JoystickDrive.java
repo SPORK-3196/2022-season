@@ -49,6 +49,11 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
+    drivetrain.driveModeSet = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -61,11 +66,7 @@ public class JoystickDrive extends CommandBase {
       // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
       // drivetrain.drivetrain.setDeadband(0.05);
 
-      drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
-      drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
-      drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
-      drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
-      drivetrain.driveModeSet = true;
+      
     }
 
     speedControl = X1_LJY * -DT_PowerConstant; 
