@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
 
+import java.sql.Driver;
+
 import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.Field.*;
 
@@ -102,6 +104,7 @@ public class Robot extends TimedRobot {
 
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
     DriverStation.silenceJoystickConnectionWarning(true);
+
     
   }
 
@@ -118,6 +121,8 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+
+
     
     
     primaryCameraResult = primaryCamera.getLatestResult();
@@ -225,7 +230,10 @@ public class Robot extends TimedRobot {
     
 
     AutoComputedRPM = (1410) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+
     // SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
+
+    MatchTimeEntry.setDouble(DriverStation.getMatchTime());
     CommandScheduler.getInstance().run();
   }
 
