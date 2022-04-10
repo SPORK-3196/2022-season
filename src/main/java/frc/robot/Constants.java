@@ -182,6 +182,9 @@ public final class Constants {
 
         public static boolean RUN_VISION = false;
         // This is the distance from the Limelight to the target
+
+        public static int RedAllianceBallPipeline = 0;
+        public static int BlueAllianceBallPipeline = 0;
     }
 
     public static final class Drivetrain { 
