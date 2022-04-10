@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.subsystems.Drivetrain.*;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
@@ -96,9 +97,17 @@ public class JoystickDrive extends CommandBase {
     }
     */
 
+    /*
     if (X1_CONTROLLER.getXButton()) {
       backupCamera.setDriverMode(false);
-      backupCamera.setPipelineIndex(0);
+      
+      if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
+        backupCamera.setPipelineIndex(BlueAllianceBallPipeline);
+      }
+      else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
+        backupCamera.setPipelineIndex(RedAllianceBallPipeline);
+      }
+      
       if (backupHasTargets) {
         steering_adjust = Auto_PIDController.calculate(backupYaw);
         rotationControl = -steering_adjust;
@@ -107,9 +116,7 @@ public class JoystickDrive extends CommandBase {
         rotationControl = -0.2;
       }
     }
-    else {
-      RUN_VISION = false;
-    }
+    */
     
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
