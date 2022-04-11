@@ -193,7 +193,7 @@ public final class Constants {
         public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
         public static NetworkTableEntry DT_rearRightEntry = DT_TAB.add("rear Right Power", 0).getEntry();
 
-        public static Field2d gameField = new Field2d();
+
 
         public static double DT_PowerConstant = 1.0;
         public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB

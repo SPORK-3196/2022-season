@@ -16,6 +16,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Robot.*;
@@ -50,9 +52,8 @@ public class Drivetrain extends SubsystemBase {
     localMeasurementStdDevs, 
     visionMeasurementStdDevs);
   */
-  
+  public static Field2d gameField;
   private DifferentialDriveOdometry drivetrain_odometry;
-  // private DifferentialDriveOdometry drivetrain_odometry;
   private Pose2d robot_pose;
 
   public Orchestra drivetrainOrchestra = new Orchestra();
@@ -64,19 +65,27 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
     leftSide.setInverted(true);
 
+    gameField = new Field2d();
+    robot_pose = new Pose2d(5, 13.5, new Rotation2d());
+
+    frontLeft.setSelectedSensorPosition(0);
+    rearLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
+    rearRight.setSelectedSensorPosition(0);
+    gyroscope.setYaw(0);
+
+    drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(getGyroHeadingRads()), robot_pose);
+  
+    Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setTolerance(0);
 
 
+    // Music Stuff
     drivetrainOrchestra.addInstrument(frontLeft);
     drivetrainOrchestra.addInstrument(frontRight);
     drivetrainOrchestra.addInstrument(rearLeft);
     drivetrainOrchestra.addInstrument(rearRight);
 
-    // gyroscope.setYaw(0);
-
-    Auto_PIDController.setSetpoint(0);
-    Auto_PIDController.setTolerance(0);
-
-    drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())));
     songChooser.addOption("Thomas The Tank Engine", "Thomas The Tank Engine.chrp");
     songChooser.addOption("All Star", "All Star.chrp");
     songChooser.addOption("Crab Rave", "Crab Rave.chrp");
@@ -89,10 +98,11 @@ public class Drivetrain extends SubsystemBase {
     songChooser.addOption("Gravity Falls", "Gravity Falls.chrp");
     songChooser.addOption("Never Gonna Give You Up", "Never Gonna Give You Up.chrp");
 
-    drivetrainOrchestra.loadMusic(songChooser.getSelected());
+    loadMusic(songChooser.getSelected());
 
-    robot_pose = new Pose2d(30, 20, new Rotation2d(getGyroHeading()));
-    drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(Units.degreesToRadians(gyroscope.getYaw())), robot_pose);
+
+    Shuffleboard.getTab("Drivetrain Info")
+      .add(gameField);
   }
 
   public void loadMusic(String song) {
@@ -124,8 +134,12 @@ public class Drivetrain extends SubsystemBase {
     return gyroscope.getYaw();
   }
 
-  public double getGyroHeading(){
-    return -gyroscope.getYaw();
+  public double getGyroHeadingDeg(){
+    return -getYaw();
+  }
+
+  public double getGyroHeadingRads(){
+    return Units.degreesToRadians(getGyroHeadingDeg());
   }
 
   public double getDistanceRawSensor() {
@@ -170,7 +184,7 @@ public class Drivetrain extends SubsystemBase {
     // System.out.println(rearLeft.getSelectedSensorPosition());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
-    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeading()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
+    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeadingRads()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
     gameField.setRobotPose(robot_pose);
   } 
 
