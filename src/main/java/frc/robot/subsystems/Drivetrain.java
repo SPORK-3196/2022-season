@@ -142,16 +142,25 @@ public class Drivetrain extends SubsystemBase {
     return Units.degreesToRadians(getGyroHeadingDeg());
   }
 
-  public double getDistanceRawSensor() {
-    return rearLeft.getSelectedSensorPosition();
+
+  public void resetEncoders() {
+    frontLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
+    rearLeft.setSelectedSensorPosition(0);
+    rearRight.setSelectedSensorPosition(0);
   }
 
-  public double getLeftDistanceTravelled() {
-    return (rearLeft.getSelectedSensorPosition() / 18000) * (2 * Math.PI * DrivetrainWheelRadiusIn);
+  public void zeroGyro() {
+    gyroscope.setYaw(0);
   }
 
-  public double getRightDistanceTravelled() {
-    return (rearRight.getSelectedSensorPosition() / 18000) * (2 * Math.PI * DrivetrainWheelRadiusIn);
+  public Pose2d getPose() {
+    return robot_pose;
+  }
+
+  public void arcadeDriveVolts(double leftVolts, double rightVolts) {
+    leftSide.setVoltage(leftVolts);
+    rightSide.setVoltage(rightVolts);
   }
 
   public double sensorUnitsToMeters(double sensor_counts) {
