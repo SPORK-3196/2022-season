@@ -131,8 +131,8 @@ public final class Constants {
 
         public static double DrivetrainTrackWidthMeters;
 
-        public static double countsPerRevolution;
-        public static double gearRatio;
+        public static double countsPerRevolution = 2048;
+        public static double gearRatio = (2500/288);
 
         public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(35);
         public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
@@ -235,8 +235,6 @@ public final class Constants {
 
     public static final class Index {
         public static boolean IndexEmpty = false;
-
-        public static double IndexCounter;
 
         public static boolean IndexRunning;
 
