@@ -42,6 +42,13 @@ public class IndexShootingLower extends CommandBase {
   public void execute() {
     if (index.getTopSensor()) {
       runIndex = false;
+      index.BallExiting = true;
+    }
+
+  
+    if (!index.getTopSensor() && index.BallExiting) {
+      index.ballCounter--;
+      index.BallExiting = false;
     }
    
     if (SHOOTER_READY) {

@@ -43,7 +43,15 @@ public class IndexShootingUpper extends CommandBase {
   public void execute() {
     if (index.getTopSensor()) {
       runIndex = false;
+      index.BallExiting = true;
     }
+
+  
+    if (!index.getTopSensor() && index.BallExiting) {
+      index.ballCounter--;
+      index.BallExiting = false;
+    }
+
    
     /*
     if (SHOOTER_READY && Math.abs(primaryYaw) < 6) {

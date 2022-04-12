@@ -20,6 +20,10 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
 
 
   public boolean BallInTransit = false;
+  public boolean BallExiting = false;
+  public boolean ballPassed = false;
+
+  public double ballCounter = 0;
   
   private static DigitalInput sensorAlpha = new DigitalInput(0);
   private static DigitalInput sensorBeta = new DigitalInput(1);
@@ -81,33 +85,8 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    IndexCounter = 0;
-    if (getMidSensor()) {
-      IndexCounter = 1;
-      midSensor_Entry.setBoolean(true);
-    }
-    if (getTopSensor()) {
-      IndexCounter = 1;
-      topSensor_Entry.setBoolean(true);
-    }
-    if (getIntakeSensor()) {
-      IndexCounter = 1;
-      intakeSensor_Entry.setBoolean(true);
-    }
+    BallCounter_Entry.setDouble(ballCounter);
 
-    if (getIntakeSensor() && getMidSensor()) {
-      IndexCounter = 2;
-    }
-
-    if (getMidSensor() && getTopSensor()) {
-      IndexCounter = 2;
-    }
-
-    if (!getIntakeSensor() && !getMidSensor() && !getTopSensor()) {
-      IndexCounter = 0;
-    }
-
-    BallCounter_Entry.setDouble(IndexCounter);
     if (Math.abs(indexMotor.get()) > 0.1) {
       IndexRunning = true;
     }
