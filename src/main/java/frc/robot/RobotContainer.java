@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.TrajectoryParameterizer;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -38,9 +37,7 @@ import frc.robot.commands.ToggleArms;
 import frc.robot.commands.ToggleClimberLighting;
 import frc.robot.commands.TweenShoot;
 import frc.robot.commands.VisionTargetShooting;
-import frc.robot.commands.autonomous.AutoHorizontalAim;
 import frc.robot.commands.autonomous.TwoBallAuto;
-import frc.robot.commands.autonomous.AutonomousShootUno;
 import frc.robot.commands.autonomous.DriveForwardTimed;
 import frc.robot.commands.autonomous.OneBallAuto;
 import frc.robot.subsystems.Climber;
@@ -52,6 +49,7 @@ import frc.robot.subsystems.Shooter;
 import static frc.robot.Robot.*;
 
 import java.util.List;
+
 
 import static frc.robot.Constants.Autonomous.*;
 import frc.robot.Constants.AutoDriveConstants;
@@ -90,6 +88,7 @@ public class RobotContainer {
     // autoChooser.addOption("1 Ball Taxi", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutoHorizontalAim(Drivetrain, 3)).andThen(new AutonomousShootUno(Shooter, Index, 5.0))));
     autoChooser.addOption("1 Ball Taxi", new OneBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
     autoChooser.addOption("Taxi, No Shoot", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4)));
+    autoChooser.addOption("Ramsete Test", returnRamseteCommand());
   }
 
   /**
