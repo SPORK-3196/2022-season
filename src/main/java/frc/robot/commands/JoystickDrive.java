@@ -7,7 +7,6 @@ package frc.robot.commands;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.subsystems.Drivetrain.*;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.XboxController.*;
