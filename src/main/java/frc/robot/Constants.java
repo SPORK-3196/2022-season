@@ -11,6 +11,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -189,12 +190,14 @@ public final class Constants {
     }
 
     public static final class Drivetrain { 
+
+
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
         public static NetworkTableEntry DT_rearLeftEntry = DT_TAB.add("rear Left Power", 0).getEntry();
         public static NetworkTableEntry DT_FrontRightEntry = DT_TAB.add("Front Right Power", 0).getEntry();
         public static NetworkTableEntry DT_rearRightEntry = DT_TAB.add("rear Right Power", 0).getEntry();
 
-
+        public static DifferentialDriveKinematics driveKinematics = new DifferentialDriveKinematics(Robot.DrivetrainTrackWidthMeters);
 
         public static double DT_PowerConstant = 1.0;
         public static NetworkTableEntry DT_PowerConstantEntry = DT_TAB
@@ -222,7 +225,19 @@ public final class Constants {
             .getEntry();
         }
         */
+    
+    public static final class AutoDriveConstants {
+        public static double ksVolts = 0;
+        public static double kvVoltSecondsPerMeter = 0;
+        public static double kaVoltSecondsSquaredPerMeter = 0;
 
+        public static double kMaxSpeedMetersPerSeocond = 0;
+        public static double kMaxAccelerationMetersPerSecondSquared = 0;
+
+
+        public static double kP = 0;
+    }
+    
     public static final class Status {
         public static boolean teleop;
         public static boolean autonomous;

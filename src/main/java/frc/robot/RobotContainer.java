@@ -4,6 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryParameterizer;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoShoot;
@@ -39,8 +50,14 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Robot.*;
+
+import java.util.List;
+
 import static frc.robot.Constants.Autonomous.*;
+import frc.robot.Constants.AutoDriveConstants;
+import static frc.robot.Constants.Drivetrain.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -119,6 +136,45 @@ public class RobotContainer {
   }
 
   public Command returnRamseteCommand() {
-    return new VisionTargetShooting(Lighting);
+    DifferentialDriveVoltageConstraint autoDriveVoltageConstraint = 
+      new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(
+          AutoDriveConstants.ksVolts, 
+          AutoDriveConstants.kvVoltSecondsPerMeter,
+          AutoDriveConstants.kaVoltSecondsSquaredPerMeter), 
+        driveKinematics, 
+        10);
+    TrajectoryConfig trajectoryConfig = 
+      new TrajectoryConfig(
+        AutoDriveConstants.kMaxSpeedMetersPerSeocond, 
+        AutoDriveConstants.kMaxAccelerationMetersPerSecondSquared)
+      .setKinematics(driveKinematics)
+      .addConstraint(autoDriveVoltageConstraint);
+    
+    Trajectory testTrajectory = 
+      TrajectoryGenerator.generateTrajectory(
+        new Pose2d(0, 0, new Rotation2d(0)), 
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        new Pose2d(3, 0, new Rotation2d(0)), 
+        trajectoryConfig);
+
+    RamseteCommand ramseteCommand = new RamseteCommand(
+      testTrajectory, 
+      Drivetrain::getPose, 
+      new RamseteController(), 
+      new SimpleMotorFeedforward(
+        AutoDriveConstants.ksVolts, 
+        AutoDriveConstants.kvVoltSecondsPerMeter,
+        AutoDriveConstants.kaVoltSecondsSquaredPerMeter), 
+      driveKinematics, 
+      Drivetrain::getWheelSpeeds, 
+      new PIDController(AutoDriveConstants.kP, 0, 0), 
+      new PIDController(AutoDriveConstants.kP, 0, 0), 
+      Drivetrain::tankDriveVolts, 
+      Drivetrain);
+
+    Drivetrain.resetOdometry(testTrajectory.getInitialPose());
+
+    return ramseteCommand.andThen(() -> Drivetrain.tankDriveVolts(0, 0));
   }
 }
