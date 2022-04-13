@@ -66,7 +66,7 @@ public class Drivetrain extends SubsystemBase {
     leftSide.setInverted(true);
 
     gameField = new Field2d();
-    robot_pose = new Pose2d(5, 13.5, new Rotation2d());
+    robot_pose = new Pose2d(3, 7, new Rotation2d());
 
     frontLeft.setSelectedSensorPosition(0);
     rearLeft.setSelectedSensorPosition(0);
@@ -129,13 +129,16 @@ public class Drivetrain extends SubsystemBase {
   }
 
 
+  public void zeroGyro() {
+    gyroscope.setYaw(0);
+  }
 
   public double getYaw() {
     return gyroscope.getYaw();
   }
 
   public double getGyroHeadingDeg(){
-    return -getYaw();
+    return getYaw();
   }
 
   public double getGyroHeadingRads(){
@@ -150,15 +153,17 @@ public class Drivetrain extends SubsystemBase {
     rearRight.setSelectedSensorPosition(0);
   }
 
-  public void zeroGyro() {
-    gyroscope.setYaw(0);
+
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    drivetrain_odometry.resetPosition(pose, new Rotation2d(getGyroHeadingRads()));
   }
 
   public Pose2d getPose() {
     return robot_pose;
   }
 
-  public void arcadeDriveVolts(double leftVolts, double rightVolts) {
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftSide.setVoltage(leftVolts);
     rightSide.setVoltage(rightVolts);
   }
@@ -193,7 +198,7 @@ public class Drivetrain extends SubsystemBase {
     // System.out.println(rearLeft.getSelectedSensorPosition());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
-    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeadingRads()), sensorUnitsToMeters(rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
+    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeadingRads()), sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
     gameField.setRobotPose(robot_pose);
   } 
 
