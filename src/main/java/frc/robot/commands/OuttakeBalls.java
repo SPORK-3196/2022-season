@@ -40,6 +40,16 @@ public class OuttakeBalls extends CommandBase {
   @Override
   public void execute() {
     intake.outtakeBalls();
+
+    if (index.getIntakeSensor()) {
+      index.BallExiting = true;
+    }
+
+    if (!index.getIntakeSensor() && index.BallExiting) {
+      index.ballCounter--;
+      index.BallExiting = false;
+    }
+    
     index.removeBalls();
   }
 
