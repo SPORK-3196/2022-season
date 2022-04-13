@@ -73,56 +73,42 @@ public class JoystickDrive extends CommandBase {
     speedControl = X1_LJY * -DT_PowerConstant; 
     rotationControl = X1_LJX * -DT_PowerConstant;
     
-    /*
+    
     if (X1_CONTROLLER.getAButton()) {
       RUN_VISION = true;
+      
       if (primaryHasTargets) {
         steering_adjust = Auto_PIDController.calculate(primaryYaw);
         rotationControl = steering_adjust;
-        if (primaryYaw < 15) {
-          rotationControl += 0.1;
-        }
-        if (primaryYaw > 15) {
-          rotationControl -= 0.1;
-        }
-      }
-      /*
-      else {
-        rotationControl = 0.2;
       }
       
     }
     else {
       RUN_VISION = false;
     }
-    */
+  
 
-    /*
+    
     if (X1_CONTROLLER.getXButton()) {
       backupCamera.setDriverMode(false);
-      
-      if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
-        backupCamera.setPipelineIndex(BlueAllianceBallPipeline);
-      }
-      else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
-        backupCamera.setPipelineIndex(RedAllianceBallPipeline);
-      }
       
       if (backupHasTargets) {
         steering_adjust = Auto_PIDController.calculate(backupYaw);
         rotationControl = -steering_adjust;
       }
-      else {
-        rotationControl = -0.2;
-      }
+
+      RUN_BACKUP_VISION = true;
     }
-    */
+    else {
+      RUN_BACKUP_VISION = false;
+    }
+    
     
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
     }
   
-    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, true);
+    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, false);
     drivetrain.leftSide.set(wheelSpeeds.left);
     drivetrain.rightSide.set(wheelSpeeds.right);
     // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
