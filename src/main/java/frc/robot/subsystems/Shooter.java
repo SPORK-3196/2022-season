@@ -131,7 +131,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rampingUp = X2_AButton;
     
 
-    if (X2_AButton || X2_LJS) {
+    if ((X2_AButton || X2_LJS) || (leftTargetRPM > 0 && rightTargetRPM > 0)) {
       if (atSetpoint()) {
         SHOOTER_READY = true;
       }

@@ -28,9 +28,10 @@ import frc.robot.commands.ToggleClimberLighting;
 import frc.robot.commands.TweenShoot;
 import frc.robot.commands.VisionTargetShooting;
 import frc.robot.commands.autonomous.AutoHorizontalAim;
-import frc.robot.commands.autonomous.AutonomousProtocol;
+import frc.robot.commands.autonomous.TwoBallAuto;
 import frc.robot.commands.autonomous.AutonomousShootUno;
 import frc.robot.commands.autonomous.DriveForwardTimed;
+import frc.robot.commands.autonomous.OneBallAuto;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -68,8 +69,9 @@ public class RobotContainer {
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Index.setDefaultCommand(new DelayedIndex(Index));
     Lighting.setDefaultCommand(new LightingControl(Lighting));
-    autoChooser.setDefaultOption("2 Ball Backup", new AutonomousProtocol(Drivetrain, Shooter, Intake, Index, Climber));
-    autoChooser.addOption("1 Ball Taxi", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutoHorizontalAim(Drivetrain, 3)).andThen(new AutonomousShootUno(Shooter, Index, 5.0))));
+    autoChooser.setDefaultOption("2 Ball Backup", new TwoBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
+    // autoChooser.addOption("1 Ball Taxi", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutoHorizontalAim(Drivetrain, 3)).andThen(new AutonomousShootUno(Shooter, Index, 5.0))));
+    autoChooser.addOption("1 Ball Taxi", new OneBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
     autoChooser.addOption("Taxi, No Shoot", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4)));
   }
 
@@ -114,5 +116,9 @@ public class RobotContainer {
     // return new AutoHorizontalAim(Drivetrain, 30);
     return autoChooser.getSelected();
     // return (Command) autoChooser.getSelected();
+  }
+
+  public Command returnRamseteCommand() {
+    return new VisionTargetShooting(Lighting);
   }
 }
