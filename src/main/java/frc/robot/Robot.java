@@ -19,8 +19,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.XboxController.*;
 
-import java.sql.Driver;
-
 import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.Field.*;
 
