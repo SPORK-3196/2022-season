@@ -241,7 +241,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
     autonomous = false;
     teleop = false;
     disabled = true;
@@ -251,7 +251,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to offf
-    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);   
+    NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);   
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -294,13 +294,14 @@ public class Robot extends TimedRobot {
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
-    /*
-    for (int i = 0; i < LIGHT_BUFFER.getLength(); i++) {
-      LIGHT_BUFFER.setRGB(i, 0, 255, 0);
+    
+    if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
+      backupCamera.setPipelineIndex(BlueAllianceBallPipeline);
     }
-    LIGHTS.setData(LIGHT_BUFFER);
-    // LIGHTS.start();
-    */
+    else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
+      backupCamera.setPipelineIndex(RedAllianceBallPipeline);
+    }
+
     autonomous = false;
     teleop = true;
     disabled = false;
@@ -323,8 +324,14 @@ public class Robot extends TimedRobot {
       NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
       primaryCamera.setDriverMode(true);
     }
+
+    if (RUN_BACKUP_VISION) {
+      backupCamera.setDriverMode(false);
+    }
+    else {
+      backupCamera.setDriverMode(true);
+    }
     
-    backupCamera.setDriverMode(true);
   }
 
   @Override
