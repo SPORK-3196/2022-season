@@ -81,6 +81,14 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
     return (Math.abs(indexMotor.get()) > 0.1);
   }
 
+  public void startWithTwoBalls() {
+    ballCounter = 2;
+  }
+
+  public void startWithOneBall() {
+    ballCounter = 1;
+  }
+
 
   @Override
   public void periodic() {

@@ -7,18 +7,22 @@ package frc.robot.commands.autonomous;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.Index.*;
+
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /** An example command that uses an example subsystem. */
-public class AutonomousShoot extends CommandBase {
+public class AutonomousShootConditional extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Shooter shooter;
   Index index;
   public Timer shooterTimer = new Timer();
   public double time = 5.0;
+  public double ballCondition = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -26,11 +30,9 @@ public class AutonomousShoot extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
 
-  public AutonomousShoot(Shooter shooter, Index index, double duration) {
+  public AutonomousShootConditional(Shooter shooter, Index index, double ballCondition) {
     this.shooter = shooter;
-    // this.index = index;
-    this.time = duration;
-
+    this.ballCondition = ballCondition;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     // addRequirements(index);
@@ -72,6 +74,7 @@ public class AutonomousShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterTimer.get() > time;
+    // return shooterTimer.get() > time;
+    return BallCounter_Entry.getDouble(0) == this.ballCondition;
   }
 }

@@ -5,73 +5,83 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Shooter.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import static frc.robot.Constants.Shooter.*;
+import static frc.robot.Constants.Index.*;
 
 
 /** An example command that uses an example subsystem. */
-public class AutonomousShoot extends CommandBase {
+public class IndexShootingUpperConditional extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Shooter shooter;
   Index index;
-  public Timer shooterTimer = new Timer();
-  public double time = 5.0;
+  boolean runIndex = true;
+  public Timer indexTimer = new Timer();
+  double ballCondition = 0;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-
-  public AutonomousShoot(Shooter shooter, Index index, double duration) {
-    this.shooter = shooter;
-    // this.index = index;
-    this.time = duration;
-
+  public IndexShootingUpperConditional(Index index, double condition) {
+    this.index = index;
+    this.ballCondition = condition;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    // addRequirements(index);
+    addRequirements(index);
   }
+
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.feedForwardShoot(AutoComputedRPM);
-    shooterTimer.reset();
-    shooterTimer.start();
+    runIndex = true;
   }
-    
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooter.setSetpoint(AutoComputedRPM);
-    shooter.feedForwardShoot(2000);
-
-    /*
-    if (shooter.atSetpoint()) {
-      index.runIndex();
+    if (index.getTopSensor()) {
+      runIndex = false;
+      index.BallExiting = true;
     }
-    else {
-      index.stopIndex();
+
+  
+    if (!index.getTopSensor() && index.BallExiting) {
+      index.ballCounter--;
+      index.BallExiting = false;
+    }
+
+   
+    /*
+    if (SHOOTER_READY && Math.abs(primaryYaw) < 6) {
+      runIndex = true;
     }
     */
+
+    if (SHOOTER_READY) {
+      runIndex = true;
+    }
+
+    if (runIndex) {
+      index.runIndex();
+    }
+    else if (!runIndex) {
+      index.stopIndex();
+    }
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
-    // System.out.println(shooterTimer.get());
+    index.stopIndex();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterTimer.get() > time;
+    return BallCounter_Entry.getDouble(0) == ballCondition;
   }
 }
