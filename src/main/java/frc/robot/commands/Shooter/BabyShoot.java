@@ -2,54 +2,52 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-import frc.robot.subsystems.Lighting;
-import edu.wpi.first.wpilibj.Timer;
+package frc.robot.commands.Shooter;
+
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
+
 /** An example command that uses an example subsystem. */
-public class ShootLighting extends CommandBase {
+public class BabyShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Lighting lights;
-  Timer lightTimer = new Timer();
-   
+  Shooter shooter;
+  double avg;
+
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new AutoShoot.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShootLighting (Lighting lights) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.lights = lights;
-    addRequirements(lights);
-  }
 
+  public BabyShoot(Shooter Subsystem) {
+    this.shooter = Subsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.feedForwardShoot(700);
     
-    lights.fullBlue();
-    lights.start();
   }
+    
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    shooter.feedForwardShoot(700);
+    // shooter.setSetpoint(TeleComputedRPM);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    lights.FullRainbow();
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return true;
+    shooter.stopShooter();
+    // RUN_VISION = false;
   }
 
   // Returns true when the command should end.

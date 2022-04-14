@@ -2,56 +2,46 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-import frc.robot.subsystems.Lighting;
-import edu.wpi.first.wpilibj.Timer;
+package frc.robot.commands.Intake;
+
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Vision.*;
 
 
 /** An example command that uses an example subsystem. */
-public class VisionTargetShooting extends CommandBase {
+public class IntakeBalls extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  Lighting lights;
-  Timer lightTimer = new Timer();
-   
+  Intake intake;
+  
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public VisionTargetShooting (Lighting lights) {
+  public IntakeBalls(Intake intake) {
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    this.lights = lights;
-    addRequirements(lights);
+    addRequirements(intake);
   }
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    lights.redGreenOffset(Math.abs(primaryYaw), 12);
-    lights.start();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    lights.redGreenOffset(Math.abs(primaryYaw), 12);
-    lights.start();
+    intake.intakeBalls();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    lights.FullRainbow();
-  }
-
-  @Override
-  public boolean runsWhenDisabled() {
-    return true;
+    intake.stopIntake();
   }
 
   // Returns true when the command should end.

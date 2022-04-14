@@ -16,29 +16,29 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AutoShoot;
-import frc.robot.commands.BabyShoot;
-import frc.robot.commands.BallOrientation;
-import frc.robot.commands.ExtendClimbLighting;
-import frc.robot.commands.DelayedIndex;
-import frc.robot.commands.ExtendClimber;
-import frc.robot.commands.IndexShootingLower;
-import frc.robot.commands.IndexShootingUpper;
-import frc.robot.commands.IntakeBalls;
-import frc.robot.commands.IntakeLighting;
-import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.LightingControl;
-import frc.robot.commands.LowerArms;
-import frc.robot.commands.OuttakeBalls;
-import frc.robot.commands.PlayMusic;
-import frc.robot.commands.RetractClimbLighting;
-import frc.robot.commands.RetractClimber;
-import frc.robot.commands.ShootLighting;
-import frc.robot.commands.TargetOrientation;
-import frc.robot.commands.ToggleArms;
-import frc.robot.commands.ToggleClimberLighting;
-import frc.robot.commands.TweenShoot;
-import frc.robot.commands.VisionTargetShooting;
+import frc.robot.commands.Shooter.AutoShoot;
+import frc.robot.commands.Shooter.BabyShoot;
+import frc.robot.commands.Drivetrain.BallOrientation;
+import frc.robot.commands.Lighting.ExtendClimbLighting;
+import frc.robot.commands.Index.DelayedIndex;
+import frc.robot.commands.Climber.ExtendClimber;
+import frc.robot.commands.Index.IndexShootingLower;
+import frc.robot.commands.Index.IndexShootingUpper;
+import frc.robot.commands.Intake.IntakeBalls;
+import frc.robot.commands.Lighting.IntakeLighting;
+import frc.robot.commands.Drivetrain.JoystickDrive;
+import frc.robot.commands.Lighting.LightingControl;
+import frc.robot.commands.Climber.LowerArms;
+import frc.robot.commands.Intake.OuttakeBalls;
+import frc.robot.commands.Drivetrain.PlayMusic;
+import frc.robot.commands.Lighting.RetractClimbLighting;
+import frc.robot.commands.Climber.RetractClimber;
+import frc.robot.commands.Lighting.ShootLighting;
+import frc.robot.commands.Drivetrain.TargetOrientation;
+import frc.robot.commands.Climber.ToggleArms;
+import frc.robot.commands.Lighting.ToggleClimberLighting;
+import frc.robot.commands.Shooter.TweenShoot;
+import frc.robot.commands.Lighting.VisionTargetShooting;
 import frc.robot.commands.autonomous.TwoBallAuto;
 import frc.robot.commands.autonomous.DriveForwardTimed;
 import frc.robot.commands.autonomous.OneBallAuto;
@@ -49,6 +49,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Robot.*;
+import static frc.robot.Constants.Vision.*;
 
 import java.util.List;
 
@@ -108,12 +109,12 @@ public class RobotContainer {
     // whenHeld(new PlayMusic(Drivetrain), false);
     // .whenActive(new PlayMusic(Drivetrain));
 
-    X1J_A.whenHeld(new TargetOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting));
-    
+    X1J_A.whenHeld(new TargetOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
+    X2J_X.whenHeld(new BallOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, backupYaw));
 
     X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
     X2J_B.whenHeld(new OuttakeBalls(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
-    X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShootingUpper(Index)).whenHeld(new VisionTargetShooting(Lighting));
+    X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShootingUpper(Index)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
     // X2J_A.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
     X2J_Y.whenHeld(new ToggleArms(Climber)).whenPressed(new ToggleClimberLighting(Lighting));
 
