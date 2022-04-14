@@ -5,7 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.LowerArms;
+import frc.robot.commands.Climber.LowerArms;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;

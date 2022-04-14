@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Drivetrain;
 
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.subsystems.Drivetrain.*;
@@ -20,7 +20,7 @@ import static frc.robot.Constants.Drivetrain.*;
 
 
 /** An example command that uses an example subsystem. */
-public class JoystickDrive extends CommandBase {
+public class BallOrientation extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain drivetrain;
 
@@ -38,7 +38,7 @@ public class JoystickDrive extends CommandBase {
    *
    * @param subsystem The drivetrain used by this command.
    */
-  public JoystickDrive(Drivetrain subsystem) {
+  public BallOrientation(Drivetrain subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrain = subsystem;
     
@@ -49,34 +49,32 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    Auto_PIDController.setSetpoint(0);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
+    RUN_BACKUP_VISION = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if (!drivetrain.driveModeSet) {
-      Auto_PIDController.setSetpoint(0);
-      Auto_PIDController.setTolerance(0);
-      // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-      // drivetrain.drivetrain.setDeadband(0.05);
-
-      
-    }
+    RUN_BACKUP_VISION = true;
 
     speedControl = X1_LJY * -DT_PowerConstant; 
     rotationControl = X1_LJX * -DT_PowerConstant;
+
+    backupCamera.setDriverMode(false);
     
-    if (X1_CONTROLLER.getYButton()) {
-      speedControl = -speedControl;
+    if (backupHasTargets) {
+      steering_adjust = Auto_PIDController.calculate(backupYaw);
+      rotationControl = steering_adjust;
     }
-  
-    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, true);
+
+    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, false);
     drivetrain.leftSide.set(wheelSpeeds.left);
     drivetrain.rightSide.set(wheelSpeeds.right);
     // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
@@ -87,6 +85,7 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     // drivetrain.drivetrain = null;
+    RUN_BACKUP_VISION = false;
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);

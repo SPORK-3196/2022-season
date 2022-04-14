@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Index;
 
 import frc.robot.subsystems.Index;
 import edu.wpi.first.wpilibj.Timer;
@@ -11,12 +11,12 @@ import static frc.robot.Constants.Status.*;
 
 
 /** An example command that uses an example subsystem. */
-public class DelayedIndexTimed extends CommandBase {
+public class DelayedIndex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Index index;
   boolean runIndex = false;
-  boolean ballPassed = false;
+ 
   public Timer indexTimer = new Timer();
 
   /**
@@ -24,7 +24,7 @@ public class DelayedIndexTimed extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DelayedIndexTimed(Index index) {
+  public DelayedIndex(Index index) {
     this.index = index;
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,8 +35,7 @@ public class DelayedIndexTimed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    indexTimer.reset();
-    indexTimer.start();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,33 +49,37 @@ public class DelayedIndexTimed extends CommandBase {
     }
 
     if (index.getMidSensor()) {
-      ballPassed = true;
+      index.ballPassed = true;
     }
 
 
-    /*
-    if (indexTimer.get() > 0.45 && !index.getMidSensor()) {
+    if (!index.getMidSensor() && index.ballPassed) {
       runIndex = false;
+      index.ballPassed = false;
       index.BallInTransit = false;
+      index.ballCounter++;
     }
-    */
 
-    if (!index.getMidSensor() && ballPassed) {
-      runIndex = false;
-      ballPassed = false;
-      index.BallInTransit = false;
+    if (index.getTopSensor() && index.BallInTransit) {
+      index.ballCounter++;
     }
 
     if (index.getTopSensor()) {
       runIndex = false;
       index.BallInTransit = false;
+      index.BallExiting = true;
+    }
+
+  
+    if (!index.getTopSensor() && index.BallExiting) {
+      index.ballCounter--;
+      index.BallExiting = false;
     }
 
     if (index.BallInTransit) {
       runIndex = true;
     }
 
-    
     if (runIndex) {
       index.runIndex();
       indexing = true;
@@ -97,6 +100,6 @@ public class DelayedIndexTimed extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexTimer.get() > 5;
+    return false;
   }
 }
