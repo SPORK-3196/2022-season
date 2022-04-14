@@ -63,7 +63,7 @@ public class IndexShootingUpper extends CommandBase {
     }
 
     if (runIndex) {
-      index.runIndex();
+      index.feedBalls();
     }
     else if (!runIndex) {
       index.stopIndex();
