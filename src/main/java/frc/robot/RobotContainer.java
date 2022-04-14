@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.BabyShoot;
+import frc.robot.commands.BallOrientation;
 import frc.robot.commands.ExtendClimbLighting;
 import frc.robot.commands.DelayedIndex;
 import frc.robot.commands.ExtendClimber;
@@ -33,6 +34,7 @@ import frc.robot.commands.PlayMusic;
 import frc.robot.commands.RetractClimbLighting;
 import frc.robot.commands.RetractClimber;
 import frc.robot.commands.ShootLighting;
+import frc.robot.commands.TargetOrientation;
 import frc.robot.commands.ToggleArms;
 import frc.robot.commands.ToggleClimberLighting;
 import frc.robot.commands.TweenShoot;
@@ -50,6 +52,7 @@ import static frc.robot.Robot.*;
 
 import java.util.List;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import static frc.robot.Constants.Autonomous.*;
 import frc.robot.Constants.AutoDriveConstants;
@@ -104,6 +107,8 @@ public class RobotContainer {
     X1J_B.toggleWhenActive(new PlayMusic(Drivetrain));
     // whenHeld(new PlayMusic(Drivetrain), false);
     // .whenActive(new PlayMusic(Drivetrain));
+
+    X1J_A.whenHeld(new TargetOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting));
     
 
     X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
@@ -133,8 +138,13 @@ public class RobotContainer {
     return autoChooser.getSelected();
     // return (Command) autoChooser.getSelected();
   }
-
+  
   public Command returnRamseteCommand() {
+    Drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRight.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.rearRight.setNeutralMode(NeutralMode.Brake);
+
     DifferentialDriveVoltageConstraint autoDriveVoltageConstraint = 
       new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(
@@ -142,7 +152,7 @@ public class RobotContainer {
           AutoDriveConstants.kvVoltSecondsPerMeter,
           AutoDriveConstants.kaVoltSecondsSquaredPerMeter), 
         driveKinematics, 
-        10);
+        7);
     TrajectoryConfig trajectoryConfig = 
       new TrajectoryConfig(
         AutoDriveConstants.kMaxSpeedMetersPerSeocond, 
@@ -152,9 +162,12 @@ public class RobotContainer {
     
     Trajectory testTrajectory = 
       TrajectoryGenerator.generateTrajectory(
-        new Pose2d(0, 0, new Rotation2d(0)), 
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        new Pose2d(3, 0, new Rotation2d(0)), 
+        new Pose2d(3, 5, new Rotation2d(0)), 
+        List.of(
+          // new Translation2d(0.5, 0), 
+          // new Translation2d(1, 0)
+          ),
+        new Pose2d(4.5, 5, new Rotation2d(0)), 
         trajectoryConfig);
 
     RamseteCommand ramseteCommand = new RamseteCommand(
@@ -176,4 +189,5 @@ public class RobotContainer {
 
     return ramseteCommand.andThen(() -> Drivetrain.tankDriveVolts(0, 0));
   }
+  
 }

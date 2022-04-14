@@ -129,7 +129,7 @@ public final class Constants {
         public static double DrivetrainWheelDiameterIn = 6;
         public static double DrivetrainWheelRadiusIn = 3;
 
-        public static double DrivetrainTrackWidthMeters;
+        public static double DrivetrainTrackWidthMeters = Units.inchesToMeters(28);
 
         public static double countsPerRevolution = 2048;
         public static double gearRatio = (2500/288);
@@ -226,15 +226,15 @@ public final class Constants {
         */
     
     public static final class AutoDriveConstants {
-        public static double ksVolts = 0;
-        public static double kvVoltSecondsPerMeter = 0;
-        public static double kaVoltSecondsSquaredPerMeter = 0;
+        public static double ksVolts = 0.67962;
+        public static double kvVoltSecondsPerMeter = 1.8334;
+        public static double kaVoltSecondsSquaredPerMeter = 0.45089;
 
-        public static double kMaxSpeedMetersPerSeocond = 0;
-        public static double kMaxAccelerationMetersPerSecondSquared = 0;
+        public static double kMaxSpeedMetersPerSeocond = 0.5;
+        public static double kMaxAccelerationMetersPerSecondSquared = 1;
 
 
-        public static double kP = 0;
+        public static double kP = 2.7381;
     }
     
     public static final class Status {
