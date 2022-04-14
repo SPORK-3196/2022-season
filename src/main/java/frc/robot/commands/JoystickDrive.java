@@ -72,42 +72,11 @@ public class JoystickDrive extends CommandBase {
     speedControl = X1_LJY * -DT_PowerConstant; 
     rotationControl = X1_LJX * -DT_PowerConstant;
     
-    
-    if (X1_CONTROLLER.getAButton()) {
-      RUN_VISION = true;
-      
-      if (primaryHasTargets) {
-        steering_adjust = Auto_PIDController.calculate(primaryYaw);
-        rotationControl = steering_adjust;
-      }
-      
-    }
-    else {
-      RUN_VISION = false;
-    }
-  
-
-    
-    if (X1_CONTROLLER.getXButton()) {
-      backupCamera.setDriverMode(false);
-      
-      if (backupHasTargets) {
-        steering_adjust = Auto_PIDController.calculate(backupYaw);
-        rotationControl = -steering_adjust;
-      }
-
-      RUN_BACKUP_VISION = true;
-    }
-    else {
-      RUN_BACKUP_VISION = false;
-    }
-    
-    
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
     }
   
-    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, false);
+    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, true);
     drivetrain.leftSide.set(wheelSpeeds.left);
     drivetrain.rightSide.set(wheelSpeeds.right);
     // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
