@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Robot.*;
+import static frc.robot.Constants.Vision.*;
   
 public class Drivetrain extends SubsystemBase {
 
@@ -178,6 +179,10 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorVelocity()), sensorUnitsToMeters(rearRight.getSelectedSensorVelocity()));
+  }
+
+  public double getTargetOffset() {
+    return Math.atan( CAMERA_TARGET_OFFSET_M / DISTANCE_FROM_TARGET );
   }
 
   @Override
