@@ -56,6 +56,7 @@ public class BallOrientation extends CommandBase {
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
     RUN_BACKUP_VISION = true;
+    Auto_PIDController.setP(0.0065);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
