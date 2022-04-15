@@ -110,7 +110,7 @@ public class RobotContainer {
     // .whenActive(new PlayMusic(Drivetrain));
 
     X1J_A.whenHeld(new TargetOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
-    X2J_X.whenHeld(new BallOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, backupYaw));
+    X1J_X.whenHeld(new BallOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, backupYaw));
 
     X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
     X2J_B.whenHeld(new OuttakeBalls(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
