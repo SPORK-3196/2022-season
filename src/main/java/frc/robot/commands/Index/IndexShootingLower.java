@@ -56,7 +56,7 @@ public class IndexShootingLower extends CommandBase {
     }
 
     if (runIndex) {
-      index.runIndex();
+      index.feedBalls();
     }
     else if (!runIndex) {
       index.stopIndex();

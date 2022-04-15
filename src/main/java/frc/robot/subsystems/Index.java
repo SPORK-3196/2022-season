@@ -70,7 +70,7 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
   }
 
   public void feedBalls() {
-    indexMotor.set(0.55);
+    indexMotor.set(0.4);
   }
 
   public void stopIndex() {
