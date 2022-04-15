@@ -49,7 +49,7 @@ public class TargetOrientation extends CommandBase {
   @Override
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-    Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);

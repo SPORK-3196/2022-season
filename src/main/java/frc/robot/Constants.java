@@ -137,6 +137,9 @@ public final class Constants {
         public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(35);
         public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
 
+        public static double CAMERA_TARGET_OFFSET_IN = 8;
+        public static double CAMERA_TARGET_OFFSET_M = Units.inchesToMeters(CAMERA_TARGET_OFFSET_IN);
+
         public static double TestHub = Units.inchesToMeters(103.5);
     }
     
