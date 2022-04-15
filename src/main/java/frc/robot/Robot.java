@@ -76,17 +76,17 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    PrimaryVideoFeed = new HttpCamera("Front Camera", "http://10.31.96.11:5800");
+    // PrimaryVideoFeed = new HttpCamera("Front Camera", "http://10.31.96.11:5800");
     // BackupVideoFeed = new HttpCamera("Backup Camera", "http://10.31.96.12:5800");
 
     primaryCamera = new PhotonCamera("Primary Camera");
     backupCamera = new PhotonCamera("Backup Camera");
 
-    PortForwarder.add(5800, "10.31.96.11", 5800);
+    // PortForwarder.add(5800, "10.31.96.11", 5800);
 
     PhotonCamera.setVersionCheckEnabled(false);
 
-    AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
+    // AI_TAB.add("LimeLight Video", PrimaryVideoFeed);
     // AI_TAB.add("Secondary Video", BackupVideoFeed);
 
     Shuffleboard.getTab("Autonomous Controls")
