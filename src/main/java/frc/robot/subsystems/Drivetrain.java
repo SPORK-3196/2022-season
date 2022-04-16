@@ -54,8 +54,8 @@ public class Drivetrain extends SubsystemBase {
   public DifferentialDrivetrainSim drivetrainSim = new DifferentialDrivetrainSim(
     DCMotor.getFalcon500(2), 
     gearRatio, 
-    7,
-    Units.lbsToKilograms(127), 
+    6,
+    Units.lbsToKilograms(200), 
     Units.inchesToMeters(DrivetrainWheelDiameterIn), 
     DrivetrainTrackWidthMeters, 
     VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
@@ -77,8 +77,9 @@ public class Drivetrain extends SubsystemBase {
     visionMeasurementStdDevs);
   */
   public static Field2d gameField;
-  private DifferentialDriveOdometry drivetrain_odometry;
-  private Pose2d robot_pose;
+  private Pose2d robot_pose = new Pose2d(7, 2.7, new Rotation2d(Units.degreesToRadians(26)));
+  private DifferentialDriveOdometry drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(getGyroHeadingRads()), robot_pose);
+  
 
   public Orchestra drivetrainOrchestra = new Orchestra();
   
@@ -90,7 +91,7 @@ public class Drivetrain extends SubsystemBase {
     leftSide.setInverted(true);
 
     gameField = new Field2d();
-    robot_pose = new Pose2d(3, 7, new Rotation2d());
+    
 
     frontLeft.setSelectedSensorPosition(0);
     rearLeft.setSelectedSensorPosition(0);
@@ -98,7 +99,7 @@ public class Drivetrain extends SubsystemBase {
     rearRight.setSelectedSensorPosition(0);
     gyroscope.setYaw(0);
 
-    drivetrain_odometry = new DifferentialDriveOdometry(new Rotation2d(getGyroHeadingRads()), robot_pose);
+ 
   
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(0);
@@ -241,13 +242,13 @@ public class Drivetrain extends SubsystemBase {
     DT_FrontRightEntry.setDouble(frontRight.getMotorOutputPercent());
     DT_rearRightEntry.setDouble(-rearRight.getMotorOutputPercent());
 
-    // System.out.println(rearLeft.getSelectedSensorPosition());
 
     DT_TargetOffsetAngle.setDouble(getTargetOffset());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
-    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeadingRads()), sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
     gameField.setRobotPose(robot_pose);
+
+    robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeadingRads()), sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
   } 
 
   
