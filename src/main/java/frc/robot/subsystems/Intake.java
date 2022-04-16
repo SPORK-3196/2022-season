@@ -40,12 +40,6 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    if (Math.abs(intakeMotor.get()) > 0.1) {
-      indexing = true;
-    }
-    else {
-      indexing = false;
-    }
   }
 
   @Override

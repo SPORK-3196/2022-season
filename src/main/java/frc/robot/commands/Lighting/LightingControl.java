@@ -40,14 +40,6 @@ public class LightingControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (teleop) {
-      if (primaryHasTargets && X2_AButton) {
-        lights.redGreenOffset(Math.abs(primaryYaw), 8);
-      }
-      else {
-        lights.rainbowRun();
-      }
-    }
 
 
     if (DriverStation.isDisabled()) {
@@ -71,9 +63,6 @@ public class LightingControl extends CommandBase {
       lights.fullWhite();
     }
 
-    if (rampingUp) {
-      lights.fullYellow();
-    }
 
     if (SHOOTER_READY) {
       lights.fullGreen();
