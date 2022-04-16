@@ -49,14 +49,14 @@ public class TargetOrientation extends CommandBase {
   @Override
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-    Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
     RUN_VISION = true;
-    Auto_PIDController.setP(0.0075);
+    Auto_PIDController.setP(AutoP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

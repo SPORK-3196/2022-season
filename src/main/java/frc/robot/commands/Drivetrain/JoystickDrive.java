@@ -75,7 +75,7 @@ public class JoystickDrive extends CommandBase {
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
     }
-  
+    
     wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, true);
     drivetrain.leftSide.set(wheelSpeeds.left);
     drivetrain.rightSide.set(wheelSpeeds.right);

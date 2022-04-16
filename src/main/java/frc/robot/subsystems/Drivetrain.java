@@ -5,23 +5,31 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.music.Orchestra;
+import com.ctre.phoenix.sensors.BasePigeonSimCollection;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Robot.*;
+import static frc.robot.Constants.Vision.*;
   
 public class Drivetrain extends SubsystemBase {
 
@@ -35,7 +43,22 @@ public class Drivetrain extends SubsystemBase {
   public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, rearLeft);
   public MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, rearRight);
 
+  public TalonFXSimCollection frontLeftSim = frontLeft.getSimCollection();
+  public TalonFXSimCollection frontRightSim = frontRight.getSimCollection();
+  public TalonFXSimCollection rearLeftSim = rearLeft.getSimCollection();
+  public TalonFXSimCollection rearRightSim = rearRight.getSimCollection();
+  public BasePigeonSimCollection gyroscopeSim = gyroscope.getSimCollection();
+
   public DifferentialDrive drivetrain;
+
+  public DifferentialDrivetrainSim drivetrainSim = new DifferentialDrivetrainSim(
+    DCMotor.getFalcon500(2), 
+    gearRatio, 
+    7,
+    Units.lbsToKilograms(127), 
+    Units.inchesToMeters(DrivetrainWheelDiameterIn), 
+    DrivetrainTrackWidthMeters, 
+    VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
 
   private boolean playingMusic = false;
 
@@ -104,6 +127,8 @@ public class Drivetrain extends SubsystemBase {
 
     Shuffleboard.getTab("Drivetrain Info")
       .add(gameField);
+    SmartDashboard
+      .putData(gameField);
   }
 
   public void loadMusic(String song) {
@@ -149,9 +174,13 @@ public class Drivetrain extends SubsystemBase {
 
   public void resetEncoders() {
     frontLeft.setSelectedSensorPosition(0);
+    frontLeftSim.setIntegratedSensorRawPosition(0);
     frontRight.setSelectedSensorPosition(0);
+    frontRightSim.setIntegratedSensorRawPosition(0);
     rearLeft.setSelectedSensorPosition(0);
+    rearLeftSim.setIntegratedSensorRawPosition(0);
     rearRight.setSelectedSensorPosition(0);
+    rearRightSim.setIntegratedSensorRawPosition(0);
   }
 
 
@@ -175,9 +204,20 @@ public class Drivetrain extends SubsystemBase {
     double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(DrivetrainWheelRadiusIn));
     return positionMeters;
   }
+  
+  public int metersToSensorUnits(double meters) {
+    double wheelRotations = meters / (2 * Math.PI * Units.inchesToMeters(DrivetrainWheelRadiusIn));
+    double motorRotations = wheelRotations * gearRatio;
+    int sensor_counts = (int) (motorRotations * countsPerRevolution);
+    return sensor_counts;
+  }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorVelocity()), sensorUnitsToMeters(rearRight.getSelectedSensorVelocity()));
+  }
+
+  public double getTargetOffset() {
+    return Math.atan( CAMERA_TARGET_OFFSET_M / DISTANCE_FROM_TARGET );
   }
 
   @Override
@@ -210,8 +250,20 @@ public class Drivetrain extends SubsystemBase {
     gameField.setRobotPose(robot_pose);
   } 
 
+  
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    drivetrainSim.setInputs(leftSide.get() * RobotController.getInputVoltage(), rightSide.get() * RobotController.getInputVoltage());
+    drivetrainSim.update(0.02);
+
+    rearLeftSim.setIntegratedSensorRawPosition(metersToSensorUnits(-drivetrainSim.getLeftPositionMeters()));
+    rearRightSim.setIntegratedSensorRawPosition(metersToSensorUnits(drivetrainSim.getRightPositionMeters()));
+
+    
+    rearLeftSim.setIntegratedSensorVelocity(metersToSensorUnits(drivetrainSim.getLeftVelocityMetersPerSecond()));
+    rearRightSim.setIntegratedSensorVelocity(metersToSensorUnits(drivetrainSim.getRightVelocityMetersPerSecond()));
+    gyroscopeSim.setRawHeading(-drivetrainSim.getHeading().getDegrees());
   }
+  
 }
