@@ -265,6 +265,8 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+
+    setBallTrackingPipeline();
     autonomous = true;
     teleop = false;
     disabled = false;
@@ -293,12 +295,7 @@ public class Robot extends TimedRobot {
     
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
     
-    if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
-      backupCamera.setPipelineIndex(BlueAllianceBallPipeline);
-    }
-    else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
-      backupCamera.setPipelineIndex(RedAllianceBallPipeline);
-    }
+    setBallTrackingPipeline();
 
     autonomous = false;
     teleop = true;
@@ -347,5 +344,14 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Vision Processing
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to On
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
+  }
+
+  public void setBallTrackingPipeline() {
+    if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
+      backupCamera.setPipelineIndex(BlueAllianceBallPipeline);
+    }
+    else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
+      backupCamera.setPipelineIndex(RedAllianceBallPipeline);
+    }
   }
 }
