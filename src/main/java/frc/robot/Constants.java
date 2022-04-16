@@ -193,7 +193,7 @@ public final class Constants {
 
     public static final class Drivetrain { 
 
-        public static double AutoP = 0.0075;
+        public static double AutoP = 0.008;
 
 
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
@@ -215,21 +215,15 @@ public final class Constants {
             .getEntry();
 
         public static SendableChooser<String> songChooser = new SendableChooser<String>();
-        }
+
+
+        public static NetworkTableEntry DT_TargetOffsetAngle = DT_TAB.add("Target Offset", 0).getEntry();
+    }
 
        
-        public static NetworkTableEntry DT_TargetOffsetAngle = DT_TAB.add("Target Offset", 0).getEntry();
         
 
-        
-        
-        /*
-        public static NetworkTableEntry DT_Field = DT_TAB
-            .add("Field", gameField)
-            .withWidget(BuiltInWidgets.kField)
-            .getEntry();
-        }
-        */
+      
     
     public static final class AutoDriveConstants {
         public static double ksVolts = 0.67962;

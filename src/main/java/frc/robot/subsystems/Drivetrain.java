@@ -243,7 +243,7 @@ public class Drivetrain extends SubsystemBase {
 
     // System.out.println(rearLeft.getSelectedSensorPosition());
 
-    DT_TargetOffsetAngle.setDouble(0);
+    DT_TargetOffsetAngle.setDouble(getTargetOffset());
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
     robot_pose = drivetrain_odometry.update(new Rotation2d(getGyroHeadingRads()), sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorPosition()), sensorUnitsToMeters(rearRight.getSelectedSensorPosition()));
