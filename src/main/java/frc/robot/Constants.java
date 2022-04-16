@@ -213,6 +213,7 @@ public final class Constants {
         }
 
        
+        public static NetworkTableEntry DT_TargetOffsetAngle = DT_TAB.add("Target Offset", 0).getEntry();
         
 
         
