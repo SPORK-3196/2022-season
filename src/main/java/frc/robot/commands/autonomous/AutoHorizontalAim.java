@@ -47,7 +47,7 @@ public class AutoHorizontalAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Auto_PIDController.setSetpoint(0);
+    Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
     Auto_PIDController.setTolerance(0.5);
     RUN_VISION = true;
     drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);

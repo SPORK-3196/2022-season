@@ -47,7 +47,7 @@ public class DriveForwardTimed extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
 
-    startingAngle = drivetrain.getYaw();
+    startingAngle = drivetrain.getGyroHeadingDeg();
 
     driveTimer.reset();
     driveTimer.start();
@@ -56,7 +56,7 @@ public class DriveForwardTimed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // turningPower = -0.02 * (startingAngle - drivetrain.getYaw());
+    turningPower = 0.02 * (startingAngle - drivetrain.getGyroHeadingDeg());
     drivetrain.drivetrain.arcadeDrive(drivePower, turningPower);
   }
 
