@@ -127,8 +127,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
 
     // SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
-    
-    rampingUp = X2_AButton;
+ 
     
 
     if ((X2_AButton || X2_LJS) || (leftTargetRPM > 0 && rightTargetRPM > 0)) {
