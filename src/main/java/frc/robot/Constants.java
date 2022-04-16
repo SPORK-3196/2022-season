@@ -193,6 +193,8 @@ public final class Constants {
 
     public static final class Drivetrain { 
 
+        public static double AutoP = 0.0075;
+
 
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
         public static NetworkTableEntry DT_rearLeftEntry = DT_TAB.add("rear Left Power", 0).getEntry();
