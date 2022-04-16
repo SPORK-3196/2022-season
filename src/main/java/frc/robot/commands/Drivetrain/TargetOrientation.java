@@ -56,7 +56,7 @@ public class TargetOrientation extends CommandBase {
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
     RUN_VISION = true;
-    Auto_PIDController.setP(0.0075);
+    Auto_PIDController.setP(AutoP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
