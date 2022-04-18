@@ -60,27 +60,17 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
 
-    if (!drivetrain.driveModeSet) {
-      Auto_PIDController.setSetpoint(0);
-      Auto_PIDController.setTolerance(0);
-      // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-      // drivetrain.drivetrain.setDeadband(0.05);
-
-      
-    }
 
     speedControl = X1_LJY * -DT_PowerConstant; 
-    rotationControl = X1_LJX * -DT_PowerConstant;
+    // rotationControl = X1_LJX * -DT_PowerConstant;
+    rotationControl = X1_RJX * -DT_PowerConstant;
     
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
     }
+
     
-    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, true);
-    drivetrain.leftSide.set(wheelSpeeds.left);
-    drivetrain.rightSide.set(wheelSpeeds.right);
-    // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
-    // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
+    drivetrain.curvatureDrive(speedControl, rotationControl);
   }
 
   // Called once the command ends or is interrupted.

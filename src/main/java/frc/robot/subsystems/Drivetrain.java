@@ -136,6 +136,18 @@ public class Drivetrain extends SubsystemBase {
     drivetrainOrchestra.loadMusic(song);
   }
 
+  public void curvatureDrive(double speed, double rotation) {
+    DifferentialDrive.WheelSpeeds wheelSpeeds = DifferentialDrive.curvatureDriveIK(speed, rotation, true);
+    leftSide.set(wheelSpeeds.left);
+    rightSide.set(wheelSpeeds.right);
+  }
+
+  public void arcadeDrive(double speed, double rotation) {
+    DifferentialDrive.WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(speed, rotation, true);
+    leftSide.set(wheelSpeeds.left);
+    rightSide.set(wheelSpeeds.right);
+  }
+
   public void playMusic() {
     drivetrainOrchestra.play();
     playingMusic = true;

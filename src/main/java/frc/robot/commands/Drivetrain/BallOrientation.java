@@ -66,7 +66,7 @@ public class BallOrientation extends CommandBase {
     RUN_BACKUP_VISION = true;
 
     speedControl = X1_LJY * -DT_PowerConstant; 
-    rotationControl = X1_LJX * -DT_PowerConstant;
+    rotationControl = X2_LJX * -DT_PowerConstant;
 
     backupCamera.setDriverMode(false);
     
@@ -75,9 +75,7 @@ public class BallOrientation extends CommandBase {
       rotationControl = steering_adjust;
     }
 
-    wheelSpeeds = DifferentialDrive.arcadeDriveIK(speedControl, rotationControl, false);
-    drivetrain.leftSide.set(wheelSpeeds.left);
-    drivetrain.rightSide.set(wheelSpeeds.right);
+    drivetrain.arcadeDrive(speedControl, rotationControl);
     // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
     // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
   }
