@@ -37,6 +37,8 @@ public class IndexShootingUpperConditional extends CommandBase {
   @Override
   public void initialize() {
     runIndex = true;
+    indexTimer.reset();
+    indexTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,6 +54,8 @@ public class IndexShootingUpperConditional extends CommandBase {
       index.ballCounter--;
       index.BallExiting = false;
     }
+
+    
 
    
     /*
@@ -82,6 +86,7 @@ public class IndexShootingUpperConditional extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return BallCounter_Entry.getDouble(0) == ballCondition;
+    // return BallCounter_Entry.getDouble(0) == ballCondition;
+    return indexTimer.get() > 2.5;
   }
 }
