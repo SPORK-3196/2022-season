@@ -31,6 +31,7 @@ public class AutoHorizontalAim extends CommandBase {
   double leftInput;
   double rightInput;
   double steering_adjust;
+  DifferentialDrive.WheelSpeeds wheelSpeeds;
 
   /**
    * Creates a new DriveWithJoystick.
@@ -75,15 +76,10 @@ public class AutoHorizontalAim extends CommandBase {
 
     if (primaryHasTargets) {
       steering_adjust = Auto_PIDController.calculate(primaryYaw);
-      System.out.println(steering_adjust);
-      // drivetrain.drivetrain.arcadeDrive(0, 0.1);
-    }
-    else {
-      // drivetrain.drivetrain.arcadeDrive(0, 0.1);
     }
 
+   drivetrain.arcadeDrive(0, steering_adjust);
     
-
 
   }
 
