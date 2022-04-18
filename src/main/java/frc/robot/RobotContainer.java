@@ -97,7 +97,7 @@ public class RobotContainer {
     // autoChooser.addOption("1 Ball Taxi", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutoHorizontalAim(Drivetrain, 3)).andThen(new AutonomousShootUno(Shooter, Index, 5.0))));
     autoChooser.addOption("1 Ball Taxi", new OneBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
     autoChooser.addOption("Taxi, No Shoot", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4)));
-    autoChooser.addOption("CCW Turn", new TurnDegreesCCW(Drivetrain, 3, 90));
+    // autoChooser.addOption("CCW Turn", new TurnDegreesCCW(Drivetrain, 3, 90));
     // autoChooser.addOption("Ramsete Test", returnRamseteCommand());
   }
 
