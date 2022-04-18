@@ -51,6 +51,18 @@ public class Climber extends SubsystemBase { // Made By Caputo
     R_Arm.stopMotor();
   }  
 
+  public void toggleArms() {
+    ARM_PISTONS.toggle();
+  }
+
+  public void raiseArms() {
+    ARM_PISTONS.set(false);
+  }
+
+  public void lowerArms() {
+    ARM_PISTONS.set(true);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
