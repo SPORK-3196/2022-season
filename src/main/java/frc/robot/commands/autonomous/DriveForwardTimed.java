@@ -42,10 +42,10 @@ public class DriveForwardTimed extends CommandBase {
   public void initialize() {
     drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.drivetrain.arcadeDrive(drivePower * 1, 0.0);
-    drivetrain.frontRight.setNeutralMode(NeutralMode.Brake);
-    drivetrain.rearRight.setNeutralMode(NeutralMode.Brake);
-    drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
-    drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
+    drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
+    drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
 
     startingAngle = drivetrain.getGyroHeadingDeg();
 
@@ -56,8 +56,8 @@ public class DriveForwardTimed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turningPower = 0.02 * (startingAngle - drivetrain.getGyroHeadingDeg());
-    drivetrain.drivetrain.arcadeDrive(drivePower, turningPower);
+    turningPower = 0.03 * (startingAngle - drivetrain.getGyroHeadingDeg());
+    drivetrain.drivetrain.arcadeDrive(drivePower, turningPower, false);
   }
 
   // Called once the command ends or is interrupted.
