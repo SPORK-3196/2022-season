@@ -23,12 +23,21 @@ public class AutonomousShootConditional extends CommandBase {
   public Timer shooterTimer = new Timer();
   public double time = 5.0;
   public double ballCondition = 0;
-
+  public double RPM = 2000;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
+
+  public AutonomousShootConditional(Shooter shooter, Index index, double ballCondition, double RPM) {
+    this.shooter = shooter;
+    this.ballCondition = ballCondition;
+    this.RPM = RPM;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
+    // addRequirements(index);
+  }
 
   public AutonomousShootConditional(Shooter shooter, Index index, double ballCondition) {
     this.shooter = shooter;
@@ -51,7 +60,7 @@ public class AutonomousShootConditional extends CommandBase {
   @Override
   public void execute() {
     // shooter.setSetpoint(AutoComputedRPM);
-    shooter.feedForwardShoot(2000);
+    shooter.feedForwardShoot(RPM);
 
     /*
     if (shooter.atSetpoint()) {
@@ -75,6 +84,6 @@ public class AutonomousShootConditional extends CommandBase {
   @Override
   public boolean isFinished() {
     // return shooterTimer.get() > time;
-    return BallCounter_Entry.getDouble(0) == this.ballCondition;
+    return shooterTimer.get() > 2.5;
   }
 }
