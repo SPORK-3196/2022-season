@@ -89,6 +89,10 @@ public class Index extends SubsystemBase { // Made By Caputo & Oguntola
     ballCounter = 1;
   }
 
+  public void startWithNoBalls() {
+    ballCounter = 0;
+  }
+
 
   @Override
   public void periodic() {
