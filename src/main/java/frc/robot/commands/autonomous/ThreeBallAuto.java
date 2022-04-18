@@ -21,22 +21,33 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         // Start index off with one ball
         
         new DelayedIndexConditional(index, 2)
-          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4)),
+          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 1.50, -0.6)),
         // Drive backwards and pickup ball behind you till 2 balls in index
 
         // new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4),
         
+        new AutoHorizontalAim(drivetrain, 1),
+
 
         new AutonomousShootConditional(shooter, index, 0).alongWith(new IndexShootingUpperConditional(index, 0)),
         // Shoot into upper hub till empty
 
-        new TurnDegreesCCW(drivetrain, 3, -25),
-        // Turn a number of degrees (CCW is positive)
+        new InstantCommand(climber::raiseArms, climber),
+
+        new InstantCommand(index::startWithNoBalls, index),
+
         
         new DelayedIndexConditional(index, 1)
-          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4)),
+          .alongWith(
+            new DriveToPickupAim(drivetrain, index, shooter, climber, intake, 3.5, -0.4).withInterrupt(index::getIntakeSensor)
+              .andThen(new TurnDegreesCCW(drivetrain, 1, 15).andThen(new DriveForwardTimed(drivetrain, 1, 0.6)).alongWith(new PickupBalls(intake, 3)))),
 
-        new AutonomousShootConditional(shooter, index, 0).alongWith(new IndexShootingUpperConditional(index, 0))
+        new AutoHorizontalAim(drivetrain, 2),
+
+        new InstantCommand(index::startWithOneBall, index),
+
+        new AutonomousShootConditional(shooter, index, 0, 2000).alongWith(new IndexShootingUpperConditional(index, 0))
+
       );
     }
 }
