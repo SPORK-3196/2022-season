@@ -55,12 +55,19 @@ public class LightingControl extends CommandBase {
       
     }
 
+    if (DriverStation.isTeleopEnabled()) {
+      lights.FullRainbow();
+    }
+
     if (DriverStation.isAutonomousEnabled()) {
-      lights.fullBlue();
+      lights.noColor();
     }
 
     if (indexing) {
       lights.fullWhite();
+      if (DriverStation.isAutonomousEnabled()) {
+        lights.noColor();
+      }
     }
 
 

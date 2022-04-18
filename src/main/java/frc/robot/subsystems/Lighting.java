@@ -71,6 +71,13 @@ public class Lighting extends SubsystemBase {
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
+
+  public void noColor() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setRGB(i, 0, 0, 0);
+    }
+    lightsAlpha.setData(lightBufferAlpha);
+  }
   
 
   public void fullRed() {
