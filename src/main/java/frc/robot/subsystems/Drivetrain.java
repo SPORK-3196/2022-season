@@ -38,23 +38,27 @@ public class Drivetrain extends SubsystemBase {
   public WPI_TalonFX rearLeft = new WPI_TalonFX(3);
   public WPI_TalonFX rearRight = new WPI_TalonFX(4);
 
+  
+
   public PigeonIMU gyroscope = new PigeonIMU(12);
 
   public MotorControllerGroup leftSide = new MotorControllerGroup(frontLeft, rearLeft);
   public MotorControllerGroup rightSide = new MotorControllerGroup(frontRight, rearRight);
 
+  
+  
   public TalonFXSimCollection frontLeftSim = frontLeft.getSimCollection();
   public TalonFXSimCollection frontRightSim = frontRight.getSimCollection();
   public TalonFXSimCollection rearLeftSim = rearLeft.getSimCollection();
   public TalonFXSimCollection rearRightSim = rearRight.getSimCollection();
   public BasePigeonSimCollection gyroscopeSim = gyroscope.getSimCollection();
 
-  public DifferentialDrive drivetrain;
+  public DifferentialDrive drivetrain = new DifferentialDrive(leftSide, rightSide);
 
   public DifferentialDrivetrainSim drivetrainSim = new DifferentialDrivetrainSim(
     DCMotor.getFalcon500(2), 
     gearRatio, 
-    6,
+    10,
     Units.lbsToKilograms(200), 
     Units.inchesToMeters(DrivetrainWheelDiameterIn), 
     DrivetrainTrackWidthMeters, 
@@ -88,22 +92,20 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
+
     leftSide.setInverted(true);
-
-    gameField = new Field2d();
     
-
+    
+    gameField = new Field2d();
+  
     frontLeft.setSelectedSensorPosition(0);
     rearLeft.setSelectedSensorPosition(0);
     frontRight.setSelectedSensorPosition(0);
     rearRight.setSelectedSensorPosition(0);
     gyroscope.setYaw(0);
 
- 
-  
     Auto_PIDController.setSetpoint(0);
     Auto_PIDController.setTolerance(0);
-
 
     // Music Stuff
     drivetrainOrchestra.addInstrument(frontLeft);
@@ -128,24 +130,39 @@ public class Drivetrain extends SubsystemBase {
 
     Shuffleboard.getTab("Drivetrain Info")
       .add(gameField);
-    SmartDashboard
-      .putData(gameField);
+
+    frontLeft.setNeutralMode(NeutralMode.Coast);
+    frontRight.setNeutralMode(NeutralMode.Coast);
+    rearLeft.setNeutralMode(NeutralMode.Coast);
+    rearRight.setNeutralMode(NeutralMode.Coast);
   }
 
   public void loadMusic(String song) {
     drivetrainOrchestra.loadMusic(song);
   }
 
-  public void curvatureDrive(double speed, double rotation) {
+  public void curvatureDriveIK(double speed, double rotation) {
     DifferentialDrive.WheelSpeeds wheelSpeeds = DifferentialDrive.curvatureDriveIK(speed, rotation, true);
     leftSide.set(wheelSpeeds.left);
     rightSide.set(wheelSpeeds.right);
   }
 
-  public void arcadeDrive(double speed, double rotation) {
+  public void curvatureDrive(double speed, double rotation) {
+    drivetrain.curvatureDrive(speed, rotation, true);
+  }
+
+  public void arcadeDriveIK(double speed, double rotation) {
     DifferentialDrive.WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(speed, rotation, true);
     leftSide.set(wheelSpeeds.left);
     rightSide.set(wheelSpeeds.right);
+  }
+
+  public void arcadeDrive(double speed, double rotation) {
+    drivetrain.arcadeDrive(speed, rotation, true);
+  }
+
+  public void arcadeDriveAI(double speed, double rotation) {
+    drivetrain.arcadeDrive(speed, rotation, false);
   }
 
   public void playMusic() {
@@ -229,8 +246,14 @@ public class Drivetrain extends SubsystemBase {
     return new DifferentialDriveWheelSpeeds(sensorUnitsToMeters(-1 * rearLeft.getSelectedSensorVelocity()), sensorUnitsToMeters(rearRight.getSelectedSensorVelocity()));
   }
 
-  public double getTargetOffset() {
-    return Math.atan( CAMERA_TARGET_OFFSET_M / DISTANCE_FROM_TARGET );
+  public double getCloseTargetOffset() {
+    // return Math.atan( CAMERA_TARGET_OFFSET_CLOSE_M / DISTANCE_FROM_TARGET );
+    return -5;
+  }
+
+  public double getFarTargetOffset() {
+    // return Math.atan( CAMERA_TARGET_OFFSET_FAR_M / DISTANCE_FROM_TARGET );
+    return -3;
   }
 
   @Override
@@ -254,8 +277,14 @@ public class Drivetrain extends SubsystemBase {
     DT_FrontRightEntry.setDouble(frontRight.getMotorOutputPercent());
     DT_rearRightEntry.setDouble(-rearRight.getMotorOutputPercent());
 
+    if (DISTANCE_FROM_TARGET > 2.5) {
+      DT_TargetOffsetAngle.setDouble(getFarTargetOffset());
+    }
+    else {
+      DT_TargetOffsetAngle.setDouble(getCloseTargetOffset());
+    }
 
-    DT_TargetOffsetAngle.setDouble(getTargetOffset());
+    // System.out.println(sensorUnitsToMeters(rearLeft.getSelectedSensorVelocity()));
 
     // drivetrain_poseEstimator.update(gyroscope.getYaw(), wheelVelocitiesMetersPerSecond, distanceLeftMeters, distanceRightMeters)
     gameField.setRobotPose(robot_pose);
