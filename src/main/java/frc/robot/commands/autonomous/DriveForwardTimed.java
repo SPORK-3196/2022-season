@@ -40,8 +40,8 @@ public class DriveForwardTimed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-    drivetrain.drivetrain.arcadeDrive(drivePower * 1, 0.0);
+    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    // drivetrain.drivetrain.arcadeDrive(drivePower * 1, 0.0);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
@@ -57,14 +57,15 @@ public class DriveForwardTimed extends CommandBase {
   @Override
   public void execute() {
     turningPower = 0.03 * (startingAngle - drivetrain.getGyroHeadingDeg());
-    drivetrain.drivetrain.arcadeDrive(drivePower, turningPower, false);
+    drivetrain.arcadeDriveAI(drivePower, turningPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drivetrain.arcadeDrive(0.0, 0.0);
-    drivetrain.drivetrain = null;
+    drivetrain.arcadeDrive(0.0, 0.0);
+    // drivetrain.drivetrain = null;
+    // drivetrain.sensorUnitsToMeters(drivetrain.frontLeft.getSelectedSensorPosition());
   }
 
   // Returns true when the command should end.

@@ -56,14 +56,13 @@ public class TurnDegreesCCW extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
 
-    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
 
     startingAngle = drivetrain.getGyroHeadingDeg();
     targetAngle = startingAngle + angle;
 
     turnTimer.reset();
     turnTimer.start();
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,9 +73,7 @@ public class TurnDegreesCCW extends CommandBase {
     turningPower = 0.006 * (targetAngle - drivetrain.getGyroHeadingDeg());
     System.out.println("Turning Power: " + turningPower);
 
-    DifferentialDrive.WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(0, turningPower, false);
-    drivetrain.leftSide.set(wheelSpeeds.left);
-    drivetrain.rightSide.set(wheelSpeeds.right);
+    drivetrain.arcadeDrive(0, turningPower);
 
   }
 
@@ -84,7 +81,7 @@ public class TurnDegreesCCW extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     drivetrain.drivetrain.arcadeDrive(0.0, 0.0);
-    drivetrain.drivetrain = null;
+    // drivetrain.drivetrain = null;
     targetAngle = 0;
   }
 

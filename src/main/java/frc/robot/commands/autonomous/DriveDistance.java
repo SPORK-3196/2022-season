@@ -44,7 +44,7 @@ public class DriveDistance extends CommandBase {
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
 
-    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
 
     startingDistance = drivetrain.sensorUnitsToMeters(drivetrain.rearRight.getSelectedSensorPosition());
 
