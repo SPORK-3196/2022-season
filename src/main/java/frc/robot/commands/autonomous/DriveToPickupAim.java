@@ -17,9 +17,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class DriveToPickupAim extends ParallelCommandGroup {
     public DriveToPickupAim(Drivetrain drivetrain, Index index, Shooter shooter, Climber climber, Intake intake, double duration, double driveSpeed) {
       super(
-        new AutoBallOrientation(drivetrain, index, duration),
-        new PickupBalls(intake, duration),
-        new LowerArms(climber)
+        new AutoBallOrientation(drivetrain, duration),
+        new PickupBalls(intake, duration)
       );
     }
 }
