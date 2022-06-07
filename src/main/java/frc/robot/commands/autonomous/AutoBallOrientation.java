@@ -27,7 +27,6 @@ import static frc.robot.Constants.Index.*;
 public class AutoBallOrientation extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain drivetrain;
-  private Index index;
   
 
   double steering_adjust;
@@ -45,11 +44,10 @@ public class AutoBallOrientation extends CommandBase {
    *
    * @param subsystem The drivetrain used by this command.
    */
-  public AutoBallOrientation(Drivetrain subsystem, Index index, double duration) {
+  public AutoBallOrientation(Drivetrain subsystem, double duration) {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrain = subsystem;
     this.duration = duration;
-    this.index = index;
     addRequirements(drivetrain);
   }
 
@@ -80,9 +78,8 @@ public class AutoBallOrientation extends CommandBase {
       rotationControl = steering_adjust;
     }
 
-    wheelSpeeds = DifferentialDrive.arcadeDriveIK(-0.3, rotationControl, true);
-    drivetrain.leftSide.set(wheelSpeeds.left);
-    drivetrain.rightSide.set(wheelSpeeds.right);
+  
+    drivetrain.arcadeDriveAI(-0.3, rotationControl);
   
   }
 
@@ -91,16 +88,16 @@ public class AutoBallOrientation extends CommandBase {
   public void end(boolean interrupted) {
     // drivetrain.drivetrain = null;
     RUN_BACKUP_VISION = false;
-    drivetrain.frontLeft.setNeutralMode(NeutralMode.Brake);
-    drivetrain.rearLeft.setNeutralMode(NeutralMode.Brake);
-    drivetrain.frontRight.setNeutralMode(NeutralMode.Brake);
-    drivetrain.rearRight.setNeutralMode(NeutralMode.Brake);
+    drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
+    drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
+    drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return lockon.get() > duration || index.getIntakeSensor();
+    return lockon.get() > duration;
   }
 }
