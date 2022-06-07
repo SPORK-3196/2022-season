@@ -54,6 +54,7 @@ public class JoystickDrive extends CommandBase {
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
+    drivetrain.drivetrain.setDeadband(0.08);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,15 +63,15 @@ public class JoystickDrive extends CommandBase {
 
 
     speedControl = X1_LJY * -DT_PowerConstant; 
-    // rotationControl = X1_LJX * -DT_PowerConstant;
-    rotationControl = X1_RJX * -DT_PowerConstant;
+    rotationControl = X1_LJX * -DT_PowerConstant;
+    // rotationControl = X1_RJX * -DT_PowerConstant;
     
     if (X1_CONTROLLER.getYButton()) {
       speedControl = -speedControl;
     }
 
     
-    drivetrain.curvatureDrive(speedControl, rotationControl);
+    drivetrain.arcadeDrive(speedControl, rotationControl);
   }
 
   // Called once the command ends or is interrupted.
@@ -82,6 +83,7 @@ public class JoystickDrive extends CommandBase {
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = false;
+    drivetrain.drivetrain.setDeadband(0);
   }
 
   // Returns true when the command should end.
