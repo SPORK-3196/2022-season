@@ -86,7 +86,7 @@ public class Lighting extends SubsystemBase {
 
   public void alphaYellow() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setRGB(i, 255, 255, 0);
+      lightBufferAlpha.setRGB(i, 200, 200, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
@@ -120,7 +120,7 @@ public class Lighting extends SubsystemBase {
 
   public void alphaWhite() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setRGB(i, 255, 255, 255);
+      lightBufferAlpha.setHSV(i, 0, 0, 70);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
@@ -239,8 +239,41 @@ public class Lighting extends SubsystemBase {
     // betaGreenRun();
   }
 
-
   public void alphaRedRun() {
+    if (alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setRGB(i, 255, 0, 0);
+      }
+
+      lightsAlpha.setData(lightBufferAlpha);
+
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferAlpha.getLength();
+        alphaLightUp = false;
+      }
+  
+    }
+
+    if (!alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setHSV(i, 0, 0, 255);
+      }
+
+      lightsAlpha.setData(lightBufferAlpha);
+  
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferAlpha.getLength();
+        alphaLightUp = true;
+      }
+    }
+
+    alphaLightCounter -= 10;
+  }
+
+
+  /*public void alphaRedRun() {
     if (alphaLightUp) {
       for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
         lightBufferAlpha.setRGB(i, 255, 0, 0);
@@ -272,42 +305,12 @@ public class Lighting extends SubsystemBase {
 
     alphaLightCounter -= 10;
   }
+  */
 
-  public void betaRedRun() {
-    if (betaLightUp) {
-      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
-        lightBufferBeta.setRGB(i, 0, 255, 0);
-      }
-
-      // lightsBeta.setData(lightBufferBeta);
-
-
-      if (betaLightCounter == 0) {
-        betaLightCounter = lightBufferBeta.getLength();
-        betaLightUp = false;
-      }
   
-    }
-
-    if (!betaLightUp) {
-      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
-        lightBufferBeta.setHSV(i, 0, 0, 255);
-      }
-
-      lightsAlpha.setData(lightBufferBeta);
-  
-
-      if (betaLightCounter == 0) {
-        betaLightCounter = lightBufferBeta.getLength();
-        betaLightUp = true;
-      }
-    }
-
-    alphaLightCounter -= 10;
-  }
 
   public void fullRedRun() {
-    alphaGreenRun();
+    alphaRedRun();
     // betaGreenRun();
   }
 
