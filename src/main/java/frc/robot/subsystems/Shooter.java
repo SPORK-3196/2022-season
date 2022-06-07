@@ -124,7 +124,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public void periodic() {
     // This method will be called once per scheduler run
     sparkVelocityRPM = -leftShooterEncoder.getVelocity();
-    SH_SHOOTER_RPM_Entry.setDouble(sparkVelocityRPM);
+    SH_SHOOTER_RPM_Entry.setDouble(AutoComputedRPM);
 
     // SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
  
@@ -135,12 +135,14 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
         SHOOTER_READY = true;
       }
       else {
-        PIDTimer.reset();
         SHOOTER_READY = false;
       }
     }
+    else {
+      SHOOTER_READY = false;
+    }
 
-    SH_ShooterPower = (((leftShooterEncoder.getVelocity() + rightShooterEncoder.getVelocity()) / 2) / 5700) * 100;
+    // SH_ShooterPower = (((leftShooterEncoder.getVelocity() + rightShooterEncoder.getVelocity()) / 2) / 5700) * 100;
     // System.out.println("right " + rightShooterEncoder.getVelocity());
     // System.out.println("left " + leftShooterEncoder.getVelocity());
   }
