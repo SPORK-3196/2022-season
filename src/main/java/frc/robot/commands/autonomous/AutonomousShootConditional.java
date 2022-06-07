@@ -84,6 +84,6 @@ public class AutonomousShootConditional extends CommandBase {
   @Override
   public boolean isFinished() {
     // return shooterTimer.get() > time;
-    return shooterTimer.get() > 2.5;
+    return shooterTimer.get() > 3.5;
   }
 }
