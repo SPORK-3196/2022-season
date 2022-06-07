@@ -18,35 +18,53 @@ public class ThreeBallAuto extends SequentialCommandGroup {
     public ThreeBallAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
         new InstantCommand(index::startWithOneBall, index),
-        // Start index off with one ball
+        // Start Index off with one ball
         
         new DelayedIndexConditional(index, 2)
-          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 1.50, -0.6)),
-        // Drive backwards and pickup ball behind you till 2 balls in index
-
-        // new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4),
+          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 1.50, -0.3)),
+        // Drive backwards and pickup cargo till you have enough 
         
         new AutoHorizontalAim(drivetrain, 1),
-
-
-        new AutonomousShootConditional(shooter, index, 0).alongWith(new IndexShootingUpperConditional(index, 0)),
-        // Shoot into upper hub till empty
+        // Auto aim towards the target for 1 second
 
         new InstantCommand(climber::raiseArms, climber),
 
-        new InstantCommand(index::startWithNoBalls, index),
+        new AutonomousShootConditional(shooter, index, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0)),
+        // Shoot into upper hub till empty
 
+       
+        // Raise climber arms
+
+        new InstantCommand(index::startWithNoBalls, index),
+        // Reset ball counter to 0
+
+        new TurnDegreesCCW(drivetrain, 1, 15),
+
+        // Works up till here 3:20PM, 4/22/2022
         
         new DelayedIndexConditional(index, 1)
           .alongWith(
-            new DriveToPickupAim(drivetrain, index, shooter, climber, intake, 3.5, -0.4).withInterrupt(index::getIntakeSensor)
-              .andThen(new TurnDegreesCCW(drivetrain, 1, 15).andThen(new DriveForwardTimed(drivetrain, 1, 0.6)).alongWith(new PickupBalls(intake, 3)))),
+            new DriveToPickupAim(drivetrain, index, shooter, climber, intake, 3, -0.15).withInterrupt(index::getIntakeSensor)),
+        // Drive while using vision towards cargo, stopping if a ball is detected at the intake sensor
+ 
+        new TurnDegreesCCW(drivetrain, 1, 15)
+          .alongWith(new PickupBalls(intake, 1)),
+        // Turn 15 degrees counter-clockwise for 1 second while running the intake
+        
+        new DriveToPickup(drivetrain, shooter, climber, intake, 1, 0.2),
+        // Drive forward for 1 second while still running the intake, in case there's a ball there
 
         new AutoHorizontalAim(drivetrain, 2),
+        // Aim at the target for 2 seconds
 
         new InstantCommand(index::startWithOneBall, index),
+        // Set index ball counter to one
+
+        new InstantCommand(climber::raiseArms, climber),
+        // Raise climber arms
 
         new AutonomousShootConditional(shooter, index, 0, 2000).alongWith(new IndexShootingUpperConditional(index, 0))
+        // Shoot into index until empty
 
       );
     }

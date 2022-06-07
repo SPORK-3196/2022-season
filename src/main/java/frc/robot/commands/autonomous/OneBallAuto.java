@@ -19,10 +19,10 @@ public class OneBallAuto extends SequentialCommandGroup {
 
     public OneBallAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
-        new InstantCommand(index::startWithTwoBalls, index),
+        new InstantCommand(index::startWithOneBall, index),
         new LowerArms(climber),
-        new DriveForwardTimed(drivetrain, 4.0, -0.4),
-        // new AutoHorizontalAim(drivetrain, 3),
+        new DriveForwardTimed(drivetrain, 3.5, -0.15),
+        new AutoHorizontalAim(drivetrain, 1),
         // new AutonomousShootUno(shooter, index, 5.0)
         new AutonomousShootConditional(shooter, index, 0).alongWith(new IndexShootingUpperConditional(index, 0))
         // .alongWith(new IndexShootingUpper(index))
