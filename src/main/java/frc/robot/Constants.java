@@ -137,8 +137,12 @@ public final class Constants {
         public static double CAMERA_ANGLE_RADIANS = Units.degreesToRadians(35);
         public static double CAMERA_HEIGHT_M = Units.inchesToMeters(19.5);
 
-        public static double CAMERA_TARGET_OFFSET_IN = 8;
-        public static double CAMERA_TARGET_OFFSET_M = Units.inchesToMeters(CAMERA_TARGET_OFFSET_IN);
+        public static double CAMERA_TARGET_OFFSET_CLOSE_IN = 8;
+        public static double CAMERA_TARGET_OFFSET_CLOSE_M = Units.inchesToMeters(CAMERA_TARGET_OFFSET_CLOSE_IN);
+
+        
+        public static double CAMERA_TARGET_OFFSET_FAR_IN = 4;
+        public static double CAMERA_TARGET_OFFSET_FAR_M = Units.inchesToMeters(CAMERA_TARGET_OFFSET_FAR_IN);
 
         public static double TestHub = Units.inchesToMeters(103.5);
     }
@@ -193,8 +197,9 @@ public final class Constants {
 
     public static final class Drivetrain { 
 
-        public static double AutoP = 0.01;
+        public static double AutoP = 0.008;
 
+        public static NetworkTableEntry DT_AutoPEntry = DT_TAB.add("Proportional Constant", 0).getEntry();
 
         public static NetworkTableEntry DT_FrontLeftEntry = DT_TAB.add("Front Left Power", 0).getEntry();
         public static NetworkTableEntry DT_rearLeftEntry = DT_TAB.add("rear Left Power", 0).getEntry();
