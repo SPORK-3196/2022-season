@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Constants.Vision.*;
 import static frc.robot.subsystems.Drivetrain.*;
+import static frc.robot.Constants.Drivetrain.*;
 
 import frc.robot.subsystems.Drivetrain;
 
@@ -48,10 +49,10 @@ public class AutoHorizontalAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
+    // Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
     Auto_PIDController.setTolerance(0.5);
     RUN_VISION = true;
-    drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
+    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.drivetrain.setDeadband(0);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
@@ -59,11 +60,18 @@ public class AutoHorizontalAim extends CommandBase {
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     autoTimer.reset();
     autoTimer.start();
+    Auto_PIDController.setP(AutoP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (DISTANCE_FROM_TARGET > 2.5) {
+      Auto_PIDController.setSetpoint(drivetrain.getFarTargetOffset());
+    }
+    else {
+      Auto_PIDController.setSetpoint(drivetrain.getCloseTargetOffset());
+    }
     // boolean isTargetVisible = false;
     // boolean targetNotVisible = true;
 
@@ -78,7 +86,7 @@ public class AutoHorizontalAim extends CommandBase {
       steering_adjust = Auto_PIDController.calculate(primaryYaw);
     }
 
-   drivetrain.arcadeDrive(0, steering_adjust);
+   drivetrain.arcadeDriveAI(0, steering_adjust);
     
 
   }
@@ -88,7 +96,7 @@ public class AutoHorizontalAim extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RUN_VISION = false;
-    drivetrain.drivetrain = null;
+    // drivetrain.drivetrain = null;
   }
 
   // Returns true when the command should end.
