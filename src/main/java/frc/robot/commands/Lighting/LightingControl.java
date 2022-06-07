@@ -51,6 +51,7 @@ public class LightingControl extends CommandBase {
       }
       else {
         lights.FullRainbow();
+        // lights.fullWhite();c
       }
       
     }
@@ -82,7 +83,7 @@ public class LightingControl extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // lights.FullRed();
+    lights.fullWhite();
   }
 
   @Override
