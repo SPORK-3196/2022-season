@@ -18,9 +18,11 @@ public class TwoBallAuto extends SequentialCommandGroup {
       super(
         new InstantCommand(index::startWithOneBall, index),
         new DelayedIndexConditional(index, 2)
-          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4)),
-        // new AutoHorizontalAim(drivetrain, 2.5),
-        new AutonomousShootConditional(shooter, index, 0).alongWith(new IndexShootingUpperConditional(index, 0))
+          .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 3.5, -0.15).withInterrupt(index::getIntakeSensor)),
+        new InstantCommand(climber::raiseArms, climber),
+        new PickupBalls(intake, 1),
+        new AutoHorizontalAim(drivetrain, 1),
+        new AutonomousShootConditional(shooter, index, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0))
       );
     }
 }
