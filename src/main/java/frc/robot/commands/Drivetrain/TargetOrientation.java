@@ -49,20 +49,29 @@ public class TargetOrientation extends CommandBase {
   @Override
   public void initialize() {
     // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-    Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
+    
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
     RUN_VISION = true;
-    Auto_PIDController.setP(0.055);
-    Auto_PIDController.setD(0.005);
+    Auto_PIDController.setP(AutoP);
+    // Auto_PIDController.setD(0.005);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() { 
+    Auto_PIDController.setP(AutoP);
+    if (DISTANCE_FROM_TARGET > 2.5) {
+      Auto_PIDController.setSetpoint(drivetrain.getFarTargetOffset());
+    }
+    else {
+      Auto_PIDController.setSetpoint(drivetrain.getCloseTargetOffset());
+    }
+
+    // Auto_PIDController.setSetpoint(0);
 
     RUN_VISION = true;
 
@@ -72,13 +81,29 @@ public class TargetOrientation extends CommandBase {
     primaryCamera.setDriverMode(false);
     
     if (primaryHasTargets) {
+      
       steering_adjust = Auto_PIDController.calculate(primaryYaw);
       rotationControl = steering_adjust;
+      /*
+      if (primaryYaw < 15) {
+        rotationControl += 0.15;
+      }
+      else if (primar)
+      */
     }
 
-    drivetrain.arcadeDrive(speedControl, rotationControl);
+    if (primaryYaw > 1.0) {
+      rotationControl -= 0.02;
+    }
+    else if (primaryYaw < 1.0) {
+      rotationControl += 0.02;
+    }
+    
+
+    drivetrain.arcadeDriveAI(speedControl, rotationControl);
     // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
     // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
+    
   }
 
   // Called once the command ends or is interrupted.
