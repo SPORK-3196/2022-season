@@ -24,15 +24,18 @@ import frc.robot.commands.Index.DelayedIndex;
 import frc.robot.commands.Climber.ExtendClimber;
 import frc.robot.commands.Index.IndexShootingLower;
 import frc.robot.commands.Index.IndexShootingUpper;
+import frc.robot.commands.Intake.IntakeActivation;
 import frc.robot.commands.Intake.IntakeBalls;
 import frc.robot.commands.Lighting.IntakeLighting;
 import frc.robot.commands.Drivetrain.JoystickDrive;
 import frc.robot.commands.Lighting.LightingControl;
 import frc.robot.commands.Climber.LowerArms;
+import frc.robot.commands.Climber.RaiseArms;
 import frc.robot.commands.Intake.OuttakeBalls;
 import frc.robot.commands.Drivetrain.PlayMusic;
 import frc.robot.commands.Lighting.RetractClimbLighting;
 import frc.robot.commands.Climber.RetractClimber;
+import frc.robot.commands.Climber.StabStabScoop;
 import frc.robot.commands.Lighting.ShootLighting;
 import frc.robot.commands.Drivetrain.TargetOrientation;
 import frc.robot.commands.Climber.ToggleArms;
@@ -63,6 +66,7 @@ import frc.robot.Constants.AutoDriveConstants;
 import static frc.robot.Constants.Drivetrain.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -91,12 +95,13 @@ public class RobotContainer {
     Drivetrain.setDefaultCommand(DrivetrainControl);
     Index.setDefaultCommand(new DelayedIndex(Index));
     Lighting.setDefaultCommand(new LightingControl(Lighting));
-    autoChooser.addOption("4 Ball Auto", new FourBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
-    autoChooser.addOption("3 Ball Auto", new ThreeBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
+    // autoChooser.addOption("4 Ball Auto (In Beta)", new FourBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
+    autoChooser.addOption("3 Ball Auto (In Beta)", new ThreeBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
     autoChooser.setDefaultOption("2 Ball Backup", new TwoBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
     // autoChooser.addOption("1 Ball Taxi", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4).andThen(new AutoHorizontalAim(Drivetrain, 3)).andThen(new AutonomousShootUno(Shooter, Index, 5.0))));
     autoChooser.addOption("1 Ball Taxi", new OneBallAuto(Drivetrain, Shooter, Intake, Index, Climber));
-    autoChooser.addOption("Taxi, No Shoot", new LowerArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 4.0, -0.4)));
+    autoChooser.addOption("Taxi, No Shoot", new RaiseArms(Climber).andThen(new DriveForwardTimed(Drivetrain, 3.5, -0.15)));
+    autoChooser.addOption("Stab Stab Scoop", new StabStabScoop(Climber));
     // autoChooser.addOption("CCW Turn", new TurnDegreesCCW(Drivetrain, 3, 90));
     // autoChooser.addOption("Ramsete Test", returnRamseteCommand());
   }
@@ -118,7 +123,11 @@ public class RobotContainer {
     X1J_A.whenHeld(new TargetOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
     X1J_X.whenHeld(new BallOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, backupYaw));
 
-    X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
+    // X2J_X.whenHeld(new IntakeBalls(Intake)).whenHeld(new IntakeLighting(Lighting));
+
+    X2J_X.whenHeld(new IntakeActivation(Climber, Intake)).whenHeld(new IntakeLighting(Lighting));
+    X2J_X.whenReleased(new RaiseArms(Climber));
+
     X2J_B.whenHeld(new OuttakeBalls(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
     X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShootingUpper(Index)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
     // X2J_A.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
