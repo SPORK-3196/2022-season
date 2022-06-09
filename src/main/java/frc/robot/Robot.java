@@ -66,6 +66,23 @@ public class Robot extends TimedRobot {
   public static JoystickButton X2J_LS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kLeftStick.value);
   public static JoystickButton X2J_RS = new JoystickButton(X2_CONTROLLER, XboxController.Button.kRightStick.value);
 
+  public static double [][] dataPoints = {
+    {5.5, 2700},  
+    {5.997, 2775},
+    {6.18, 2800},  
+    {6.68, 3000}, 
+    {6.22, 2900}, 
+    {5.3, 2600}, 
+    {5, 2450},
+    {4.5, 2300},
+    {4, 2150},
+    {3.5, 2050},
+    {3.04, 1950},  
+    {2.5, 1850}, 
+    {2, 1775}, 
+  };
+
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -82,7 +99,8 @@ public class Robot extends TimedRobot {
     primaryCamera = new PhotonCamera("Primary Camera");
     backupCamera = new PhotonCamera("Backup Camera");
 
-    // PortForwarder.add(5800, "10.31.96.11", 5800);
+  
+    PortForwarder.add(5800, "10.31.96.11", 5800);
 
     PhotonCamera.setVersionCheckEnabled(false);
 
@@ -165,22 +183,25 @@ public class Robot extends TimedRobot {
       X1_YButton = X1_CONTROLLER.getYButton();
       X1_AButton = X1_CONTROLLER.getAButton();
       X1_BButton = X1_CONTROLLER.getBButton(); 
-      
-      X1_RT_Entry.setDouble(X1_RTValue);
-      X1_LT_Entry.setDouble(X1_LTValue);
 
-      X1_RB_Entry.setBoolean(X1_RB);
-      X1_LB_Entry.setBoolean(X1_LB);
 
-      X1_LJX_Entry.setDouble(X1_LJX);
-      X1_LJY_Entry.setDouble(X1_LJY);
-      X1_RJX_Entry.setDouble(X1_RJX);
-      X1_RJY_Entry.setDouble(X1_RJY);
+      if (!DriverStation.isFMSAttached()) {
+        X1_RT_Entry.setDouble(X1_RTValue);
+        X1_LT_Entry.setDouble(X1_LTValue);
 
-      X1_XButtonEntry.setBoolean(X1_XButton);
-      X1_YButtonEntry.setBoolean(X1_YButton);
-      X1_AButtonEntry.setBoolean(X1_AButton);
-      X1_BButtonEntry.setBoolean(X1_BButton);
+        X1_RB_Entry.setBoolean(X1_RB);
+        X1_LB_Entry.setBoolean(X1_LB);
+
+        X1_LJX_Entry.setDouble(X1_LJX);
+        X1_LJY_Entry.setDouble(X1_LJY);
+        X1_RJX_Entry.setDouble(X1_RJX);
+        X1_RJY_Entry.setDouble(X1_RJY);
+
+        X1_XButtonEntry.setBoolean(X1_XButton);
+        X1_YButtonEntry.setBoolean(X1_YButton);
+        X1_AButtonEntry.setBoolean(X1_AButton);
+        X1_BButtonEntry.setBoolean(X1_BButton);
+      }
     }
     if (X2_CONTROLLER.isConnected())
     {
@@ -202,31 +223,56 @@ public class Robot extends TimedRobot {
       X2_AButton = X2_CONTROLLER.getAButton();
       X2_BButton = X2_CONTROLLER.getBButton(); 
       
-      X2_RT_Entry.setDouble(X2_RTValue);
-      X2_LT_Entry.setDouble(X2_LTValue);
+      if (!DriverStation.isFMSAttached()) {
+        X2_RT_Entry.setDouble(X2_RTValue);
+        X2_LT_Entry.setDouble(X2_LTValue);
 
-      X2_RB_Entry.setBoolean(X2_RB);
-      X2_LB_Entry.setBoolean(X2_LB);
+        X2_RB_Entry.setBoolean(X2_RB);
+        X2_LB_Entry.setBoolean(X2_LB);
 
-      X2_LJX_Entry.setDouble(X2_LJX);
-      X2_LJY_Entry.setDouble(X2_LJY);
-      X2_RJX_Entry.setDouble(X2_RJX);
-      X2_RJY_Entry.setDouble(X2_RJY);
+        X2_LJX_Entry.setDouble(X2_LJX);
+        X2_LJY_Entry.setDouble(X2_LJY);
+        X2_RJX_Entry.setDouble(X2_RJX);
+        X2_RJY_Entry.setDouble(X2_RJY);
 
-      X2_XButtonEntry.setBoolean(X2_XButton);
-      X2_YButtonEntry.setBoolean(X2_YButton);
-      X2_AButtonEntry.setBoolean(X2_AButton);
-      X2_BButtonEntry.setBoolean(X2_BButton);
+        X2_XButtonEntry.setBoolean(X2_XButton);
+        X2_YButtonEntry.setBoolean(X2_YButton);
+        X2_AButtonEntry.setBoolean(X2_AButton);
+        X2_BButtonEntry.setBoolean(X2_BButton);
+      }
     }
     
     DT_PowerConstant = DT_PowerConstantEntry.getDouble(100) * 0.01;
 
-    // TeleComputedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
+    // TeleCom putedRPM = SH_SHOOTER_RPM_Entry.getDouble(TeleComputedRPM);
     
     // SH_SHOOTER_RPM_Entry.setDouble(TeleComputedRPM);
+
+    AutoComputedRPM = 1537 + (66.6 * DISTANCE_FROM_TARGET) + 23.3 * (Math.pow(DISTANCE_FROM_TARGET, 2));
+
+    if (DISTANCE_FROM_TARGET < 2) {
+      AutoComputedRPM = (1390) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    }
+    else if (2 < DISTANCE_FROM_TARGET && DISTANCE_FROM_TARGET < 4) {
+      AutoComputedRPM = (1400) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    }
+    else if (4 < DISTANCE_FROM_TARGET && DISTANCE_FROM_TARGET < 4.2) {
+      AutoComputedRPM = (1420) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    }
+    else if (4.2 < DISTANCE_FROM_TARGET && DISTANCE_FROM_TARGET < 5) {
+      AutoComputedRPM = (1440) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    }
     
 
-    AutoComputedRPM = (1410) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
+    
+    for (double[] data: dataPoints) {
+      if (DISTANCE_FROM_TARGET < data[0] + 0.1 && DISTANCE_FROM_TARGET > data[0] - 0.1 ) {
+        AutoComputedRPM = data[1];
+      }
+    }
+
+    // AutoP = DT_AutoPEntry.getDouble(AutoP);
+    // DT_AutoPEntry.setDouble(AutoP);
 
     // SH_SHOOTER_POWER_Entry.setDouble(AutoComputedRPM);
 
@@ -247,7 +293,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    primaryCamera.setDriverMode(false); // Set's Limelight camera mode to Driver Camera
+    primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to offf
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);   
   }
@@ -275,10 +321,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if (NetworkTableInstance.getDefault().getTable("FMSInfo").getEntry("IsRedAlliance").getBoolean(false)) {
-      // System.out.println(true);
-    }
-    // NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
   @Override
@@ -297,10 +339,6 @@ public class Robot extends TimedRobot {
     
     setBallTrackingPipeline();
 
-    autonomous = false;
-    teleop = true;
-    disabled = false;
-    
   } 
 
   /** This function is called periodically during operator control. */
