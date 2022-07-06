@@ -21,99 +21,116 @@ import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.XboxController.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
+  /* 
+  The shooter subsystem opts for the use of a feed forward controller, instead of a PID controller
+  to regulate the power of the motors. This choice was made in consideration of the 0.1s delay from
+  the hall effect sensor built into NEO motors, which makes PID controllers less efficient compared
+  to the responsiveness of a feed forward controller.
+  */
+
   // Left and Right are with the shooter and limelight facing forward
   public CANSparkMax leftShooter = new CANSparkMax(5, MotorType.kBrushless); // Clockwise
   public CANSparkMax rightShooter = new CANSparkMax(6, MotorType.kBrushless); // Counter Clockwise
 
+  // Encoders for the left and right motors, respectively
   public RelativeEncoder leftShooterEncoder = leftShooter.getEncoder();
   public RelativeEncoder rightShooterEncoder = rightShooter.getEncoder();
 
-  public SparkMaxPIDController leftPIDController = leftShooter.getPIDController();
-  public SparkMaxPIDController rightPIDController = rightShooter.getPIDController();
+  // Feed Foward Controller for shooter motors
   public SimpleMotorFeedforward ffController = new SimpleMotorFeedforward(0.027218, 0.12757, 0.12757);
-  // new SimpleMotorFeedforward(0.026517, 0.12868, );
-  public PIDController voltagePIDController = new PIDController(0.000069566, 0, 0);
-  // new PIDController(0.000015, 0.0004, 0);
-  
-  // public PIDController leftPIDController = new PIDController(0.00005, 0.0002, 5.0);
 
+  // Target RPM for the left motor
   public double leftTargetRPM;
+
+  //Target RPM for the right motor
   public double rightTargetRPM;
-  public double tolerance = 50;
-  public Timer PIDTimer = new Timer();
+
+  //Tolerance of shooter Target RPM
+  public double RPM_Tolerance = 50;
+
   public double sparkVelocityRPM;
   
-  /** Creates a new SparkTest. */
+  /** Creates a new Shooter subsystem with a parameter for RPM tolerance. */
   public Shooter(double tolerance) {
-    leftPIDController.setP(0.00006);
-    leftPIDController.setI(0.0000004);
-    leftPIDController.setD(0.004);
-    leftPIDController.setIZone(0);
-    leftPIDController.setFF(0.000015);
-    leftPIDController.setOutputRange(-1, 1);
-
-    rightPIDController.setP(0.00006);
-    rightPIDController.setI(0.0000004);
-    rightPIDController.setD(0.004);
-    rightPIDController.setIZone(0);
-    rightPIDController.setFF(0.000015);
-    rightPIDController.setOutputRange(-1, 1);
-    this.tolerance = tolerance;
-
+    this.RPM_Tolerance = tolerance;
+    
     leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+
+    rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
+    rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+  }
+  /** Creates a new Shooter subsystem with the default tolerance of 50 RPM */
+  public Shooter() {
+    leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
+    leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
+
+    rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
+    rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
   }
   
- 
+  
   public void runShooter(double power) {
     leftShooter.set(power);
     rightShooter.set(power);
   }
 
+  public void setShooterVoltage(double voltage) {
+    leftShooter.setVoltage(-1 * voltage);
+    rightShooter.setVoltage(voltage);
+  }
+
   public void stopShooter() {    
     leftShooter.stopMotor();
     rightShooter.stopMotor();
+
+    // Set target shooter RPM to 0.
     leftTargetRPM = 0;
     rightTargetRPM = 0;
   } 
   
   public void feedForwardShoot(double RPM) {
-    voltagePIDController.setSetpoint(RPM);
-    // double voltageValue = voltagePIDController.calculate(leftShooterEncoder.getVelocity()) + ffController.calculate(RPM);
     double voltageValue = ffController.calculate(-1 * RPM / 60);
-    // System.out.println(voltageValue);
-    // double voltageValue = 6;
+
     leftTargetRPM = 1 * RPM;
     rightTargetRPM = 1 * RPM;
-    leftShooter.setVoltage(-1 * voltageValue);
-    rightShooter.setVoltage(voltageValue);
+
+    setShooterVoltage(voltageValue);
   }
 
+  // Set the RPM tolerance of the shooter 
   public void setTolerance(double tolerance) {
-    this.tolerance = tolerance;
+    this.RPM_Tolerance = tolerance;
   }
 
+  // Set the target RPM for the left shooter motor
   public void setLeftSetpoint(double RPM) { 
-    leftPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
     leftTargetRPM = 1 * RPM;
   }
 
+  // Set the target RPM for the right shooter motor
   public void setRightSetpoint(double RPM) { 
-    rightPIDController.setReference(-1 * RPM, CANSparkMax.ControlType.kVelocity);
     rightTargetRPM = -1 * RPM;
   }
   
+  /** Returns true if value is within a given rolerance, and false otherwise.*/
+  public boolean isWithinTolerance(double value, double tolerance) {
+    return ((value - tolerance) < value && value < (value + tolerance));
+  }
+
+  // Set the target RPM for both shooter motors
   public void setSetpoint(double RPM) {
     setLeftSetpoint(RPM);
     setRightSetpoint(RPM);
   }
   
+  // Returns true when the left shooter is within target RPM tolerance
   public boolean leftAtSetpoint() {
-    return ((leftTargetRPM - tolerance) < leftShooterEncoder.getVelocity()) &&  (leftShooterEncoder.getVelocity() < (leftTargetRPM + tolerance));
+    return isWithinTolerance(Math.abs(leftShooterEncoder.getVelocity()), RPM_Tolerance);
   }
 
   public boolean rightAtSetpoint() {
-    return ((rightTargetRPM - tolerance) < -rightShooterEncoder.getVelocity()) &&  (-rightShooterEncoder.getVelocity() < (rightTargetRPM + tolerance));
+    return isWithinTolerance(Math.abs(rightShooterEncoder.getVelocity()), RPM_Tolerance);
   }
 
   public boolean atSetpoint() {
@@ -123,14 +140,13 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    sparkVelocityRPM = -leftShooterEncoder.getVelocity();
-    SH_SHOOTER_RPM_Entry.setDouble(AutoComputedRPM);
 
-    // SH_SHOOTER_RPM_Entry.setDouble( ((sparkVelocityRPM * SparkWheelDiameterInches) * 60 * Math.PI) / 63360 );
- 
-    
+    // Set the network table entry to the Limelight calculated RPM
+    SH_SHOOTER_RPM_Entry.setDouble(AutoComputedRPM);   
 
+    // If either shooting button is held, or the target RPM of the shooter is greater than 0, continue
     if ((X2_AButton || X2_LJS) || (leftTargetRPM > 0 && rightTargetRPM > 0)) {
+      // If the shooter is at the target RPM, set SHOOTER_READY to true, otherwise keep it false.
       if (atSetpoint()) {
         SHOOTER_READY = true;
       }
@@ -142,13 +158,11 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
       SHOOTER_READY = false;
     }
 
-    // SH_ShooterPower = (((leftShooterEncoder.getVelocity() + rightShooterEncoder.getVelocity()) / 2) / 5700) * 100;
-    // System.out.println("right " + rightShooterEncoder.getVelocity());
-    // System.out.println("left " + leftShooterEncoder.getVelocity());
   }
 
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
 }
