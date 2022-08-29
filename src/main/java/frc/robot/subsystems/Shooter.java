@@ -49,17 +49,17 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   public Shooter(double tolerance) {
     this.RPM_Tolerance = tolerance;
     
+    // Reduce the periodic frame rate of the left and right shooters
     leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
-
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
   }
   /** Creates a new Shooter subsystem with the default tolerance of 50 RPM */
   public Shooter() {
+    // Reduce the periodic frame rate of the left and right shooters
     leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     leftShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
-
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
   }
