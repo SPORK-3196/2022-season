@@ -25,13 +25,13 @@ import frc.robot.commands.Climber.ExtendClimber;
 import frc.robot.commands.Index.IndexShootingLower;
 import frc.robot.commands.Index.IndexShootingUpper;
 import frc.robot.commands.Intake.IntakeActivation;
-import frc.robot.commands.Intake.IntakeCargos;
+import frc.robot.commands.Intake.IntakeCargo;
 import frc.robot.commands.Lighting.IntakeLighting;
 import frc.robot.commands.Drivetrain.JoystickDrive;
 import frc.robot.commands.Lighting.LightingControl;
 import frc.robot.commands.Climber.LowerArms;
 import frc.robot.commands.Climber.RaiseArms;
-import frc.robot.commands.Intake.OuttakeCargos;
+import frc.robot.commands.Intake.OuttakeCargo;
 import frc.robot.commands.Drivetrain.PlayMusic;
 import frc.robot.commands.Lighting.RetractClimbLighting;
 import frc.robot.commands.Climber.RetractClimber;
@@ -124,12 +124,12 @@ public class RobotContainer {
     X1J_A.whenHeld(new TargetOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
     X1J_X.whenHeld(new CargoOrientation(Drivetrain)).whenHeld(new VisionTargetShooting(Lighting, backupYaw));
 
-    // X2J_X.whenHeld(new IntakeCargos(Intake)).whenHeld(new IntakeLighting(Lighting));
+    // X2J_X.whenHeld(new IntakeCargo(Intake)).whenHeld(new IntakeLighting(Lighting));
 
     X2J_X.whenHeld(new IntakeActivation(Climber, Intake)).whenHeld(new IntakeLighting(Lighting));
     X2J_X.whenReleased(new RaiseArms(Climber));
 
-    X2J_B.whenHeld(new OuttakeCargos(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
+    X2J_B.whenHeld(new OuttakeCargo(Intake, Index)).whenHeld(new IntakeLighting(Lighting));
     X2J_A.whenHeld(new AutoShoot(Shooter)).whenHeld(new IndexShootingUpper(Index)).whenHeld(new VisionTargetShooting(Lighting, primaryYaw));
     // X2J_A.whenHeld(new TweenShoot(Shooter)).whenHeld(new IndexShooting(Index)).whenHeld(new ShootLighting(Lighting));
     X2J_Y.whenHeld(new ToggleArms(Climber)).whenPressed(new ToggleClimberLighting(Lighting));

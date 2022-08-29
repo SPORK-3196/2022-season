@@ -5,7 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Intake.IntakeCargos;
+import frc.robot.commands.Intake.IntakeCargo;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -34,13 +34,13 @@ public class FourCargoAuto extends SequentialCommandGroup {
 
         new InstantCommand(climber::raiseArms, climber),
 
-        new InstantCommand(index::startWithNoCargos, index),
+        new InstantCommand(index::startWithNoCargo, index),
 
         
         new DelayedIndexConditional(index, 1)
           .alongWith(
             new DriveToPickupAim(drivetrain, index, shooter, climber, intake, 3.5, -0.4).withInterrupt(index::getIntakeSensor)
-              .andThen(new PickupCargo(intake, 3)).andThen(new TurnDegreesCCW(drivetrain, 1, 15).andThen(new DriveForwardTimed(drivetrain, 1, 0.6)).alongWith(new PickupCargos(intake, 3)))),
+              .andThen(new PickupCargo(intake, 3)).andThen(new TurnDegreesCCW(drivetrain, 1, 15).andThen(new DriveForwardTimed(drivetrain, 1, 0.6)).alongWith(new PickupCargo(intake, 3)))),
 
         new AutoHorizontalAim(drivetrain, 2),
 

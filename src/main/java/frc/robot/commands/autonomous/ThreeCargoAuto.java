@@ -5,7 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Intake.IntakeCargos;
+import frc.robot.commands.Intake.IntakeCargo;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -35,7 +35,7 @@ public class ThreeCargoAuto extends SequentialCommandGroup {
        
         // Raise climber arms
 
-        new InstantCommand(index::startWithNoCargos, index),
+        new InstantCommand(index::startWithNoCargo, index),
         // Reset Cargo counter to 0
 
         new TurnDegreesCCW(drivetrain, 1, 15),

@@ -195,7 +195,7 @@ public final class GlobalVars {
 
         public static boolean IndexRunning;
 
-        public static NetworkTableEntry CargoCounter_Entry = SENSOR_TAB.add("# Cargos", 0).getEntry();
+        public static NetworkTableEntry CargoCounter_Entry = SENSOR_TAB.add("# Cargo", 0).getEntry();
 
         public static NetworkTableEntry intakeSensor_Entry = SENSOR_TAB.add("Intake Sensor", false).getEntry();
         public static NetworkTableEntry midSensor_Entry = SENSOR_TAB.add("Middle Sensor", false).getEntry();
