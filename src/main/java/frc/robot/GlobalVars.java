@@ -160,8 +160,8 @@ public final class GlobalVars {
         public static boolean RUN_BACKUP_VISION = false;
         // This is the distance from the Limelight to the target
 
-        public static int RedAllianceBallPipeline = 0;
-        public static int BlueAllianceBallPipeline = 1;
+        public static int RedAllianceCargoPipeline = 0;
+        public static int BlueAllianceCargoPipeline = 1;
     }
 
     public static final class Drivetrain { 
@@ -195,14 +195,14 @@ public final class GlobalVars {
 
         public static boolean IndexRunning;
 
-        public static NetworkTableEntry BallCounter_Entry = SENSOR_TAB.add("# Balls", 0).getEntry();
+        public static NetworkTableEntry CargoCounter_Entry = SENSOR_TAB.add("# Cargos", 0).getEntry();
 
         public static NetworkTableEntry intakeSensor_Entry = SENSOR_TAB.add("Intake Sensor", false).getEntry();
         public static NetworkTableEntry midSensor_Entry = SENSOR_TAB.add("Middle Sensor", false).getEntry();
         public static NetworkTableEntry topSensor_Entry = SENSOR_TAB.add("Top Sensor", false).getEntry();
         
         public static NetworkTableEntry SN_BALL_COUNTER = SENSOR_TAB
-            .add("Ball Counter", 0)
+            .add("Cargo Counter", 0)
             .withWidget(BuiltInWidgets.kNumberBar)
             .withProperties(Map.of("min", 0, "max", 2))
             .getEntry();

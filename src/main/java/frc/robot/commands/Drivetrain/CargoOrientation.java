@@ -20,7 +20,7 @@ import static frc.robot.Constants.Drivetrain.*;
 
 
 /** An example command that uses an example subsystem. */
-public class BallOrientation extends CommandBase {
+public class CargoOrientation extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain drivetrain;
 
@@ -38,7 +38,7 @@ public class BallOrientation extends CommandBase {
    *
    * @param subsystem The drivetrain used by this command.
    */
-  public BallOrientation(Drivetrain subsystem) {
+  public CargoOrientation(Drivetrain subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrain = subsystem;
     

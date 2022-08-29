@@ -22,7 +22,7 @@ public class AutonomousShootConditional extends CommandBase {
   Index index;
   public Timer shooterTimer = new Timer();
   public double time = 5.0;
-  public double ballCondition = 0;
+  public double CargoCondition = 0;
   public double RPM = 2000;
   /**
    * Creates a new ExampleCommand.
@@ -30,18 +30,18 @@ public class AutonomousShootConditional extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
 
-  public AutonomousShootConditional(Shooter shooter, Index index, double ballCondition, double RPM) {
+  public AutonomousShootConditional(Shooter shooter, Index index, double CargoCondition, double RPM) {
     this.shooter = shooter;
-    this.ballCondition = ballCondition;
+    this.CargoCondition = CargoCondition;
     this.RPM = RPM;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     // addRequirements(index);
   }
 
-  public AutonomousShootConditional(Shooter shooter, Index index, double ballCondition) {
+  public AutonomousShootConditional(Shooter shooter, Index index, double CargoCondition) {
     this.shooter = shooter;
-    this.ballCondition = ballCondition;
+    this.CargoCondition = CargoCondition;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     // addRequirements(index);

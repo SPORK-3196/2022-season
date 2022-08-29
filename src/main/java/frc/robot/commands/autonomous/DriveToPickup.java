@@ -18,7 +18,7 @@ public class DriveToPickup extends ParallelCommandGroup {
       super(
 
         new DriveForwardTimed(drivetrain, duration, driveSpeed),
-        new PickupBalls(intake, duration),
+        new PickupCargo(intake, duration),
         new LowerArms(climber)
       );
     }

@@ -17,7 +17,7 @@ public class DelayedIndexConditional extends CommandBase {
   
   Index index;
   boolean runIndex = false;
-  double ballCondition = 0;
+  double CargoCondition = 0;
  
   public Timer indexTimer = new Timer();
 
@@ -25,11 +25,11 @@ public class DelayedIndexConditional extends CommandBase {
    * Creates a new DelayedIndexConditional.
    *
    * @param index The index subsystem used by this command.
-   * @param ballCondition The number of balls detected before this command stops.
+   * @param CargoCondition The number of cargo detected before this command stops.
    */
-  public DelayedIndexConditional(Index index, double ballCondition) {
+  public DelayedIndexConditional(Index index, double CargoCondition) {
     this.index = index;
-    this.ballCondition = ballCondition;
+    this.CargoCondition = CargoCondition;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(index);
   }
@@ -46,40 +46,40 @@ public class DelayedIndexConditional extends CommandBase {
   public void execute() {
     if (index.getIntakeSensor()) {
       runIndex = true;
-      index.BallInTransit = true;
+      index.CargoInTransit = true;
       indexTimer.reset();
       indexTimer.start();
     }
 
     if (index.getMidSensor()) {
-      index.ballPassed = true;
+      index.CargoPassed = true;
     }
 
 
-    if (!index.getMidSensor() && index.ballPassed) {
+    if (!index.getMidSensor() && index.CargoPassed) {
       runIndex = false;
-      index.ballPassed = false;
-      index.BallInTransit = false;
-      index.ballCounter++;
+      index.CargoPassed = false;
+      index.CargoInTransit = false;
+      index.CargoCounter++;
     }
 
-    if (index.getTopSensor() && index.BallInTransit) {
-      index.ballCounter++;
+    if (index.getTopSensor() && index.CargoInTransit) {
+      index.CargoCounter++;
     }
 
     if (index.getTopSensor()) {
       runIndex = false;
-      index.BallInTransit = false;
-      index.BallExiting = true;
+      index.CargoInTransit = false;
+      index.CargoExiting = true;
     }
 
   
-    if (!index.getTopSensor() && index.BallExiting) {
-      index.ballCounter--;
-      index.BallExiting = false;
+    if (!index.getTopSensor() && index.CargoExiting) {
+      index.CargoCounter--;
+      index.CargoExiting = false;
     }
 
-    if (index.BallInTransit) {
+    if (index.CargoInTransit) {
       runIndex = true;
     }
 
@@ -103,6 +103,6 @@ public class DelayedIndexConditional extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return BallCounter_Entry.getDouble(0) == ballCondition;
+    return CargoCounter_Entry.getDouble(0) == CargoCondition;
   }
 }

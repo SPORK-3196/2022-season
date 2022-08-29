@@ -42,13 +42,13 @@ public class IndexShootingLower extends CommandBase {
   public void execute() {
     if (index.getTopSensor()) {
       runIndex = false;
-      index.BallExiting = true;
+      index.CargoExiting = true;
     }
 
   
-    if (!index.getTopSensor() && index.BallExiting) {
-      index.ballCounter--;
-      index.BallExiting = false;
+    if (!index.getTopSensor() && index.CargoExiting) {
+      index.CargoCounter--;
+      index.CargoExiting = false;
     }
    
     if (SHOOTER_READY) {
@@ -56,7 +56,7 @@ public class IndexShootingLower extends CommandBase {
     }
 
     if (runIndex) {
-      index.feedBalls();
+      index.feedCargos();
     }
     else if (!runIndex) {
       index.stopIndex();

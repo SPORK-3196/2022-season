@@ -310,7 +310,7 @@ public class Robot extends TimedRobot {
     primaryCamera.setLED(VisionLEDMode.kOn); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
 
-    setBallTrackingPipeline();
+    setCargoTrackingPipeline();
   }
 
   /** This function is called periodically during autonomous. */
@@ -332,7 +332,7 @@ public class Robot extends TimedRobot {
     
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
     
-    setBallTrackingPipeline();
+    setCargoTrackingPipeline();
 
   } 
 
@@ -379,12 +379,12 @@ public class Robot extends TimedRobot {
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
   }
 
-  public void setBallTrackingPipeline() {
+  public void setCargoTrackingPipeline() {
     if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Blue) == 0) {
-      backupCamera.setPipelineIndex(BlueAllianceBallPipeline);
+      backupCamera.setPipelineIndex(BlueAllianceCargoPipeline);
     }
     else if (DriverStation.getAlliance().compareTo(DriverStation.Alliance.Red) == 0) {
-      backupCamera.setPipelineIndex(RedAllianceBallPipeline);
+      backupCamera.setPipelineIndex(RedAllianceCargoPipeline);
     }
   }
 }

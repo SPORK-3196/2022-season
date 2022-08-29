@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class TwoBallAuto extends SequentialCommandGroup {
-    public TwoBallAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
+public class TwoCargoAuto extends SequentialCommandGroup {
+    public TwoCargoAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
-        new InstantCommand(index::startWithOneBall, index),
+        new InstantCommand(index::startWithOneCargo, index),
         new DelayedIndexConditional(index, 2)
           .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 3.5, -0.15).withInterrupt(index::getIntakeSensor)),
         new InstantCommand(climber::raiseArms, climber),
-        new PickupBalls(intake, 1),
+        new PickupCargo(intake, 1),
         new AutoHorizontalAim(drivetrain, 1),
         new AutonomousShootConditional(shooter, index, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0))
       );

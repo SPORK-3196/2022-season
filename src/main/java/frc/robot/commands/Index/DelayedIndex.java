@@ -43,40 +43,40 @@ public class DelayedIndex extends CommandBase {
   public void execute() {
     if (index.getIntakeSensor()) {
       runIndex = true;
-      index.BallInTransit = true;
+      index.CargoInTransit = true;
       indexTimer.reset();
       indexTimer.start();
     }
 
     if (index.getMidSensor()) {
-      index.ballPassed = true;
+      index.CargoPassed = true;
     }
 
 
-    if (!index.getMidSensor() && index.ballPassed) {
+    if (!index.getMidSensor() && index.CargoPassed) {
       runIndex = false;
-      index.ballPassed = false;
-      index.BallInTransit = false;
-      index.ballCounter++;
+      index.CargoPassed = false;
+      index.CargoInTransit = false;
+      index.CargoCounter++;
     }
 
-    if (index.getTopSensor() && index.BallInTransit) {
-      index.ballCounter++;
+    if (index.getTopSensor() && index.CargoInTransit) {
+      index.CargoCounter++;
     }
 
     if (index.getTopSensor()) {
       runIndex = false;
-      index.BallInTransit = false;
-      index.BallExiting = true;
+      index.CargoInTransit = false;
+      index.CargoExiting = true;
     }
 
   
-    if (!index.getTopSensor() && index.BallExiting) {
-      index.ballCounter--;
-      index.BallExiting = false;
+    if (!index.getTopSensor() && index.CargoExiting) {
+      index.CargoCounter--;
+      index.CargoExiting = false;
     }
 
-    if (index.BallInTransit) {
+    if (index.CargoInTransit) {
       runIndex = true;
     }
 

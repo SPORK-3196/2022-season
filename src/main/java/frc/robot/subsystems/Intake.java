@@ -22,11 +22,11 @@ public class Intake extends SubsystemBase {
     intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 30);
   }
   
-  public void intakeBalls() {
+  public void intakeCargo() {
     intakeMotor.set(-0.5);
   }
 
-  public void outtakeBalls() {
+  public void outtakeCargo() {
     intakeMotor.set(0.5);
   }
 

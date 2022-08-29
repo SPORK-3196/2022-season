@@ -20,7 +20,7 @@ public class IntakeActivation extends SequentialCommandGroup {
   public IntakeActivation(Climber climber, Intake intake) {
       super(
         new InstantCommand(climber::lowerArms, climber),
-        new IntakeBalls(intake)
+        new IntakeCargo(intake)
       );
   }
 

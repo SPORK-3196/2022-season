@@ -18,7 +18,7 @@ public class IndexShootingUpperConditional extends CommandBase {
   Index index;
   boolean runIndex = true;
   public Timer indexTimer = new Timer();
-  double ballCondition = 0;
+  double CargoCondition = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -27,7 +27,7 @@ public class IndexShootingUpperConditional extends CommandBase {
    */
   public IndexShootingUpperConditional(Index index, double condition) {
     this.index = index;
-    this.ballCondition = condition;
+    this.CargoCondition = condition;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(index);
   }
@@ -46,13 +46,13 @@ public class IndexShootingUpperConditional extends CommandBase {
   public void execute() {
     if (index.getTopSensor()) {
       runIndex = false;
-      index.BallExiting = true;
+      index.CargoExiting = true;
     }
 
   
-    if (!index.getTopSensor() && index.BallExiting) {
-      index.ballCounter--;
-      index.BallExiting = false;
+    if (!index.getTopSensor() && index.CargoExiting) {
+      index.CargoCounter--;
+      index.CargoExiting = false;
     }
 
     
@@ -86,7 +86,7 @@ public class IndexShootingUpperConditional extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return BallCounter_Entry.getDouble(0) == ballCondition;
+    // return CargoCounter_Entry.getDouble(0) == CargoCondition;
     return indexTimer.get() > 2.5;
   }
 }

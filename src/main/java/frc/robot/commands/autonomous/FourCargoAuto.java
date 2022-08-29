@@ -5,7 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Intake.IntakeBalls;
+import frc.robot.commands.Intake.IntakeCargos;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -14,15 +14,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class FourBallAuto extends SequentialCommandGroup {
-    public FourBallAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
+public class FourCargoAuto extends SequentialCommandGroup {
+    public FourCargoAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
-        new InstantCommand(index::startWithOneBall, index),
-        // Start index off with one ball
+        new InstantCommand(index::startWithOneCargo, index),
+        // Start index off with one Cargo
         
         new DelayedIndexConditional(index, 2)
           .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 1.50, -0.6)),
-        // Drive backwards and pickup ball behind you till 2 balls in index
+        // Drive backwards and pickup Cargo behind you till 2 cargo in index
 
         // new DriveToPickup(drivetrain, shooter, climber, intake, 4.0, -0.4),
         
@@ -34,17 +34,17 @@ public class FourBallAuto extends SequentialCommandGroup {
 
         new InstantCommand(climber::raiseArms, climber),
 
-        new InstantCommand(index::startWithNoBalls, index),
+        new InstantCommand(index::startWithNoCargos, index),
 
         
         new DelayedIndexConditional(index, 1)
           .alongWith(
             new DriveToPickupAim(drivetrain, index, shooter, climber, intake, 3.5, -0.4).withInterrupt(index::getIntakeSensor)
-              .andThen(new PickupBalls(intake, 3)).andThen(new TurnDegreesCCW(drivetrain, 1, 15).andThen(new DriveForwardTimed(drivetrain, 1, 0.6)).alongWith(new PickupBalls(intake, 3)))),
+              .andThen(new PickupCargo(intake, 3)).andThen(new TurnDegreesCCW(drivetrain, 1, 15).andThen(new DriveForwardTimed(drivetrain, 1, 0.6)).alongWith(new PickupCargos(intake, 3)))),
 
         new AutoHorizontalAim(drivetrain, 2),
 
-        new InstantCommand(index::startWithOneBall, index),
+        new InstantCommand(index::startWithOneCargo, index),
 
         new AutonomousShootConditional(shooter, index, 0, 2000).alongWith(new IndexShootingUpperConditional(index, 0))
 

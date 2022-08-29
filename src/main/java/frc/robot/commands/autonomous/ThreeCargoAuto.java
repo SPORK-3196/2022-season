@@ -5,7 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Intake.IntakeBalls;
+import frc.robot.commands.Intake.IntakeCargos;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /** An example command that uses an example subsystem. */
-public class ThreeBallAuto extends SequentialCommandGroup {
-    public ThreeBallAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
+public class ThreeCargoAuto extends SequentialCommandGroup {
+    public ThreeCargoAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
-        new InstantCommand(index::startWithOneBall, index),
-        // Start Index off with one ball
+        new InstantCommand(index::startWithOneCargo, index),
+        // Start Index off with one Cargo
         
         new DelayedIndexConditional(index, 2)
           .alongWith(new DriveToPickup(drivetrain, shooter, climber, intake, 1.50, -0.3)),
@@ -35,8 +35,8 @@ public class ThreeBallAuto extends SequentialCommandGroup {
        
         // Raise climber arms
 
-        new InstantCommand(index::startWithNoBalls, index),
-        // Reset ball counter to 0
+        new InstantCommand(index::startWithNoCargos, index),
+        // Reset Cargo counter to 0
 
         new TurnDegreesCCW(drivetrain, 1, 15),
 
@@ -45,20 +45,20 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         new DelayedIndexConditional(index, 1)
           .alongWith(
             new DriveToPickupAim(drivetrain, index, shooter, climber, intake, 3, -0.15).withInterrupt(index::getIntakeSensor)),
-        // Drive while using vision towards cargo, stopping if a ball is detected at the intake sensor
+        // Drive while using vision towards cargo, stopping if a Cargo is detected at the intake sensor
  
         new TurnDegreesCCW(drivetrain, 1, 15)
-          .alongWith(new PickupBalls(intake, 1)),
+          .alongWith(new PickupCargo(intake, 1)),
         // Turn 15 degrees counter-clockwise for 1 second while running the intake
         
         new DriveToPickup(drivetrain, shooter, climber, intake, 1, 0.2),
-        // Drive forward for 1 second while still running the intake, in case there's a ball there
+        // Drive forward for 1 second while still running the intake, in case there's a Cargo there
 
         new AutoHorizontalAim(drivetrain, 2),
         // Aim at the target for 2 seconds
 
-        new InstantCommand(index::startWithOneBall, index),
-        // Set index ball counter to one
+        new InstantCommand(index::startWithOneCargo, index),
+        // Set index Cargo counter to one
 
         new InstantCommand(climber::raiseArms, climber),
         // Raise climber arms
