@@ -17,19 +17,20 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import static frc.robot.Constants.*;
-import static frc.robot.Constants.XboxController.*;
+import static frc.robot.GlobalVars.XboxController.*;
+import static frc.robot.GlobalVars.Field.*;
 
-import static frc.robot.Constants.Status.*;
 import static frc.robot.Constants.Field.*;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.common.hardware.VisionLEDMode;
 
 import static frc.robot.Constants.Drivetrain.*;
-import static frc.robot.Constants.Vision.*;
-import static frc.robot.Constants.Shooter.*;
+import static frc.robot.GlobalVars.Vision.*;
+import static frc.robot.GlobalVars.Shooter.*;
+import static frc.robot.GlobalVars.Drivetrain.*;
 import static frc.robot.Constants.Robot.*;
-import static frc.robot.Constants.Autonomous.*;
+import static frc.robot.GlobalVars.Autonomous.*;
 
 
 
@@ -286,9 +287,6 @@ public class Robot extends TimedRobot {
     primaryCamera.setDriverMode(true); // Set's Limelight camera mode to Driver Camera
     primaryCamera.setLED(VisionLEDMode.kOff); // Set's Limelight LED mode to off
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(0);
-    autonomous = false;
-    teleop = false;
-    disabled = true;
   }
 
   @Override
@@ -313,9 +311,6 @@ public class Robot extends TimedRobot {
     NetworkTableInstance.getDefault().getTable("photonvision").getEntry("ledMode").setDouble(1);
 
     setBallTrackingPipeline();
-    autonomous = true;
-    teleop = false;
-    disabled = false;
   }
 
   /** This function is called periodically during autonomous. */

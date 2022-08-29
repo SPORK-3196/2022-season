@@ -29,7 +29,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.Drivetrain.*;
 import static frc.robot.Constants.Robot.*;
-import static frc.robot.Constants.Vision.*;
+import static frc.robot.GlobalVars.Drivetrain.*;
+import static frc.robot.GlobalVars.Vision.*;
   
 public class Drivetrain extends SubsystemBase {
 

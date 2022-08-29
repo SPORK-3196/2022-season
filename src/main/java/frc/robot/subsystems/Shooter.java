@@ -12,8 +12,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
-import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.XboxController.*;
+import static frc.robot.GlobalVars.Shooter.*;
+import static frc.robot.GlobalVars.XboxController.*;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
   /* 

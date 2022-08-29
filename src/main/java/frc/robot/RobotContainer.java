@@ -55,15 +55,16 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Robot.*;
-import static frc.robot.Constants.Vision.*;
+import static frc.robot.GlobalVars.Vision.*;
 
 import java.util.List;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import static frc.robot.Constants.Autonomous.*;
+import static frc.robot.GlobalVars.Autonomous.*;
 import frc.robot.Constants.AutoDriveConstants;
 import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.GlobalVars.Drivetrain.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
