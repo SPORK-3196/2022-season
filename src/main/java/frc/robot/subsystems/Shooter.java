@@ -37,14 +37,15 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
   // Target RPM for the left motor
   public double leftTargetRPM;
 
-  //Target RPM for the right motor
+  // Target RPM for the right motor
   public double rightTargetRPM;
 
-  //Tolerance of shooter Target RPM
+  // Tolerance of shooter Target RPM
   public double RPM_Tolerance = 50;
 
   public double sparkVelocityRPM;
   
+
   /** Creates a new Shooter subsystem with a parameter for RPM tolerance. */
   public Shooter(double tolerance) {
     this.RPM_Tolerance = tolerance;
@@ -55,6 +56,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
   }
+
   /** Creates a new Shooter subsystem with the default tolerance of 50 RPM */
   public Shooter() {
     // Reduce the periodic frame rate of the left and right shooters
@@ -64,17 +66,21 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rightShooter.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 50);
   }
   
-  
+
+
+  /** Set shooter motor speed to some percentage speed */ 
   public void runShooter(double power) {
     leftShooter.set(power);
     rightShooter.set(power);
   }
 
+  /** Set shooter motor speed to some voltage allowing for a consistent speed despite battery voltage sag */ 
   public void setShooterVoltage(double voltage) {
     leftShooter.setVoltage(-1 * voltage);
     rightShooter.setVoltage(voltage);
   }
 
+  /** Stops shooter motors, and sets target RPM of both shooters to zero. */
   public void stopShooter() {    
     leftShooter.stopMotor();
     rightShooter.stopMotor();
@@ -84,6 +90,7 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     rightTargetRPM = 0;
   } 
   
+  /** Set shooter motor speed to some voltage based off input RPM */ 
   public void feedForwardShoot(double RPM) {
     double voltageValue = ffController.calculate(-1 * RPM / 60);
 
@@ -93,17 +100,17 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     setShooterVoltage(voltageValue);
   }
 
-  // Set the RPM tolerance of the shooter 
+  /** Set the RPM tolerance of the shooter */
   public void setTolerance(double tolerance) {
     this.RPM_Tolerance = tolerance;
   }
 
-  // Set the target RPM for the left shooter motor
+  /** Set the target RPM for the left shooter motor */
   public void setLeftSetpoint(double RPM) { 
     leftTargetRPM = 1 * RPM;
   }
 
-  // Set the target RPM for the right shooter motor
+  /** Set the target RPM for the right shooter motor */
   public void setRightSetpoint(double RPM) { 
     rightTargetRPM = -1 * RPM;
   }
@@ -113,21 +120,23 @@ public class Shooter extends SubsystemBase { // Oguntola Trademark
     return ((value - tolerance) < value && value < (value + tolerance));
   }
 
-  // Set the target RPM for both shooter motors
+  /** Set the target RPM for both shooter motors */
   public void setSetpoint(double RPM) {
     setLeftSetpoint(RPM);
     setRightSetpoint(RPM);
   }
   
-  // Returns true when the left shooter is within target RPM tolerance
+  /** Returns true when the left shooter is within target RPM tolerance */
   public boolean leftAtSetpoint() {
     return isWithinTolerance(Math.abs(leftShooterEncoder.getVelocity()), RPM_Tolerance);
   }
 
+  /** Returns true when the right shooter is within target RPM tolerance */
   public boolean rightAtSetpoint() {
     return isWithinTolerance(Math.abs(rightShooterEncoder.getVelocity()), RPM_Tolerance);
   }
 
+  /** Returns true when both shooters are within target RPM tolerance */
   public boolean atSetpoint() {
     return leftAtSetpoint() && rightAtSetpoint();
   }
