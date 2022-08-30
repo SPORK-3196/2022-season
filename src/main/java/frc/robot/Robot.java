@@ -4,7 +4,90 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.HttpCamera;
+import static frc.robot.Constants.Field.UPPER_HUB_HEIGHT_M;
+import static frc.robot.Constants.Robot.CAMERA_ANGLE_RADIANS;
+import static frc.robot.Constants.Robot.CAMERA_HEIGHT_M;
+import static frc.robot.GlobalVars.Autonomous.autoChooser;
+import static frc.robot.GlobalVars.Drivetrain.DT_PowerConstant;
+import static frc.robot.GlobalVars.Drivetrain.DT_PowerConstantEntry;
+import static frc.robot.GlobalVars.Drivetrain.songChooser;
+import static frc.robot.GlobalVars.Field.MatchTimeEntry;
+import static frc.robot.GlobalVars.Shooter.AutoComputedRPM;
+
+import static frc.robot.GlobalVars.Vision.AI_DISTANCE_ENTRY;
+import static frc.robot.GlobalVars.Vision.BlueAllianceCargoPipeline;
+import static frc.robot.GlobalVars.Vision.DISTANCE_FROM_TARGET;
+import static frc.robot.GlobalVars.Vision.RUN_BACKUP_VISION;
+import static frc.robot.GlobalVars.Vision.RUN_VISION;
+import static frc.robot.GlobalVars.Vision.RedAllianceCargoPipeline;
+import static frc.robot.GlobalVars.Vision.backupCamera;
+import static frc.robot.GlobalVars.Vision.backupCameraResult;
+import static frc.robot.GlobalVars.Vision.backupHasTargets;
+import static frc.robot.GlobalVars.Vision.backupPitch;
+import static frc.robot.GlobalVars.Vision.backupPitchRadians;
+import static frc.robot.GlobalVars.Vision.backupTrackedTarget;
+import static frc.robot.GlobalVars.Vision.backupYaw;
+import static frc.robot.GlobalVars.Vision.primaryCamera;
+import static frc.robot.GlobalVars.Vision.primaryCameraResult;
+import static frc.robot.GlobalVars.Vision.primaryHasTargets;
+import static frc.robot.GlobalVars.Vision.primaryPitch;
+import static frc.robot.GlobalVars.Vision.primaryPitchRadians;
+import static frc.robot.GlobalVars.Vision.primaryTrackedTarget;
+import static frc.robot.GlobalVars.Vision.primaryYaw;
+
+import static frc.robot.GlobalVars.XboxController.X1_AButton;
+import static frc.robot.GlobalVars.XboxController.X1_AButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X1_BButton;
+import static frc.robot.GlobalVars.XboxController.X1_BButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X1_LB;
+import static frc.robot.GlobalVars.XboxController.X1_LB_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_LJX;
+import static frc.robot.GlobalVars.XboxController.X1_LJX_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_LJY;
+import static frc.robot.GlobalVars.XboxController.X1_LJY_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_LTValue;
+import static frc.robot.GlobalVars.XboxController.X1_LT_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_RB;
+import static frc.robot.GlobalVars.XboxController.X1_RB_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_RJX;
+import static frc.robot.GlobalVars.XboxController.X1_RJX_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_RJY;
+import static frc.robot.GlobalVars.XboxController.X1_RJY_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_RTValue;
+import static frc.robot.GlobalVars.XboxController.X1_RT_Entry;
+import static frc.robot.GlobalVars.XboxController.X1_XButton;
+import static frc.robot.GlobalVars.XboxController.X1_XButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X1_YButton;
+import static frc.robot.GlobalVars.XboxController.X1_YButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X2_AButton;
+import static frc.robot.GlobalVars.XboxController.X2_AButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X2_BButton;
+import static frc.robot.GlobalVars.XboxController.X2_BButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X2_LB;
+import static frc.robot.GlobalVars.XboxController.X2_LB_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_LJS;
+import static frc.robot.GlobalVars.XboxController.X2_LJX;
+import static frc.robot.GlobalVars.XboxController.X2_LJX_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_LJY;
+import static frc.robot.GlobalVars.XboxController.X2_LJY_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_LTValue;
+import static frc.robot.GlobalVars.XboxController.X2_LT_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_RB;
+import static frc.robot.GlobalVars.XboxController.X2_RB_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_RJX;
+import static frc.robot.GlobalVars.XboxController.X2_RJX_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_RJY;
+import static frc.robot.GlobalVars.XboxController.X2_RJY_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_RTValue;
+import static frc.robot.GlobalVars.XboxController.X2_RT_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_XButton;
+import static frc.robot.GlobalVars.XboxController.X2_XButtonEntry;
+import static frc.robot.GlobalVars.XboxController.X2_YButton;
+import static frc.robot.GlobalVars.XboxController.X2_YButtonEntry;
+
+import org.photonvision.PhotonCamera;
+import org.photonvision.common.hardware.VisionLEDMode;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.net.PortForwarder;
@@ -15,22 +98,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import static frc.robot.Constants.*;
-import static frc.robot.GlobalVars.XboxController.*;
-import static frc.robot.GlobalVars.Field.*;
-
-import static frc.robot.Constants.Field.*;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.common.hardware.VisionLEDMode;
-
-import static frc.robot.Constants.Drivetrain.*;
-import static frc.robot.GlobalVars.Vision.*;
-import static frc.robot.GlobalVars.Shooter.*;
-import static frc.robot.GlobalVars.Drivetrain.*;
-import static frc.robot.Constants.Robot.*;
-import static frc.robot.GlobalVars.Autonomous.*;
 
 
 

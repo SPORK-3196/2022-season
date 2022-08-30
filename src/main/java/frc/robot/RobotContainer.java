@@ -4,70 +4,74 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.Drivetrain.driveKinematics;
+import static frc.robot.GlobalVars.Autonomous.autoChooser;
+import static frc.robot.GlobalVars.Vision.backupYaw;
+import static frc.robot.GlobalVars.Vision.primaryYaw;
+import static frc.robot.Robot.X1J_A;
+import static frc.robot.Robot.X1J_B;
+import static frc.robot.Robot.X1J_X;
+import static frc.robot.Robot.X2J_A;
+import static frc.robot.Robot.X2J_B;
+import static frc.robot.Robot.X2J_LB;
+import static frc.robot.Robot.X2J_LS;
+import static frc.robot.Robot.X2J_RB;
+import static frc.robot.Robot.X2J_RS;
+import static frc.robot.Robot.X2J_X;
+import static frc.robot.Robot.X2J_Y;
+
+import java.util.List;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.Shooter.AutoShoot;
-import frc.robot.commands.Shooter.BabyShoot;
-import frc.robot.commands.Drivetrain.CargoOrientation;
-import frc.robot.commands.Lighting.ExtendClimbLighting;
-import frc.robot.commands.Index.DelayedIndex;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import frc.robot.Constants.AutoDriveConstants;
 import frc.robot.commands.Climber.ExtendClimber;
+import frc.robot.commands.Climber.RaiseArms;
+import frc.robot.commands.Climber.RetractClimber;
+import frc.robot.commands.Climber.StabStabScoop;
+import frc.robot.commands.Climber.ToggleArms;
+import frc.robot.commands.Drivetrain.CargoOrientation;
+import frc.robot.commands.Drivetrain.JoystickDrive;
+import frc.robot.commands.Drivetrain.PlayMusic;
+import frc.robot.commands.Drivetrain.TargetOrientation;
+import frc.robot.commands.Index.DelayedIndex;
 import frc.robot.commands.Index.IndexShootingLower;
 import frc.robot.commands.Index.IndexShootingUpper;
 import frc.robot.commands.Intake.IntakeActivation;
-import frc.robot.commands.Intake.IntakeCargo;
-import frc.robot.commands.Lighting.IntakeLighting;
-import frc.robot.commands.Drivetrain.JoystickDrive;
-import frc.robot.commands.Lighting.LightingControl;
-import frc.robot.commands.Climber.LowerArms;
-import frc.robot.commands.Climber.RaiseArms;
 import frc.robot.commands.Intake.OuttakeCargo;
-import frc.robot.commands.Drivetrain.PlayMusic;
+import frc.robot.commands.Lighting.ExtendClimbLighting;
+import frc.robot.commands.Lighting.IntakeLighting;
+import frc.robot.commands.Lighting.LightingControl;
 import frc.robot.commands.Lighting.RetractClimbLighting;
-import frc.robot.commands.Climber.RetractClimber;
-import frc.robot.commands.Climber.StabStabScoop;
 import frc.robot.commands.Lighting.ShootLighting;
-import frc.robot.commands.Drivetrain.TargetOrientation;
-import frc.robot.commands.Climber.ToggleArms;
 import frc.robot.commands.Lighting.ToggleClimberLighting;
-import frc.robot.commands.Shooter.TweenShoot;
 import frc.robot.commands.Lighting.VisionTargetShooting;
-import frc.robot.commands.autonomous.TwoCargoAuto;
+import frc.robot.commands.Shooter.AutoShoot;
+import frc.robot.commands.Shooter.BabyShoot;
+import frc.robot.commands.Shooter.TweenShoot;
 import frc.robot.commands.autonomous.DriveForwardTimed;
-import frc.robot.commands.autonomous.FourCargoAuto;
 import frc.robot.commands.autonomous.OneCargoAuto;
 import frc.robot.commands.autonomous.ThreeCargoAuto;
-import frc.robot.commands.autonomous.TurnDegreesCCW;
+import frc.robot.commands.autonomous.TwoCargoAuto;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
-import static frc.robot.Robot.*;
-import static frc.robot.GlobalVars.Vision.*;
-
-import java.util.List;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
-import static frc.robot.GlobalVars.Autonomous.*;
-import frc.robot.Constants.AutoDriveConstants;
-import static frc.robot.Constants.Drivetrain.*;
-import static frc.robot.GlobalVars.Drivetrain.*;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

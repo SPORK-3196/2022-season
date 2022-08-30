@@ -4,16 +4,19 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.GlobalVars.Shooter.AutoComputedRPM;
+import static frc.robot.GlobalVars.Shooter.SHOOTER_READY;
+import static frc.robot.GlobalVars.Shooter.SH_SHOOTER_RPM_Entry;
+import static frc.robot.GlobalVars.XboxController.X2_AButton;
+import static frc.robot.GlobalVars.XboxController.X2_LJS;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import com.revrobotics.RelativeEncoder;
 
-import static frc.robot.GlobalVars.Shooter.*;
-import static frc.robot.GlobalVars.XboxController.*;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase { // Oguntola Trademark
   /* 

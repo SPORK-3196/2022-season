@@ -4,6 +4,20 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.Robot.DrivetrainTrackWidthMeters;
+import static frc.robot.Constants.Robot.DrivetrainWheelDiameterIn;
+import static frc.robot.Constants.Robot.DrivetrainWheelRadiusIn;
+import static frc.robot.Constants.Robot.countsPerRevolution;
+import static frc.robot.Constants.Robot.gearRatio;
+import static frc.robot.GlobalVars.Drivetrain.DT_FrontLeftEntry;
+import static frc.robot.GlobalVars.Drivetrain.DT_FrontRightEntry;
+import static frc.robot.GlobalVars.Drivetrain.DT_MusicPlaying;
+import static frc.robot.GlobalVars.Drivetrain.DT_TargetOffsetAngle;
+import static frc.robot.GlobalVars.Drivetrain.DT_rearLeftEntry;
+import static frc.robot.GlobalVars.Drivetrain.DT_rearRightEntry;
+import static frc.robot.GlobalVars.Drivetrain.songChooser;
+import static frc.robot.GlobalVars.Vision.DISTANCE_FROM_TARGET;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -26,9 +40,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.Robot.*;
-import static frc.robot.GlobalVars.Drivetrain.*;
-import static frc.robot.GlobalVars.Vision.*;
   
 public class Drivetrain extends SubsystemBase {
 

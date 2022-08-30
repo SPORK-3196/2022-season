@@ -4,14 +4,15 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.GlobalVars.Index.CargoCounter_Entry;
+import static frc.robot.GlobalVars.Index.IndexRunning;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static frc.robot.GlobalVars.Index.*;
 
 public class Index extends SubsystemBase {  // Made By Caputo & Oguntola
   
