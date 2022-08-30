@@ -9,50 +9,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lighting extends SubsystemBase {
   
+  // Create AddressableLED object based off DIO port on RoboRIO
   public static AddressableLED lightsAlpha = new AddressableLED(8);
-  // public static AddressableLED lightsBeta = new AddressableLED(7);
 
+  // Create AddressableLEDBuffer object to store information to set LEDs
   public static AddressableLEDBuffer lightBufferAlpha;
-  public static AddressableLEDBuffer lightBufferBeta;
 
   public static int firstPixelHue = 0;
 
   double alphaLightCounter;
   boolean alphaLightUp = true;
 
-  double betaLightCounter;
-  boolean betaLightUp = true;
 
   
-  /** Creates a new Lighting. */
+  /** Creates a new Lighting subsystem. */
   public Lighting() {
     lightBufferAlpha = new AddressableLEDBuffer(300);
-    lightBufferBeta = new AddressableLEDBuffer(300);
-
+    
     alphaLightCounter = lightBufferAlpha.getLength();
-    betaLightCounter = lightBufferBeta.getLength();
 
     lightsAlpha.setLength(lightBufferAlpha.getLength());
-    // lightsBeta.setLength(lightBufferBeta.getLength());
 
     lightsAlpha.setData(lightBufferAlpha);
-    // lightsBeta.setData(lightBufferBeta);
 
   }
 
-  public void alphaStart() {
+  /** Start setting light buffer of lighting system */
+  public void start() {
     lightsAlpha.start();
   }
-
-  public void betaStart() {
-    // lightsBeta.start();
-  }
-
-  public void start() {
-    alphaStart();
-    betaStart();
-  }
   
+  /** Set lights to no color */
+  public void noColor() {
+    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
+      lightBufferAlpha.setRGB(i, 0, 0, 0);
+    }
+    lightsAlpha.setData(lightBufferAlpha);
+  }
+
+  /** Set lights between red, yellow, and green, based off an offset from a target. */
   public void redGreenOffset(double offset, double offset_factor) {
     offset = Math.abs(offset);
     int val = (int) (offset * offset_factor);
@@ -65,74 +60,48 @@ public class Lighting extends SubsystemBase {
     // lightsBeta.setData(lightBufferBeta);
   }
 
-  public void alphaRed() {
+  /** Set lights to red */
+  public void fullRed() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
       lightBufferAlpha.setRGB(i, 255, 0, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
 
-  public void noColor() {
-    for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
-      lightBufferAlpha.setRGB(i, 0, 0, 0);
-    }
-    lightsAlpha.setData(lightBufferAlpha);
-  }
-  
-
-  public void fullRed() {
-    alphaRed();
-  }
-
-  public void alphaYellow() {
+  /** Set lights to yellow */
+  public void fullYellow() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
       lightBufferAlpha.setRGB(i, 200, 200, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
 
-  public void fullYellow() {
-    alphaYellow();
-  }
-
-  public void alphaGreen() {
+  /** Set lights to green */
+  public void fullGreen() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
       lightBufferAlpha.setRGB(i, 0, 255, 0);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
 
-
-  public void fullGreen() {
-    alphaGreen();
-  }
-
-  public void alphaBlue() {
+  /** Set lights to blue */
+  public void fullBlue() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
       lightBufferAlpha.setRGB(i, 0, 0, 255);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
 
-  public void fullBlue() {
-    alphaBlue();
-  }
-
-  public void alphaWhite() {
+  /** Set lights to white */
+  public void fullWhite() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
       lightBufferAlpha.setHSV(i, 0, 0, 70);
     }
     lightsAlpha.setData(lightBufferAlpha);
   }
 
-
-  public void fullWhite() {
-    alphaWhite();
-  }
-
-
-
-  public void alphaRainbow() {
+  /** Set lights to rainbow */
+  public void FullRainbow() {
     for (int i = 0; i < lightBufferAlpha.getLength(); i++) {
       final int hue = (firstPixelHue + (i * 180 / lightBufferAlpha.getLength())) % 180;
       lightBufferAlpha.setHSV(i, hue, 169, 35);
@@ -144,6 +113,7 @@ public class Lighting extends SubsystemBase {
 
   }
 
+  /** Set lights to rainbow, constantly changing */
   public void rainbowRun() {
     for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
         final int hue = (firstPixelHue + (i * 180 / lightBufferAlpha.getLength())) % 180;
@@ -164,11 +134,8 @@ public class Lighting extends SubsystemBase {
     alphaLightCounter -= 10;
   }
 
-  public void FullRainbow() {
-    alphaRainbow();
-  }
-
-  public void alphaGreenRun() {
+  /** Set lights to a ramping green across LED strip */
+  public void fullGreenRun() {
     if (alphaLightUp) {
       for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
         lightBufferAlpha.setRGB(i, 0, 255, 0);
@@ -201,117 +168,38 @@ public class Lighting extends SubsystemBase {
     alphaLightCounter -= 10;
   }
 
-  public void betaGreenRun() {
-    if (betaLightUp) {
-      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
-        lightBufferBeta.setRGB(i, 0, 255, 0);
-      }
-
-      // lightsBeta.setData(lightBufferBeta);
-
-
-      if (betaLightCounter == 0) {
-        betaLightCounter = lightBufferBeta.getLength();
-        betaLightUp = false;
-      }
-  
-    }
-
-    if (!betaLightUp) {
-      for (int i = 0; i < lightBufferBeta.getLength() - betaLightCounter; i++) {
-        lightBufferBeta.setHSV(i, 0, 0, 255);
-      }
-
-      lightsAlpha.setData(lightBufferBeta);
-  
-
-      if (betaLightCounter == 0) {
-        betaLightCounter = lightBufferBeta.getLength();
-        betaLightUp = true;
-      }
-    }
-
-    alphaLightCounter -= 10;
-  }
-
-  public void fullGreenRun() {
-    alphaGreenRun();
-    // betaGreenRun();
-  }
-
-  public void alphaRedRun() {
-    if (alphaLightUp) {
-      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
-        lightBufferAlpha.setRGB(i, 255, 0, 0);
-      }
-
-      lightsAlpha.setData(lightBufferAlpha);
-
-
-      if (alphaLightCounter == 0) {
-        alphaLightCounter = lightBufferAlpha.getLength();
-        alphaLightUp = false;
-      }
-  
-    }
-
-    if (!alphaLightUp) {
-      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
-        lightBufferAlpha.setHSV(i, 0, 0, 255);
-      }
-
-      lightsAlpha.setData(lightBufferAlpha);
-  
-
-      if (alphaLightCounter == 0) {
-        alphaLightCounter = lightBufferAlpha.getLength();
-        alphaLightUp = true;
-      }
-    }
-
-    alphaLightCounter -= 10;
-  }
-
-
-  /*public void alphaRedRun() {
-    if (alphaLightUp) {
-      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
-        lightBufferAlpha.setRGB(i, 255, 0, 0);
-      }
-
-      lightsAlpha.setData(lightBufferAlpha);
-
-
-      if (alphaLightCounter == 0) {
-        alphaLightCounter = lightBufferAlpha.getLength();
-        alphaLightUp = false;
-      }
-  
-    }
-
-    if (!alphaLightUp) {
-      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
-        lightBufferAlpha.setHSV(i, 0, 0, 255);
-      }
-
-      lightsAlpha.setData(lightBufferBeta);
-  
-
-      if (alphaLightCounter == 0) {
-        alphaLightCounter = lightBufferBeta.getLength();
-        alphaLightUp = true;
-      }
-    }
-
-    alphaLightCounter -= 10;
-  }
-  */
-
-  
-
+  /** Set lights to a ramping red across LED strip */
   public void fullRedRun() {
-    alphaRedRun();
-    // betaGreenRun();
+    if (alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setRGB(i, 255, 0, 0);
+      }
+
+      lightsAlpha.setData(lightBufferAlpha);
+
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferAlpha.getLength();
+        alphaLightUp = false;
+      }
+  
+    }
+
+    if (!alphaLightUp) {
+      for (int i = 0; i < lightBufferAlpha.getLength() - alphaLightCounter; i++) {
+        lightBufferAlpha.setHSV(i, 0, 0, 255);
+      }
+
+      lightsAlpha.setData(lightBufferAlpha);
+  
+
+      if (alphaLightCounter == 0) {
+        alphaLightCounter = lightBufferAlpha.getLength();
+        alphaLightUp = true;
+      }
+    }
+
+    alphaLightCounter -= 10;
   }
 
 
