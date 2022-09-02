@@ -9,7 +9,7 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A OuttakeCargo command that uses an intake subsystem & climber subsystem. */
 public class OuttakeCargo extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -17,9 +17,10 @@ public class OuttakeCargo extends CommandBase {
   Index index;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new OuttakeCargo.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param intake The intake subsystem used by this command.
+   * @param index The index subsystem used by this command.
    */
   public OuttakeCargo(Intake intake, Index index) {
     this.intake = intake;
@@ -41,10 +42,12 @@ public class OuttakeCargo extends CommandBase {
   public void execute() {
     intake.outtakeCargo();
 
+    // Sets CargoExiting variable to true when ball is detected leaving index
     if (index.getIntakeSensor()) {
       index.CargoExiting = true;
     }
-
+    
+    // When ball was detcted leaving, but is no longer detected, reduce cargo counter variable
     if (!index.getIntakeSensor() && index.CargoExiting) {
       index.CargoCounter--;
       index.CargoExiting = false;

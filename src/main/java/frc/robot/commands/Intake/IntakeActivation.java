@@ -4,22 +4,20 @@
 
 package frc.robot.commands.Intake;
 
-import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Climber.LowerArms;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 
-/** An example command that uses an example subsystem. */
+/** An IntakeActivation command that uses an intake subsystem & climber subsystem. */
 public class IntakeActivation extends SequentialCommandGroup {
     
   public IntakeActivation(Climber climber, Intake intake) {
-      super(
+      super( 
+        // Lower climber arms for intaking cargo
         new InstantCommand(climber::lowerArms, climber),
+
+        // Activate intake
         new IntakeCargo(intake)
       );
   }

@@ -8,16 +8,16 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A IntakeCargo command that uses an intake subsystem. */
 public class IntakeCargo extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Intake intake;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new IntakeCargo.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param intake The subsystem used by this command.
    */
   public IntakeCargo(Intake intake) {
     this.intake = intake;
