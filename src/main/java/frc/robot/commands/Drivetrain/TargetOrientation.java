@@ -4,66 +4,66 @@
 
 package frc.robot.commands.Drivetrain;
 
-import frc.robot.subsystems.Drivetrain;
-import static frc.robot.subsystems.Drivetrain.*;
-
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.Vision.*;
-import static frc.robot.Robot.*;
+import static frc.robot.Constants.Drivetrain.AutoP;
+import static frc.robot.GlobalVars.Drivetrain.DT_PowerConstant;
+import static frc.robot.GlobalVars.Vision.DISTANCE_FROM_TARGET;
+import static frc.robot.GlobalVars.Vision.RUN_VISION;
+import static frc.robot.GlobalVars.Vision.primaryCamera;
+import static frc.robot.GlobalVars.Vision.primaryHasTargets;
+import static frc.robot.GlobalVars.Vision.primaryYaw;
+import static frc.robot.GlobalVars.XboxController.X1_LJX;
+import static frc.robot.GlobalVars.XboxController.X1_LJY;
+import static frc.robot.subsystems.Drivetrain.Auto_PIDController;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import static frc.robot.Constants.Drivetrain.*;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
 
 
-/** An example command that uses an example subsystem. */
+/** A TargetOrientation command that uses a drivetrain subsystem. */
 public class TargetOrientation extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain drivetrain;
-
-
-  double steering_adjust;
-  double heading_error;
-  DifferentialDrive.WheelSpeeds wheelSpeeds;
-
   
   double speedControl;
   double rotationControl;
 
   /**
-   * Creates a new JoystickDrive.
+   * Creates a new TargetOrientation, that turns drivetrain to target vision targets.
    *
-   * @param subsystem The drivetrain used by this command.
+   * @param drivetrain The drivetrain used by this command.
    */
-  public TargetOrientation(Drivetrain subsystem) {
+  public TargetOrientation(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    drivetrain = subsystem;
-    
+    this.drivetrain = drivetrain;
     addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
-    
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
+
+    // Sets RUN_VISION to true, activating vision pipeline and turning on LEDs
     RUN_VISION = true;
+
+    // Set PIDController for drivetrain to AutoP constant
     Auto_PIDController.setP(AutoP);
-    // Auto_PIDController.setD(0.005);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
+
     Auto_PIDController.setP(AutoP);
+
+    // Changes target setpoint based off robot distance from vision target
     if (DISTANCE_FROM_TARGET > 2.5) {
       Auto_PIDController.setSetpoint(drivetrain.getFarTargetOffset());
     }
@@ -71,27 +71,21 @@ public class TargetOrientation extends CommandBase {
       Auto_PIDController.setSetpoint(drivetrain.getCloseTargetOffset());
     }
 
-    // Auto_PIDController.setSetpoint(0);
-
     RUN_VISION = true;
 
+    // Set driving values to joystick values multiplied by drivetrain power 
     speedControl = X1_LJY * -DT_PowerConstant; 
-    rotationControl = X2_LJX * -DT_PowerConstant;
+    rotationControl = X1_LJX * -DT_PowerConstant;
 
+    // Set driver mode to false, activating vision processing
     primaryCamera.setDriverMode(false);
     
+    // Change rotation control if vision target identified
     if (primaryHasTargets) {
-      
-      steering_adjust = Auto_PIDController.calculate(primaryYaw);
-      rotationControl = steering_adjust;
-      /*
-      if (primaryYaw < 15) {
-        rotationControl += 0.15;
-      }
-      else if (primar)
-      */
+      rotationControl = Auto_PIDController.calculate(primaryYaw);
     }
 
+    // Slight incremental changes for aiming within certain values
     if (primaryYaw > 1.0) {
       rotationControl -= 0.02;
     }
@@ -99,17 +93,14 @@ public class TargetOrientation extends CommandBase {
       rotationControl += 0.02;
     }
     
-
+    // Control drivetrain, sensitive to smaller values
     drivetrain.arcadeDriveAI(speedControl, rotationControl);
-    // drivetrain.drivetrain.curvatureDrive(speedControl, rotationControl, true);
-    // drivetrain.drivetrain.arcadeDrive(speedControl, rotationControl); 
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // drivetrain.drivetrain = null;
     RUN_VISION = false;
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);

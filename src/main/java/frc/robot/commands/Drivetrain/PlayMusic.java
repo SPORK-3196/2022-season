@@ -4,10 +4,8 @@
 
 package frc.robot.commands.Drivetrain;
 
-import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Drivetrain.*;
+import frc.robot.subsystems.Drivetrain;
 
 
 /** An example command that uses an example subsystem. */
@@ -15,12 +13,11 @@ public class PlayMusic extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Drivetrain drivetrain;
-  Timer lightTimer = new Timer();
   
   /**
-   * Creates a new PlayMusic.
+   * Creates a new PlayMusic, which plays whatever song is chosen on the Shuffleboard song chooser.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param drivetrain The drivetrain subsystem used by this command.
    */
   public PlayMusic(Drivetrain drivetrain) {
     this.drivetrain = drivetrain;
@@ -32,33 +29,23 @@ public class PlayMusic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.drivetrain = null;
-    /*drivetrain.frontLeft.set(TalonFXControlMode.MusicTone, 0);
-    drivetrain.frontRight.set(TalonFXControlMode.MusicTone, 0);
-    drivetrain.rearLeft.set(TalonFXControlMode.MusicTone, 0);
-    drivetrain.rearRight.set(TalonFXControlMode.MusicTone, 0);
-    */
-    if (drivetrain.currentSong != drivetrain.previousSong) {
-      drivetrain.loadMusic(songChooser.getSelected());
-      drivetrain.currentSong = songChooser.getSelected();
-    }
+    // Begins playing music at the beginning of the command
     drivetrain.playMusic();
-    lightTimer.reset();
-    lightTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Continues to play music during the command
     drivetrain.playMusic();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Pauses music if command ends or is interrupted
     drivetrain.pauseMusic();
-    drivetrain.drivetrain = null;
-    drivetrain.previousSong = drivetrain.currentSong;
+
   }
 
   @Override
