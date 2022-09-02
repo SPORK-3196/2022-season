@@ -4,23 +4,16 @@
 
 package frc.robot.commands.Climber;
 
-import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Climber.LowerArms;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.Climber;
 
-/** An example command that uses an example subsystem. */
+/** A StabStabScoop command that uses a climber subsystem. Uses climber arms to create a noise similar to the SPORK Stab, Stab, Scoop chant. */
 public class StabStabScoop extends SequentialCommandGroup {
 
 
     public StabStabScoop(Climber climber) {
       super(
-
         new ExtendClimber(climber, 0.6).withTimeout(0.5),
         new WaitCommand(0.7),
         new ExtendClimber(climber, 0.6).withTimeout(0.5),

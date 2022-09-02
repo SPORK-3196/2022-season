@@ -8,16 +8,16 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A RaiseArms command that uses a climber subsystem. */
 public class RaiseArms extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Climber climber;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new RaiseArms.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param climber The climber subsystem used by this command.
    */
   public RaiseArms(Climber climber) {
     this.climber = climber;
@@ -46,6 +46,6 @@ public class RaiseArms extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

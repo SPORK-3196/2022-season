@@ -8,7 +8,7 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A RetractClimber command that uses a climber subsystem. */
 public class RetractClimber extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -16,20 +16,21 @@ public class RetractClimber extends CommandBase {
   private double power;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new RetractClimber.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param climber The climber subsystem used by this command.
    */
-  public RetractClimber (Climber subsystem, double power) {
+  public RetractClimber (Climber climber, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.power = power;
-    this.climber = subsystem;
+    this.climber = climber;
   }
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Retract both climber arms at some power at the beginning of the command
     climber.RetractLeft(power);
     climber.RetractRight(power);
   }
@@ -37,13 +38,12 @@ public class RetractClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  //  climber.RetractLeft(power);
-  //  climber.RetractRight(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Stop retracting climber arms at the end of command
     climber.StopLeft();
     climber.StopRight();
   }

@@ -8,7 +8,7 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A ExtendClimber command that uses a climber subsystem. */
 public class ExtendClimber extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -16,20 +16,21 @@ public class ExtendClimber extends CommandBase {
   private double power;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new ExtendClimber.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param climber The climber subsystem used by this command.
    */
-  public ExtendClimber (Climber subsystem, double power) {
+  public ExtendClimber (Climber climber, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.power = power;
-    this.climber = subsystem;
+    this.climber = climber;
   }
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Extend both climber arms at some power at the beginning of the command
     climber.ExtendLeft(power);
     climber.ExtendRight(power);
   }
@@ -37,13 +38,12 @@ public class ExtendClimber extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // climber.ExtendLeft(power);
-    // climber.ExtendRight(power);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Stop extending climber arms at the end of command
     climber.StopLeft();
     climber.StopRight();
   }
