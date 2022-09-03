@@ -12,7 +12,7 @@ import frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
-/** An example command that uses an example subsystem. */
+/** A DriveToPiclup command that uses the shooter, drivetrain, intake, index, and climber subsystems. */
 public class DriveToPickup extends ParallelCommandGroup {
     public DriveToPickup(Drivetrain drivetrain, Shooter shooter, Climber climber, Intake intake, double duration, double driveSpeed) {
       super(

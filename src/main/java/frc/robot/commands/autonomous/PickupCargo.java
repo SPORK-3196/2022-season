@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A PickupCargo command that uses an example subsystem. */
 public class PickupCargo extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -18,9 +18,9 @@ public class PickupCargo extends CommandBase {
   public double time = 2.0;
   
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new PickupCargo.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param intake The intake subsystem used by this command.
    */
   public PickupCargo(Intake intake, double duration) {
     this.intake = intake;

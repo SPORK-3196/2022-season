@@ -4,14 +4,14 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.subsystems.Index;
+import static frc.robot.GlobalVars.Shooter.SHOOTER_READY;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.Index.*;
+import frc.robot.subsystems.Index;
 
 
-/** An example command that uses an example subsystem. */
+/** An IndexShootingUpperConditional command that uses an index subsystem. */
 public class IndexShootingUpperConditional extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -21,7 +21,7 @@ public class IndexShootingUpperConditional extends CommandBase {
   double CargoCondition = 0;
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new IndexShootingUpperConditional.
    *
    * @param subsystem The subsystem used by this command.
    */
@@ -55,14 +55,6 @@ public class IndexShootingUpperConditional extends CommandBase {
       index.CargoExiting = false;
     }
 
-    
-
-   
-    /*
-    if (SHOOTER_READY && Math.abs(primaryYaw) < 6) {
-      runIndex = true;
-    }
-    */
 
     if (SHOOTER_READY) {
       runIndex = true;

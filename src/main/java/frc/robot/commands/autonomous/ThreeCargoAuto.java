@@ -4,16 +4,15 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Intake.IntakeCargo;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Shooter;
 
-/** An example command that uses an example subsystem. */
+/** A ThreeCargoAuto command that uses the shooter, drivetrain, intake, index, and climber subsystems. */
 public class ThreeCargoAuto extends SequentialCommandGroup {
     public ThreeCargoAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
@@ -29,7 +28,7 @@ public class ThreeCargoAuto extends SequentialCommandGroup {
 
         new InstantCommand(climber::raiseArms, climber),
 
-        new AutonomousShootConditional(shooter, index, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0)),
+        new AutonomousShootConditional(shooter, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0)),
         // Shoot into upper hub till empty
 
        
@@ -63,7 +62,7 @@ public class ThreeCargoAuto extends SequentialCommandGroup {
         new InstantCommand(climber::raiseArms, climber),
         // Raise climber arms
 
-        new AutonomousShootConditional(shooter, index, 0, 2000).alongWith(new IndexShootingUpperConditional(index, 0))
+        new AutonomousShootConditional(shooter, 0, 2000).alongWith(new IndexShootingUpperConditional(index, 0))
         // Shoot into index until empty
 
       );

@@ -4,36 +4,34 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Shooter.*;
+import static frc.robot.GlobalVars.Shooter.AutoComputedRPM;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
 
 
-/** An example command that uses an example subsystem. */
+/** An AutonomousShoot command that uses a shooter subsystem & index subsystem. */
 public class AutonomousShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Shooter shooter;
-  Index index;
   public Timer shooterTimer = new Timer();
   public double time = 5.0;
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new AutonomousShoot.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param shooter The shooter subsystem used by this command.
+   * @param index The index subsystem used by this command.
    */
 
-  public AutonomousShoot(Shooter shooter, Index index, double duration) {
+  public AutonomousShoot(Shooter shooter, double duration) {
     this.shooter = shooter;
-    // this.index = index;
     this.time = duration;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
-    // addRequirements(index);
   }
 
   // Called when the command is initially scheduled.
@@ -48,25 +46,15 @@ public class AutonomousShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // shooter.setSetpoint(AutoComputedRPM);
     shooter.feedForwardShoot(2000);
 
-    /*
-    if (shooter.atSetpoint()) {
-      index.runIndex();
-    }
-    else {
-      index.stopIndex();
-    }
-    */
-    
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
-    // System.out.println(shooterTimer.get());
   }
 
   // Returns true when the command should end.

@@ -12,7 +12,7 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-/** An example command that uses an example subsystem. */
+/** A TwoCargoAuto command that uses the shooter, drivetrain, intake, index, and climber subsystems. */
 public class TwoCargoAuto extends SequentialCommandGroup {
     public TwoCargoAuto(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Climber climber) {
       super(
@@ -22,7 +22,7 @@ public class TwoCargoAuto extends SequentialCommandGroup {
         new InstantCommand(climber::raiseArms, climber),
         new PickupCargo(intake, 1),
         new AutoHorizontalAim(drivetrain, 1),
-        new AutonomousShootConditional(shooter, index, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0))
+        new AutonomousShootConditional(shooter, 0, 1850).alongWith(new IndexShootingUpperConditional(index, 0))
       );
     }
 }

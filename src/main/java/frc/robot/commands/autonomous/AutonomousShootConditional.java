@@ -4,33 +4,29 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Shooter.*;
-import static frc.robot.Constants.Index.*;
-
+import static frc.robot.GlobalVars.Shooter.AutoComputedRPM;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
 
 
-/** An example command that uses an example subsystem. */
+/** An AutonomousShootConditional command that uses a shooter subsystem. */
 public class AutonomousShootConditional extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Shooter shooter;
-  Index index;
   public Timer shooterTimer = new Timer();
   public double time = 5.0;
   public double CargoCondition = 0;
   public double RPM = 2000;
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new AutonomousShootConditional.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param shooter The shooter subsystem used by this command.
    */
 
-  public AutonomousShootConditional(Shooter shooter, Index index, double CargoCondition, double RPM) {
+  public AutonomousShootConditional(Shooter shooter, double CargoCondition, double RPM) {
     this.shooter = shooter;
     this.CargoCondition = CargoCondition;
     this.RPM = RPM;
@@ -39,7 +35,7 @@ public class AutonomousShootConditional extends CommandBase {
     // addRequirements(index);
   }
 
-  public AutonomousShootConditional(Shooter shooter, Index index, double CargoCondition) {
+  public AutonomousShootConditional(Shooter shooter, double CargoCondition) {
     this.shooter = shooter;
     this.CargoCondition = CargoCondition;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -62,14 +58,6 @@ public class AutonomousShootConditional extends CommandBase {
     // shooter.setSetpoint(AutoComputedRPM);
     shooter.feedForwardShoot(RPM);
 
-    /*
-    if (shooter.atSetpoint()) {
-      index.runIndex();
-    }
-    else {
-      index.stopIndex();
-    }
-    */
     
   }
 

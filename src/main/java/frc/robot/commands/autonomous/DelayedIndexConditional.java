@@ -4,14 +4,14 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.subsystems.Index;
+import static frc.robot.GlobalVars.Index.CargoCounter_Entry;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Status.*;
-import static frc.robot.Constants.Index.*;
+import frc.robot.subsystems.Index;
 
 
-/** An example command that uses an example subsystem. */
+/** A DelayedIndexConditional command that uses an index subsystem. */
 public class DelayedIndexConditional extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -85,11 +85,9 @@ public class DelayedIndexConditional extends CommandBase {
 
     if (runIndex) {
       index.runIndex();
-      indexing = true;
     }
     else if (!runIndex) {
       index.stopIndex();
-      indexing = false;
     }
     
   }

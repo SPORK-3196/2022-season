@@ -4,26 +4,21 @@
 
 package frc.robot.commands.autonomous;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Index;
+import static frc.robot.GlobalVars.Vision.RUN_BACKUP_VISION;
+import static frc.robot.GlobalVars.Vision.backupHasTargets;
+import static frc.robot.GlobalVars.Vision.backupYaw;
+import static frc.robot.subsystems.Drivetrain.Auto_PIDController;
 
-import static frc.robot.subsystems.Drivetrain.*;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.XboxController.*;
-import static frc.robot.Constants.Vision.*;
-import static frc.robot.Robot.*;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
-import static frc.robot.Constants.Drivetrain.*;
-import static frc.robot.Constants.Index.*;
+import frc.robot.subsystems.Drivetrain;
 
 
 
-/** An example command that uses an example subsystem. */
+/** An AutoCargoOrientation command that uses a drivetrain subsystem. */
 public class AutoCargoOrientation extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain drivetrain;
@@ -42,11 +37,11 @@ public class AutoCargoOrientation extends CommandBase {
   /**
    * Creates a new JoystickDrive.
    *
-   * @param subsystem The drivetrain used by this command.
+   * @param drivetrain The drivetrain used by this command.
    */
-  public AutoCargoOrientation(Drivetrain subsystem, double duration) {
+  public AutoCargoOrientation(Drivetrain drivetrain, double duration) {
     // Use addRequirements() here to declare subsystem dependencies.
-    drivetrain = subsystem;
+    this.drivetrain = drivetrain;
     this.duration = duration;
     addRequirements(drivetrain);
   }
@@ -54,13 +49,13 @@ public class AutoCargoOrientation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     Auto_PIDController.setSetpoint(0);
     drivetrain.frontLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearLeft.setNeutralMode(NeutralMode.Coast);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.driveModeSet = true;
+
     RUN_BACKUP_VISION = true;
     Auto_PIDController.setP(0.0075);
     lockon.reset();
@@ -73,6 +68,7 @@ public class AutoCargoOrientation extends CommandBase {
 
     RUN_BACKUP_VISION = true;
     
+    // When backup camera can detect an allied cargo target, adjust drivetrain towards
     if (backupHasTargets) {
       steering_adjust = Auto_PIDController.calculate(backupYaw);
       rotationControl = steering_adjust;

@@ -7,14 +7,17 @@
 
 package frc.robot.commands.autonomous;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Vision.*;
-import static frc.robot.subsystems.Drivetrain.*;
-import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.Constants.Drivetrain.AutoP;
+import static frc.robot.GlobalVars.Vision.DISTANCE_FROM_TARGET;
+import static frc.robot.GlobalVars.Vision.RUN_VISION;
+import static frc.robot.GlobalVars.Vision.primaryHasTargets;
+import static frc.robot.GlobalVars.Vision.primaryYaw;
+import static frc.robot.subsystems.Drivetrain.Auto_PIDController;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -27,15 +30,11 @@ public class AutoHorizontalAim extends CommandBase {
   public Timer autoTimer = new Timer();
   public double time = 5.0;
 
-  
 
-  double leftInput;
-  double rightInput;
   double steering_adjust;
-  DifferentialDrive.WheelSpeeds wheelSpeeds;
 
   /**
-   * Creates a new DriveWithJoystick.
+   * Creates a new AutoHorizontalAim.
    */
   public AutoHorizontalAim(Drivetrain drivetrain, double duration) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -49,10 +48,8 @@ public class AutoHorizontalAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Auto_PIDController.setSetpoint(drivetrain.getTargetOffset());
     Auto_PIDController.setTolerance(0.5);
     RUN_VISION = true;
-    // drivetrain.drivetrain = new DifferentialDrive(drivetrain.leftSide, drivetrain.rightSide);
     drivetrain.drivetrain.setDeadband(0);
     drivetrain.frontRight.setNeutralMode(NeutralMode.Coast);
     drivetrain.rearRight.setNeutralMode(NeutralMode.Coast);
@@ -72,16 +69,8 @@ public class AutoHorizontalAim extends CommandBase {
     else {
       Auto_PIDController.setSetpoint(drivetrain.getCloseTargetOffset());
     }
-    // boolean isTargetVisible = false;
-    // boolean targetNotVisible = true;
 
-    // double aimControlConstant = -0.07;
-    // double distanceControlConstant = -0.1;
-    // double min_aim_command = 0.03;
-    
-    // double heading_error = -1 * primaryYaw;
-    // double distance_error = -1 * ty;
-
+    // Changes target setpoint based off robot distance from vision target
     if (primaryHasTargets) {
       steering_adjust = Auto_PIDController.calculate(primaryYaw);
     }

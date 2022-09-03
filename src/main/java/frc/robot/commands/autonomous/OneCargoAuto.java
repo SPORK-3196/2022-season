@@ -13,7 +13,7 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-/** An example command that uses an example subsystem. */
+/** A OneCargoAuto command that uses the shooter, drivetrain, intake, index, and climber subsystems. */
 public class OneCargoAuto extends SequentialCommandGroup {
 
 
@@ -24,7 +24,7 @@ public class OneCargoAuto extends SequentialCommandGroup {
         new DriveForwardTimed(drivetrain, 3.5, -0.15),
         new AutoHorizontalAim(drivetrain, 1),
         // new AutonomousShootUno(shooter, index, 5.0)
-        new AutonomousShootConditional(shooter, index, 0).alongWith(new IndexShootingUpperConditional(index, 0))
+        new AutonomousShootConditional(shooter, 0).alongWith(new IndexShootingUpperConditional(index, 0))
         // .alongWith(new IndexShootingUpper(index))
       );
     }
