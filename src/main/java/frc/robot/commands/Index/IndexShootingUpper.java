@@ -4,24 +4,24 @@
 
 package frc.robot.commands.Index;
 
-import frc.robot.subsystems.Index;
-import edu.wpi.first.wpilibj.Timer;
+import static frc.robot.GlobalVars.Shooter.SHOOTER_READY;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Shooter.*;
+import frc.robot.subsystems.Index;
 
 
-/** An example command that uses an example subsystem. */
+/** A IndexShootingUpper command that uses an index subsystem. */
 public class IndexShootingUpper extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Index index;
   boolean runIndex = true;
-  public Timer indexTimer = new Timer();
+
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new IndexShootingUpper.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param index The subsystem used by this command.
    */
   public IndexShootingUpper(Index index) {
     this.index = index;
@@ -34,18 +34,20 @@ public class IndexShootingUpper extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Automatically starts running the index
     runIndex = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // When cargo is detected exiting, the index is stopped
     if (index.getTopSensor()) {
       runIndex = false;
       index.CargoExiting = true;
     }
 
-  
+    // When cargo is no longer detected and was exiting before, reduce cargo count by 1
     if (!index.getTopSensor() && index.CargoExiting) {
       index.CargoCounter--;
       index.CargoExiting = false;
@@ -58,10 +60,12 @@ public class IndexShootingUpper extends CommandBase {
     }
     */
 
+    // When flywheel is up to speed, run index
     if (SHOOTER_READY) {
       runIndex = true;
     }
 
+    // If the index should run, feed cargo into flywheels, otherwise, do nothing
     if (runIndex) {
       index.feedCargo();
     }
