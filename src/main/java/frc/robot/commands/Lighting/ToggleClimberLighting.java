@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A ToggleClimberLighting command that uses a lighting subsystem. */
 public class ToggleClimberLighting extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -17,9 +17,9 @@ public class ToggleClimberLighting extends CommandBase {
   Timer lightTimer = new Timer();
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new ToggleClimberLighting.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param lights The subsystem used by this command.
    */
   public ToggleClimberLighting (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.

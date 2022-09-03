@@ -3,24 +3,22 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Lighting;
-import frc.robot.subsystems.Lighting;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import static frc.robot.Constants.Vision.*;
+import frc.robot.subsystems.Lighting;
 
 
-/** An example command that uses an example subsystem. */
+/** A VisionTargetShooting command that uses an example subsystem. */
 public class VisionTargetShooting extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Lighting lights;
   double value;
-  Timer lightTimer = new Timer();
    
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new VisionTargetShooting.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param lights The lighting subsystem used by this command.
+   * @param lights The value offset used by this command.
    */
   public VisionTargetShooting (Lighting lights, double offset) {
     // Use addRequirements() here to declare subsystem dependencies.

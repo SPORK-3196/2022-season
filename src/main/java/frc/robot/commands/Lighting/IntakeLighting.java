@@ -4,22 +4,20 @@
 
 package frc.robot.commands.Lighting;
 
-import frc.robot.subsystems.Lighting;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Lighting;
 
 
-/** An example command that uses an example subsystem. */
+/** An IntakeLighting command that uses a lighting subsystem. */
 public class IntakeLighting extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Lighting lights;
-  Timer lightTimer = new Timer();
    
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new IntakeLighting.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param lights The lightingsubsystem used by this command.
    */
   public IntakeLighting (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,8 +28,7 @@ public class IntakeLighting extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
+  public void initialize() {  
     lights.fullYellow();
     lights.start();
   }

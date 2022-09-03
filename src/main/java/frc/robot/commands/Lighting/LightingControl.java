@@ -4,26 +4,23 @@
 
 package frc.robot.commands.Lighting;
 
-import frc.robot.subsystems.Lighting;
-import static frc.robot.Constants.Status.*;
-import static frc.robot.Constants.Shooter.*;
+import static frc.robot.GlobalVars.Shooter.SHOOTER_READY;
 
-import static frc.robot.Constants.Vision.*;
-import static frc.robot.Constants.XboxController.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Lighting;
 
 
-/** An example command that uses an example subsystem. */
+/** A LightingControl command that uses a lighting subsystem. */
 public class LightingControl extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Lighting lights;
    
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new LightingControl.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param lights The lighting subsystem used by this command.
    */
   public LightingControl (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -64,12 +61,6 @@ public class LightingControl extends CommandBase {
       lights.noColor();
     }
 
-    if (indexing) {
-      lights.fullWhite();
-      if (DriverStation.isAutonomousEnabled()) {
-        lights.noColor();
-      }
-    }
 
 
     if (SHOOTER_READY) {

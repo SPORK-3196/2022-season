@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-/** An example command that uses an example subsystem. */
+/** A ShootLighting that uses a lighting subsystem. */
 public class ShootLighting extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -16,9 +16,9 @@ public class ShootLighting extends CommandBase {
   Timer lightTimer = new Timer();
    
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new ShootLighting.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param lights The lighting subsystem used by this command.
    */
   public ShootLighting (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,7 +30,6 @@ public class ShootLighting extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
     lights.fullBlue();
     lights.start();
   }

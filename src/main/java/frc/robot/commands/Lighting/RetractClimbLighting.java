@@ -3,22 +3,20 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Lighting;
-import frc.robot.subsystems.Lighting;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Lighting;
 
 
-/** An example command that uses an example subsystem. */
+/** A RetractClimbLighting command that uses a climber subsystem. */
 public class RetractClimbLighting extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   Lighting lights;
-  Timer lightTimer = new Timer();
   
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param lights The lighting subsystem used by this command.
    */
   public RetractClimbLighting (Lighting lights) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,8 +28,6 @@ public class RetractClimbLighting extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    lightTimer.reset();
-    lightTimer.start();
     lights.fullWhite();
   }
 
