@@ -5,13 +5,13 @@
 package frc.robot.commands.Shooter;
 
 import frc.robot.subsystems.Shooter;
-import static frc.robot.Constants.Vision.*;
-import static frc.robot.Constants.Shooter.*;
+import static frc.robot.GlobalVars.Vision.*;
+import static frc.robot.GlobalVars.Shooter.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 
-/** An example command that uses an example subsystem. */
+/** An AutoShoot command that uses a shooting subsystem. */
 public class AutoShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -22,11 +22,11 @@ public class AutoShoot extends CommandBase {
   /**
    * Creates a new AutoShoot.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param shooter The shooter subsystem used by this command.
    */
 
-  public AutoShoot(Shooter Subsystem) {
-    this.shooter = Subsystem;
+  public AutoShoot(Shooter shooter) {
+    this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
   }
@@ -36,28 +36,6 @@ public class AutoShoot extends CommandBase {
   public void initialize() {
     
     RUN_VISION = true;
-    /*
-    for (int i = 0; i < 50; i++) {
-      primaryCameraResult = primaryCamera.getLatestResult();
-      primaryHasTargets = primaryCameraResult.hasTargets();
-      if (primaryCameraResult.hasTargets()) {
-        primaryTrackedTarget = primaryCameraResult.getBestTarget();
-        primaryYaw = primaryTrackedTarget.getYaw();
-        // System.out.println(primaryYaw);
-        primaryPitch = primaryTrackedTarget.getPitch();
-        primaryPitchRadians = Units.degreesToRadians(primaryPitch);
-      }
-      DISTANCE_FROM_TARGET = PhotonUtils.calculateDistanceToTargetMeters(CAMERA_HEIGHT_M, TestHub, CAMERA_ANGLE_RADIANS, primaryPitchRadians);
-      
-      avg += DISTANCE_FROM_TARGET;
-     ln
-    }
-    avg = avg/50;
-    System.out.println("Average: " + avg);
-    */
-    // AutoComputedRPM = (1372) * (Math.pow(Math.E, (0.118 * (DISTANCE_FROM_TARGET))));
-    // AI_DISTANCE_ENTRY.setDouble(DISTANCE_FROM_TARGET);
-    // shooter.setSetpoint(1000);
     shooter.feedForwardShoot(AutoComputedRPM);
   }
     
@@ -67,19 +45,6 @@ public class AutoShoot extends CommandBase {
   public void execute() {
     RUN_VISION = true;
     if (primaryHasTargets) {
-      /*
-      if (primaryYaw < 0) {
-        curveOffsetRPM = -3 * primaryYaw;
-        shooter.setRightSetpoint(AutoComputedRPM + curveOffsetRPM);
-        shooter.setLeftSetpoint(AutoComputedRPM);
-      }
-      else if (primaryYaw > 0) {
-        curveOffsetRPM = 3 * primaryYaw;
-        shooter.setRightSetpoint(AutoComputedRPM);
-        shooter.setLeftSetpoint(AutoComputedRPM + curveOffsetRPM);
-      }
-      */
-      
       shooter.feedForwardShoot(AutoComputedRPM);
     }
     else {

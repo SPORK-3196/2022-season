@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 
-/** An example command that uses an example subsystem. */
+/** A BabyShoot command that uses a shooter subsystem. */
 public class BabyShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
@@ -17,13 +17,12 @@ public class BabyShoot extends CommandBase {
   double avg;
 
   /**
-   * Creates a new AutoShoot.
+   * Creates a new BabyShoot.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param shooter The subsystem used by this command.
    */
-
-  public BabyShoot(Shooter Subsystem) {
-    this.shooter = Subsystem;
+  public BabyShoot(Shooter shooter) {
+    this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
   }
@@ -40,14 +39,12 @@ public class BabyShoot extends CommandBase {
   @Override
   public void execute() {
     shooter.feedForwardShoot(700);
-    // shooter.setSetpoint(TeleComputedRPM);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
-    // RUN_VISION = false;
   }
 
   // Returns true when the command should end.
